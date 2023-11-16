@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="800" WindowStartupLocation="CenterScreen">
+        Title="Bienvenido" Height="500" Width="800" MinHeight="500" MinWidth="800" MaxHeight="500" MaxWidth="800" WindowStartupLocation="CenterScreen">
     <Grid Background="Black" Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
@@ -33,7 +33,7 @@
         </Rectangle>
         <Rectangle Grid.RowSpan="6" Margin="35,48,34,10" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RadiusX="10" RadiusY="10" Fill="#FF424242"/>
         <Button x:Name="ButtonLogin" Grid.Column="2" Content="Iniciar Sesión" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="99" Background="White" Foreground="Black" Click="ButtonLogin_Click" Height="24" Margin="28,16,0,0"/>
-        <Rectangle Grid.Column="2" Grid.ColumnSpan="2" Margin="69,38,93,22" Grid.RowSpan="2">
+        <Rectangle Grid.Column="2" Grid.ColumnSpan="2" Margin="69,31,0,22" Grid.RowSpan="2" HorizontalAlignment="Left" Width="125">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="/Logo.png"/>
             </Rectangle.Fill>
