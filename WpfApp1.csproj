@@ -107,10 +107,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+<<<<<<< Updated upstream
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="RegistroWindow.xaml.cs">
       <DependentUpon>RegistroWindow.xaml</DependentUpon>
     </Compile>
+=======
+    <Page Include="IUSUARIO.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+>>>>>>> Stashed changes
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,6 +125,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="IUSUARIO.xaml.cs">
+      <DependentUpon>IUSUARIO.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

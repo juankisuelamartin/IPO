@@ -10,11 +10,19 @@ none
 false
 DEBUG;TRACE
 C:\Users\sergi\Documents\GitHub\IPO\App.xaml
+<<<<<<< Updated upstream
 2-1371314366
 
 81741391827
 33-1874978920
 MainWindow.xaml;RegistroWindow.xaml;
+=======
+2-2124240958
+
+7925483269
+13-38814620
+IUSUARIO.xaml;MainWindow.xaml;
+>>>>>>> Stashed changes
 
 True
 

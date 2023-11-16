@@ -4,17 +4,26 @@
 winexe
 C#
 .cs
-C:\Users\soyju\Source\Repos\juankisuelamartin\IPO\obj\Debug\
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\
 WpfApp1
 none
 false
 DEBUG;TRACE
+<<<<<<< Updated upstream
 C:\Users\soyju\Source\Repos\juankisuelamartin\IPO\App.xaml
 2-1371314366
 
 7-180386294
 33830708724
 MainWindow.xaml;RegistroWindow.xaml;
+=======
+C:\Users\sergi\Documents\GitHub\IPO\App.xaml
+2-2124240958
+
+6-996294852
+13-38814620
+IUSUARIO.xaml;MainWindow.xaml;
+>>>>>>> Stashed changes
 
 False
 
