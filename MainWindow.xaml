@@ -33,14 +33,14 @@
         </Rectangle>
         <Rectangle Grid.RowSpan="6" Margin="35,48,34,10" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RadiusX="10" RadiusY="10" Fill="#FF424242"/>
         <Button x:Name="ButtonLogin" Grid.Column="2" Content="Iniciar Sesión" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="99" Background="White" Foreground="Black" Click="ButtonLogin_Click" Height="24" Margin="28,16,0,0"/>
-        <Rectangle Stroke="Black" Grid.Column="2" Grid.ColumnSpan="2" Margin="92,45,92,35" Grid.RowSpan="2">
+        <Rectangle Grid.Column="2" Grid.ColumnSpan="2" Margin="69,38,93,22" Grid.RowSpan="2">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/LOGO.jpg"/>
+                <ImageBrush ImageSource="/Logo.png"/>
             </Rectangle.Fill>
         </Rectangle>
         <TextBox x:Name="UsuarioLogin" TextWrapping="Wrap" Text="Ingrese Usuario" Grid.Column="2" Margin="29,17,28,4" Grid.Row="2" Grid.ColumnSpan="2" Background="White" FontFamily="Bahnschrift" FontSize="16"/>
-        <TextBox x:Name="PWDLogin" TextWrapping="Wrap" Text="Ingrese Contraseña" Grid.Column="2" Margin="28,16,28,4" Grid.Row="3" Grid.ColumnSpan="2" Background="White" FontFamily="Bahnschrift" FontSize="16" TextChanged="PWDLogin_TextChanged"/>
-        <Button x:Name="ButtonRegistrarse" Grid.Column="3" Content="Registrarse" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="99" Background="White" Foreground="Black" Click="ButtonLogin_Click" Height="24" Margin="12,16,0,0"/>
+        <TextBox x:Name="PWDLogin" TextWrapping="Wrap" Text="Ingrese Contraseña" Grid.Column="2" Margin="28,16,28,4" Grid.Row="3" Grid.ColumnSpan="2" Background="White" FontFamily="Bahnschrift" FontSize="16"/>
+        <Button x:Name="ButtonRegistrarse" Grid.Column="3" Content="Registrarse" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="99" Background="White" Foreground="Black" Click="ButtonRegistrarse_Click" Height="24" Margin="12,16,0,0"/>
         <CheckBox x:Name="mantener_sesion" Content="Mantener Iniciada la sesión" Grid.Column="2" Grid.ColumnSpan="2" Margin="29,15,28,3" Grid.Row="4" Foreground="White"/>
     </Grid>
 </Window>
