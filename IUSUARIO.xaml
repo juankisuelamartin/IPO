@@ -7,26 +7,35 @@
         mc:Ignorable="d"
         Title="IUSUARIO" Height="450" Width="800">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="115*"/>
-            <RowDefinition Height="319*"/>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="39*"/>
-            <ColumnDefinition Width="161*"/>
+            <ColumnDefinition Width="29*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
-        <Rectangle Stroke="Black" Opacity="0.6" Grid.ColumnSpan="2" Margin="0,-299,0,1">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Rectangle Grid.Row="0" Stroke="Black" Opacity="0.2" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,0,0,144">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="/Background.jpg"/>
             </Rectangle.Fill>
         </Rectangle>
-        <Button Content="TIENDA" HorizontalAlignment="Left" Margin="0,114,0,0" VerticalAlignment="Top" Width="Auto" MinWidth="160" Grid.ColumnSpan="2" Grid.RowSpan="2" Click="Button_Click_1" FontFamily="Bahnschrift"/>
-        <Button Content="FAVORITOS" HorizontalAlignment="Left" Margin="160,114,0,0" VerticalAlignment="Top" Width="160" MinWidth="160" Grid.ColumnSpan="2" Grid.RowSpan="2" FontFamily="Bahnschrift"/>
-        <Button Content="Nuevo Botón" HorizontalAlignment="Left" Margin="164,114,0,0" VerticalAlignment="Top" Width="160" MinWidth="160" Grid.RowSpan="2" Grid.Column="1"/>
-        <Button Content="PERFIL" HorizontalAlignment="Left" Margin="324,114,0,0" VerticalAlignment="Top" Width="160" MinWidth="160" Grid.RowSpan="2" Grid.Column="1" FontFamily="Bahnschrift"/>
-        <Button Content="CERRAR SESIÓN" HorizontalAlignment="Left" Margin="484,114,0,0" VerticalAlignment="Top" Width="160" MinWidth="160" Grid.RowSpan="2" Grid.Column="1" Click="Button_Click_2" FontFamily="Bahnschrift"/>
-        <Label x:Name="lblSaludo" Content="BIENVENIDO" HorizontalAlignment="Center" Margin="0,40,0,0" VerticalAlignment="Top"/>
 
+        <Image x:Name="imgUsuario" HorizontalAlignment="Left" Height="70" Margin="-40,-40,0,0" VerticalAlignment="Top" Width="70" Grid.Column="1" Grid.Row="1"/>
 
+        <UniformGrid Grid.Row="2" Rows="1" Columns="5" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="18">
+            <Button x:Name="btnTienda" Content="TIENDA" Click="Button_Click_1" FontFamily="Bahnschrift"/>
+            <Button x:Name="btnFavoritos" Content="FAVORITOS" Click="Button_Click_1" FontFamily="Bahnschrift"/>
+            <Button x:Name="btnLibre" Content="LIBRE" Click="Button_Click_1" FontFamily="Bahnschrift"/>
+            <Button x:Name="btnPerfil" Content="PERFIL" Click="Button_Click_1" FontFamily="Bahnschrift"/>
+            <Button x:Name="btnCerrarSesión" Content="CERRAR SESIÓN" Click="Button_Click_1" FontFamily="Bahnschrift"/>
+        </UniformGrid>
+
+        <Label x:Name="lblSaludo" Content="BIENVENIDO" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="25" FontWeight="Bold" Grid.RowSpan="2" Height="40" Width="152"/>
+        <Label x:Name="lblUltimaConex" Content="Ultima Conexión" Grid.Row="1" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" FontSize="15" FontWeight="Bold" Height="28" Width="119"/>
+        <Label x:Name="lblUsuario" Content="NombreUsuario" Grid.Row="1" HorizontalAlignment="Left" Margin="675,30,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Height="25" Width="96" Grid.ColumnSpan="2"/>
     </Grid>
 </Window>

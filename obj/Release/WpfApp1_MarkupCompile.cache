@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\
+C:\Users\sergi\Documents\GitHub\IPO\obj\Release\
 WpfApp1
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\sergi\Documents\GitHub\IPO\App.xaml
 3579827639
 
-9-834557158
+81538632017
 33-1874978920
 IUSUARIO.xaml;MainWindow.xaml;RegistroWindow.xaml;
 
