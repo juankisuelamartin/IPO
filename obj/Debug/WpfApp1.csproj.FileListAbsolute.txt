@@ -117,3 +117,5 @@ C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\System.Threading.Tasks.Extensions.
 C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\RegistroWindow.g.cs
 C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\RegistroWindow.baml
 C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\WpfApp1.csproj.CopyComplete
+C:\Users\soyju\Source\Repos\juankisuelamartin\IPO\obj\Debug\IUSUARIO.g.cs
+C:\Users\soyju\Source\Repos\juankisuelamartin\IPO\obj\Debug\IUSUARIO.baml

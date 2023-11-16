@@ -18,27 +18,36 @@ namespace WpfApp1
             UsuarioLogin.LostFocus += TextBox_LostFocus;
             PWDLogin.GotFocus += TextBox_GotFocus;
             PWDLogin.LostFocus += TextBox_LostFocus;
-
-            
+            PWDLogin.Password = "Contraseña";
+            this.Focus();
         }
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             // Manejador de evento GotFocus
-            TextBox textBox = (TextBox)sender;
-            if (textBox.Text == "Ingrese Usuario" || textBox.Text == "Ingrese Contraseña")
+            Control control = (Control)sender;
+            if (control is TextBox textBox && (textBox.Text == "Ingrese Usuario" || textBox.Text == "Contraseña"))
             {
                 textBox.Text = "";
+            }
+            else if (control is PasswordBox passwordBox && passwordBox.Password == "Contraseña")
+            {
+                passwordBox.Password = "";
             }
         }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             // Manejador de evento LostFocus
-            TextBox textBox = (TextBox)sender;
-            if (string.IsNullOrWhiteSpace(textBox.Text))
+            Control control = (Control)sender;
+            if (control is TextBox textBox && string.IsNullOrWhiteSpace(textBox.Text))
             {
                 // Restablecer el texto por defecto si está vacío
-                textBox.Text = (textBox.Name == "UsuarioLogin") ? "Ingrese Usuario" : "Ingrese Contraseña";
+                textBox.Text = (textBox.Name == "UsuarioLogin") ? "Ingrese Usuario" : "Contraseña";
+            }
+            else if (control is PasswordBox passwordBox && string.IsNullOrWhiteSpace(passwordBox.Password))
+            {
+                // Restablecer el texto por defecto si está vacío
+                passwordBox.Password = "Contraseña";
             }
         }
         private void ButtonRegistrarse_Click(object sender, RoutedEventArgs e)
@@ -62,7 +71,7 @@ namespace WpfApp1
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             string usuario = UsuarioLogin.Text;
-            string password = PWDLogin.Text;
+            string password = PWDLogin.Password;
 
             if (IsLoginValid(usuario, password))
             {
