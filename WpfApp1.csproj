@@ -95,7 +95,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Netflix-Background.jpg" />
+    <Resource Include="Background.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LOGO.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,11 +4,11 @@
 winexe
 C#
 .cs
-C:\Users\soyju\Source\Repos\juankisuelamartin\IPO\obj\Debug\
+C:\Users\soyju\Source\Repos\juankisuelamartin\IPO\obj\Release\
 WpfApp1
 none
 false
-DEBUG;TRACE
+TRACE
 C:\Users\soyju\Source\Repos\juankisuelamartin\IPO\App.xaml
 1219584333
 
@@ -16,5 +16,5 @@ C:\Users\soyju\Source\Repos\juankisuelamartin\IPO\App.xaml
 13-38814620
 MainWindow.xaml;
 
-False
+True
 

@@ -24,5 +24,20 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+
+        private void ButtonLogin_Click()
+        {
+
+        }
+
+        private void ButtonLogin_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void PWDLogin_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }
