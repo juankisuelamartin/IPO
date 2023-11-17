@@ -59,15 +59,17 @@ namespace WpfApp1
 
         private bool IsLoginValid(string usuario, string password)
         {
+            String pwdencriptada = RegistroWindow.Encriptar(password);
             string query = "SELECT COUNT(*) FROM usuarios WHERE usuario=@usuario AND password=@password";
             MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
             cmd.Parameters.AddWithValue("@usuario", usuario);
-            cmd.Parameters.AddWithValue("@password", password);
+            cmd.Parameters.AddWithValue("@password", pwdencriptada);
             dbManager.Connection.Open();
             int count = Convert.ToInt32(cmd.ExecuteScalar());
             dbManager.Connection.Close();
             return (count > 0);
         }
+
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
         {
             string usuario = UsuarioLogin.Text;
@@ -75,7 +77,26 @@ namespace WpfApp1
 
             if (IsLoginValid(usuario, password))
             {
-                MessageBox.Show("Inicio de sesión exitoso", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                string query = "SELECT ROL FROM usuarios WHERE usuario=@usuario";
+                MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
+                cmd.Parameters.AddWithValue("@usuario", usuario);
+                dbManager.Connection.Open();
+                bool rol = Convert.ToBoolean(cmd.ExecuteScalar());
+                dbManager.Connection.Close();
+
+                if (rol == false) 
+                    //USUARIO:
+                {
+                    IUSUARIO iUSUARIO = new IUSUARIO();
+                    iUSUARIO.Show();
+                    this.Close();
+                }
+                else
+                {
+                    // TODO ADMIN VIEW
+                    MessageBox.Show("ADMIN VIEW");
+                }
+
             }
             else
             {

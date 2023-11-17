@@ -108,7 +108,7 @@ namespace WpfApp1
             dbManager.Connection.Close();
             return count > 0;
         }
-        private string Encriptar(string password)
+        public static string Encriptar(string password)
         {
             using (SHA256 sha256Hash = SHA256.Create())
             {
