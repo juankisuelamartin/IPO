@@ -6,62 +6,140 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
         Title="Bienvenido" Height="500" Width="800" MinHeight="500" MinWidth="800" MaxHeight="500" MaxWidth="800" WindowStartupLocation="CenterScreen">
-    <Grid Background="Black" Margin="0,0,0,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="70*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="70*"/>
-            <RowDefinition Height="40*"/>
-            <RowDefinition Height="40*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="211*"/>
-            <ColumnDefinition Width="60*"/>
-            <ColumnDefinition Width="145*"/>
-            <ColumnDefinition Width="145*"/>
-            <ColumnDefinition Width="60*"/>
-            <ColumnDefinition Width="211*"/>
-        </Grid.ColumnDefinitions>
-        <Rectangle Stroke="Black" Opacity="0.6" Grid.ColumnSpan="6" Grid.RowSpan="9">
-            <Rectangle.Fill>
-                <ImageBrush ImageSource="/Background.jpg"/>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Rectangle Grid.Column="5" Margin="68,10,0,43" Grid.RowSpan="2" HorizontalAlignment="Left" Width="125">
-            <Rectangle.Fill>
-                <ImageBrush ImageSource="/Logo.png"/>
-            </Rectangle.Fill>
-        </Rectangle>
-        <Grid Grid.ColumnSpan="6" Margin="0,30,0,20" Grid.RowSpan="9">
-            <Rectangle Margin="185,0,185,23" RadiusX="10" RadiusY="10" Fill="#FF424242"/>
-            <Label Content="Nombre de usuario:&#xA;" HorizontalAlignment="Left" Margin="213,43,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White"/>
-            <TextBox x:Name="Usuario" HorizontalAlignment="Left" Height="23" Margin="213,64,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+	<Grid Background="Black" Margin="0,0,0,0">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="100*"/>
+			<RowDefinition Height="70*"/>
+			<RowDefinition Height="40*"/>
+			<RowDefinition Height="40*"/>
+			<RowDefinition Height="40*"/>
+			<RowDefinition Height="40*"/>
+			<RowDefinition Height="70*"/>
+			<RowDefinition Height="40*"/>
+			<RowDefinition Height="40*"/>
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="211*"/>
+			<ColumnDefinition Width="60*"/>
+			<ColumnDefinition Width="145*"/>
+			<ColumnDefinition Width="145*"/>
+			<ColumnDefinition Width="60*"/>
+			<ColumnDefinition Width="211*"/>
+		</Grid.ColumnDefinitions>
+		<Rectangle Stroke="Black" Opacity="0.6" Grid.ColumnSpan="6" Grid.RowSpan="9">
+			<Rectangle.Fill>
+				<ImageBrush ImageSource="/Background.jpg"/>
+			</Rectangle.Fill>
+		</Rectangle>
+		<Grid Grid.ColumnSpan="6" Margin="0,30,0,20" Grid.RowSpan="9">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="12*"/>
+				<RowDefinition Height="19*"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="421*"/>
+				<ColumnDefinition Width="35*"/>
+				<ColumnDefinition Width="344*"/>
+			</Grid.ColumnDefinitions>
+			<Rectangle Margin="50,10,50,0" RadiusX="10" RadiusY="10" Fill="#FF424242" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+			<Label Content="Nombre de usuario:&#xA;" HorizontalAlignment="Left" Margin="83,70,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White"/>
+			<TextBox x:Name="Usuario" HorizontalAlignment="Left" Height="23" Margin="83,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
 
-            <Label Content="Contraseña:" HorizontalAlignment="Left" Margin="213,87,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White"/>
-            <TextBox x:Name="Password" HorizontalAlignment="Left" Height="23" Margin="213,111,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+			<Label Content="Contraseña:" HorizontalAlignment="Left" Margin="83,137,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Height="31"/>
+			<PasswordBox x:Name="PasswordBox" Height="23" Margin="83,160,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="168" Grid.RowSpan="2"/>
 
-            <Label Content="Email:" HorizontalAlignment="Left" Margin="213,134,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White"/>
-            <TextBox x:Name="Email" HorizontalAlignment="Left" Height="23" Margin="213,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+			<Label Content="Vuelva a escribir la contraseña:" HorizontalAlignment="Left" Margin="83,29,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Grid.Row="1" Width="183" FontSize="11"/>
+			<PasswordBox x:Name="PasswordBox2" HorizontalAlignment="Left" Height="23" Margin="83,55,0,0" VerticalAlignment="Top" Width="168" Grid.Row="1"/>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Height="23" Margin="213,109,0,0" VerticalAlignment="Top" Width="168"/>
 
-            <Label Content="Nombre:" HorizontalAlignment="Left" Margin="213,178,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White"/>
-            <TextBox x:Name="Nombre" HorizontalAlignment="Left" Height="23" Margin="213,202,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+			<Label Content="Email:" HorizontalAlignment="Left" Margin="83,94,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Grid.Row="1"/>
+			<TextBox x:Name="Email" HorizontalAlignment="Left" Height="23" Margin="83,118,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Grid.Row="1"/>
 
-            <Label Content="Apellidos:" HorizontalAlignment="Left" Margin="213,225,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White"/>
-            <TextBox x:Name="Apellido" HorizontalAlignment="Left" Height="23" Margin="213,249,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+			<Label Content="Nombre:" HorizontalAlignment="Left" Margin="327,70,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White"/>
+			<TextBox x:Name="Nombre" HorizontalAlignment="Left" Height="23" Margin="327,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Grid.ColumnSpan="3"/>
 
-            <Label Content="Fecha de Nacimiento" HorizontalAlignment="Left" Margin="213,272,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White"/>
-            <DatePicker x:Name="FechaNacimiento" HorizontalAlignment="Left" Margin="215,296,0,0" VerticalAlignment="Top" Width="151"/>
-            
-            <Label Content="¿Ya tienes cuenta?" HorizontalAlignment="Left" Margin="464,328,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" FontSize="14"/>
-            <Button Content="Iniciar Sesión" HorizontalAlignment="Left" Margin="470,355,0,0" VerticalAlignment="Top" Width="112" Click="ButtonIniciar_Click" Height="30" BorderBrush="White" Background="White"/>
+			<Label Content="Apellidos:" HorizontalAlignment="Left" Margin="327,137,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Height="33" Grid.RowSpan="2"/>
+			<TextBox x:Name="Apellido" HorizontalAlignment="Left" Height="23" Margin="327,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
 
-            <Button Content="Registrarse" HorizontalAlignment="Left" Margin="235,355,0,0" VerticalAlignment="Top" Width="112" Click="ButtonRegistrarse_Click" Height="30" BorderBrush="White" Background="White"/>
-            <Label Content="REGISTRO" Margin="324,5,304,361" Background="{x:Null}" Foreground="White" HorizontalContentAlignment="Center" FontFamily="Bahnschrift" FontWeight="Bold" FontSize="18"/>
+			<Label Content="Calle:" HorizontalAlignment="Left" Margin="104,137,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Grid.Column="2" Height="33" Grid.RowSpan="2"/>
+			<TextBox x:Name="Calle" HorizontalAlignment="Left" Height="23" Margin="104,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" Grid.Column="2" Grid.RowSpan="2"/>
 
-        </Grid>
-    </Grid>
+			<Label Content="CP:" HorizontalAlignment="Left" Margin="105,33,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Grid.Column="2" Grid.Row="1"/>
+			<TextBox x:Name="CP" HorizontalAlignment="Left" Height="23" Margin="105,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="167" Grid.Column="2" Grid.Row="1"/>
+
+			<Button Name="ButtonAgregarFoto" Click="ButtonAgregarFoto_Click" Margin="113,118,81,107" Grid.Row="1" Grid.Column="2">foto de perfil</Button>
+
+			<Label Content="Provincia:" HorizontalAlignment="Left" Margin="104,70,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Grid.Column="2"/>
+			<ComboBox x:Name="Provincia" HorizontalAlignment="Left" Height="23" Margin="105,97,0,0" VerticalAlignment="Top" Width="168" Grid.Column="2">
+				<ComboBoxItem Content="Álava" />
+				<ComboBoxItem Content="Albacete" />
+				<ComboBoxItem Content="Alicante" />
+				<ComboBoxItem Content="Almería" />
+				<ComboBoxItem Content="Asturias" />
+				<ComboBoxItem Content="Ávila" />
+				<ComboBoxItem Content="Badajoz" />
+				<ComboBoxItem Content="Barcelona" />
+				<ComboBoxItem Content="Burgos" />
+				<ComboBoxItem Content="Cáceres" />
+				<ComboBoxItem Content="Cádiz" />
+				<ComboBoxItem Content="Cantabria" />
+				<ComboBoxItem Content="Castellón" />
+				<ComboBoxItem Content="Ciudad Real" />
+				<ComboBoxItem Content="Córdoba" />
+				<ComboBoxItem Content="Cuenca" />
+				<ComboBoxItem Content="Gerona" />
+				<ComboBoxItem Content="Granada" />
+				<ComboBoxItem Content="Guadalajara" />
+				<ComboBoxItem Content="Guipúzcoa" />
+				<ComboBoxItem Content="Huelva" />
+				<ComboBoxItem Content="Huesca" />
+				<ComboBoxItem Content="Islas Baleares" />
+				<ComboBoxItem Content="Jaén" />
+				<ComboBoxItem Content="La Coruña" />
+				<ComboBoxItem Content="La Rioja" />
+				<ComboBoxItem Content="Las Palmas" />
+				<ComboBoxItem Content="León" />
+				<ComboBoxItem Content="Lérida" />
+				<ComboBoxItem Content="Lugo" />
+				<ComboBoxItem Content="Madrid" />
+				<ComboBoxItem Content="Málaga" />
+				<ComboBoxItem Content="Murcia" />
+				<ComboBoxItem Content="Navarra" />
+				<ComboBoxItem Content="Orense" />
+				<ComboBoxItem Content="Palencia" />
+				<ComboBoxItem Content="Pontevedra" />
+				<ComboBoxItem Content="Salamanca" />
+				<ComboBoxItem Content="Santa Cruz de Tenerife" />
+				<ComboBoxItem Content="Segovia" />
+				<ComboBoxItem Content="Sevilla" />
+				<ComboBoxItem Content="Soria" />
+				<ComboBoxItem Content="Tarragona" />
+				<ComboBoxItem Content="Teruel" />
+				<ComboBoxItem Content="Toledo" />
+				<ComboBoxItem Content="Valencia" />
+				<ComboBoxItem Content="Valladolid" />
+				<ComboBoxItem Content="Vizcaya" />
+				<ComboBoxItem Content="Zamora" />
+				<ComboBoxItem Content="Zaragoza" />
+			</ComboBox>
+
+
+			<Label Content="Fecha de Nacimiento" HorizontalAlignment="Left" Margin="327,29,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Grid.Row="1" Grid.ColumnSpan="2"/>
+			<DatePicker x:Name="FechaNacimiento" HorizontalAlignment="Left" Margin="327,54,0,0" VerticalAlignment="Top" Width="168" Grid.ColumnSpan="3" Grid.Row="1"/>
+
+			<Label Content="¿Ya tienes cuenta?" HorizontalAlignment="Left" Margin="0,184,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" FontSize="14" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"/>
+			<Button Content="Iniciar Sesión" HorizontalAlignment="Left" Margin="6,216,0,0" VerticalAlignment="Top" Width="112" Click="ButtonIniciar_Click" Height="30" BorderBrush="White" Background="White" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="1"/>
+
+			<Button Content="Registrarse" HorizontalAlignment="Left" Margin="267,216,0,0" VerticalAlignment="Top" Width="112" Click="ButtonRegistrarse_Click" Height="30" BorderBrush="White" Background="White" Grid.Row="1" RenderTransformOrigin="0.527,-0.499"/>
+			<Label Content="REGISTRO" Margin="314,21,314,98" Background="{x:Null}" Foreground="White" HorizontalContentAlignment="Center" FontFamily="Bahnschrift" FontWeight="Bold" FontSize="18" Grid.ColumnSpan="3"/>
+			<Label Content="Foto de perfil: (OPCIONAL)" HorizontalAlignment="Left" Margin="105,94,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" Foreground="White" Grid.Column="2" Grid.Row="1"/>
+
+
+		</Grid>
+		<Rectangle Grid.Column="5" Margin="102,14,0,14" HorizontalAlignment="Left" Width="74">
+			<Rectangle.Fill>
+				<ImageBrush ImageSource="/Logo.png"/>
+			</Rectangle.Fill>
+		</Rectangle>
+	</Grid>
 </Window>

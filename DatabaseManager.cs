@@ -14,7 +14,7 @@ public class DatabaseManager
         server = "34.175.85.243";
         database = "db_IPO";
         uid = "dbIPO";
-        password = "dbIPO";
+        password = "XSbB&(zv}`gUm)o9";
         string connectionString;
         connectionString = "SERVER=" + server + ";" + "DATABASE=" +
         database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
