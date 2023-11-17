@@ -49,22 +49,28 @@ namespace WpfApp1
             dbManager = new DatabaseManager();
         }
 
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_cerrarsesion(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainwindow = new MainWindow();
+            mainwindow.Show();
+            this.Close();
+        }
+        private void Button_Favoritos(object sender, RoutedEventArgs e)
         {
 
         }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_Libre(object sender, RoutedEventArgs e)
         {
 
         }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
+        private void Button_Perfil(object sender, RoutedEventArgs e)
         {
 
         }
+        private void Button_tienda(object sender, RoutedEventArgs e)
+        {
 
+        }
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
             // Obtener la hora local del usuario
