@@ -107,17 +107,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="RegistroWindow.xaml.cs">
       <DependentUpon>RegistroWindow.xaml</DependentUpon>
     </Compile>
-
     <Page Include="IUSUARIO.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -182,6 +179,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="return_blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="fotoperfildefault.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

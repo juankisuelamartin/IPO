@@ -1,6 +1,8 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Win32;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -19,10 +21,13 @@ namespace WpfApp1
     public partial class RegistroWindow : Window
     {
         private readonly DatabaseManager dbManager;
+        private byte[] fotoPerfil;
         public RegistroWindow()
         {
             InitializeComponent();
             dbManager = new DatabaseManager();
+            
+
         }
         private void ButtonIniciar_Click(object sender, RoutedEventArgs e)
         {
@@ -30,6 +35,26 @@ namespace WpfApp1
             mainwindow.Show();
             this.Close();
         }
+        private void ButtonAgregarFoto_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos de imagen (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string rutaImagen = openFileDialog.FileName;
+                FileInfo fileInfo = new FileInfo(rutaImagen);
+                long sizeInBytes = fileInfo.Length;
+                if (sizeInBytes > 838607)  // MAX_SIZE es el tamaño máximo permitido en bytes 8mb
+                {
+                    MessageBox.Show("La imagen es demasiado grande. Por favor, elija una imagen más pequeña, inferior a 8MB");
+                }
+                else
+                {
+                    fotoPerfil = File.ReadAllBytes(rutaImagen);
+                }
+            }
+        }
+
         private void ButtonRegistrarse_Click(object sender, RoutedEventArgs e)
         {
             string usuario = Usuario.Text;
@@ -124,10 +149,9 @@ namespace WpfApp1
                 return builder.ToString();
             }
         }
-
         private void RegisterUser(string usuario, string password, string email, string nombre, string apellido, DateTime fechaNacimiento, string provincia, string calle, string cp)
         {
-            string query = "INSERT INTO usuarios (usuario, password, email, nombre, apellido, fecha_nacimiento) VALUES (@usuario, @password, @email, @nombre, @apellido, @fechaNacimiento)";
+            string query = "INSERT INTO usuarios (usuario, password, email, nombre, apellido, fecha_nacimiento, foto_perfil) VALUES (@usuario, @password, @email, @nombre, @apellido, @fechaNacimiento, @fotoPerfil)";
             MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
             cmd.Parameters.AddWithValue("@usuario", usuario);
             cmd.Parameters.AddWithValue("@password", password);
@@ -135,6 +159,14 @@ namespace WpfApp1
             cmd.Parameters.AddWithValue("@nombre", nombre);
             cmd.Parameters.AddWithValue("@apellido", apellido);
             cmd.Parameters.AddWithValue("@fechaNacimiento", fechaNacimiento);
+            if (fotoPerfil != null)
+            {
+                cmd.Parameters.AddWithValue("@fotoPerfil", fotoPerfil);
+            }
+            else
+            {
+                cmd.Parameters.AddWithValue("@fotoPerfil", DBNull.Value);
+            }
 
             string query2 = "INSERT INTO direccion (usuario, provincia, calle, cp) VALUES (@usuario, @provincia, @calle, @cp)";
             MySqlCommand cmd2 = new MySqlCommand(query2, dbManager.Connection);
@@ -149,6 +181,8 @@ namespace WpfApp1
             dbManager.Connection.Close();
             MessageBox.Show("Usuario registrado con éxito", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+
 
 
         private void Frame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
