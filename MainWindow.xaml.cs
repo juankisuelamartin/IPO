@@ -77,10 +77,15 @@ namespace WpfApp1
 
             if (IsLoginValid(usuario, password))
             {
+                string queryUpdate = "UPDATE usuarios SET ultima_conexion = NOW() WHERE usuario = @usuario";
+                MySqlCommand cmdUpdate = new MySqlCommand(queryUpdate, dbManager.Connection);
+                cmdUpdate.Parameters.AddWithValue("@usuario", usuario);
+                dbManager.Connection.Open();
+                cmdUpdate.ExecuteNonQuery();
+
                 string query = "SELECT ROL FROM usuarios WHERE usuario=@usuario";
                 MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
                 cmd.Parameters.AddWithValue("@usuario", usuario);
-                dbManager.Connection.Open();
                 bool rol = Convert.ToBoolean(cmd.ExecuteScalar());
                 dbManager.Connection.Close();
 

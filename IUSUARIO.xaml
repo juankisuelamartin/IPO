@@ -5,46 +5,84 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="IUSUARIO" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen">
+        Title="IUSUARIO" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
     <Grid>
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="29*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="1*"/>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="33.003"/>
+            <RowDefinition Height="18.001"/>
+            <RowDefinition Height="20.002"/>
+            <RowDefinition Height="23.002"/>
+            <RowDefinition Height="219*"/>
+            <RowDefinition Height="141*"/>
+            <RowDefinition Height="20.002"/>
         </Grid.RowDefinitions>
 
 
 
-        <Rectangle Grid.Row="0" Stroke="Black" Opacity="0.2" Grid.RowSpan="3" Grid.ColumnSpan="2" Margin="0,0,0,144">
-            <Rectangle.Fill>
-                <ImageBrush ImageSource="/Background.jpg"/>
-            </Rectangle.Fill>
-        </Rectangle>
 
+        <Image Source="/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,110" Grid.RowSpan="6" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500"/>
+        <ScrollViewer Grid.Row="5" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,18,0,121" Grid.RowSpan="2">
+            <WrapPanel x:Name="wrapPanelFavoritos" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto"/>
+        </ScrollViewer>
 
+        <Rectangle Grid.ColumnSpan="5" Grid.RowSpan="2" Grid.Row="5" Stroke="Black" Fill="#FFD6D6D6" Height="Auto"/>
 
-        <UniformGrid Grid.Row="2" Rows="1" Columns="5" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="18">
-            <Button x:Name="btnTienda" Content="TIENDA" Click="Button_tienda" FontFamily="Bahnschrift"/>
-            <Button x:Name="btnFavoritos" Content="FAVORITOS" Click="Button_Favoritos" FontFamily="Bahnschrift"/>
-            <Button x:Name="btnLibre" Content="LIBRE" Click="Button_Libre" FontFamily="Bahnschrift"/>
-            <Button x:Name="btnPerfil" Content="PERFIL" Click="Button_Perfil" FontFamily="Bahnschrift"/>
-            <Button x:Name="btnCerrarSesión" Content="CERRAR SESIÓN" Click="Button_cerrarsesion" FontFamily="Bahnschrift"/>
-        </UniformGrid>
-
-        <Label x:Name="lblSaludo" Content="BIENVENIDO" HorizontalAlignment="Left" Margin="30,0,0,0" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="23" FontWeight="Bold" Height="40" Width="610" Grid.RowSpan="2"/>
-        <Label x:Name="lblUltimaConex" Content="Ultima Conexión" Grid.Row="1" HorizontalAlignment="Left" Margin="30,20,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" FontSize="15" FontWeight="Bold" Height="28" Width="119"/>
-        <Label x:Name="lblUsuario" Content="NombreUsuario" Grid.Row="1" HorizontalAlignment="Left" Margin="675,30,0,0" VerticalAlignment="Top" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Height="25" Width="96" Grid.ColumnSpan="2"/>
-
-        <Image x:Name="imgPerfil" HorizontalAlignment="Left" Height="70" Margin="685,0,0,42" VerticalAlignment="Bottom" Width="70" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.5,1.5">
+        <Image x:Name="imgPerfil" Grid.Row="1" Grid.RowSpan="3" Grid.Column="4" Margin="70,6,70,6">
             <Image.Source>
                 <BitmapImage UriSource="/fotoperfildefault.png"/>
             </Image.Source>
         </Image>
+
+
+        <UniformGrid Grid.Row="4" Grid.ColumnSpan="5" Rows="1" Columns="5">
+            <Button x:Name="btnTienda" Content="TIENDA" Click="Button_tienda" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnFavoritos" Content="FAVORITOS" Click="Button_Favoritos" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnLibre" Content="LIBRE" Click="Button_Libre" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnPerfil" Content="PERFIL" Click="Button_Perfil" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnCerrarSesión" Content="CERRAR SESIÓN" Click="Button_cerrarsesion" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+        </UniformGrid>
+
+
+        <Label x:Name="lblSaludo" Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="23" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="3">
+
+        </Label>
+
+        <Label x:Name="lblUltimaConex" Content="Ultima Conexion" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="32" Width="570" Grid.ColumnSpan="4" Grid.RowSpan="2">
+
+        </Label>
+
+
+
+        <Viewbox Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0" Height="0" Width="0" Grid.Row="1"/>
+
+
+
+        <Rectangle Grid.ColumnSpan="5" Grid.Row="7"  Stroke="Black" Fill="#FFB9B9B9"/>
+        <Grid Grid.ColumnSpan="5" Grid.Row="7" VerticalAlignment="Center" Height="18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="Contactanos" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="1" Text="Ayuda" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="2" Text="Sobre nosotros" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <Button Grid.Column="3" Content="Traducir" Click="Button_Traducir" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+        </Grid>
+
+
 
 
     </Grid>

@@ -36,6 +36,8 @@ namespace WpfApp1
                 nombreUsuario = value;
                 // Aquí puedes llamar al método para cargar la imagen de perfil o realizar otras acciones basadas en el usuario.
                 MostrarFotoPerfil(value);
+                MostrarFavoritos(value);
+
             }
         }
 
@@ -47,6 +49,9 @@ namespace WpfApp1
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
+            
+            
+            
         }
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
@@ -71,8 +76,32 @@ namespace WpfApp1
         {
 
         }
+
+        private void Button_Traducir(object sender, RoutedEventArgs e)
+        {
+
+        }
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
+
+
+            string queryUltimaConexion = "SELECT ultima_conexion FROM usuarios WHERE usuario=@usuario";
+            MySqlCommand cmdUltimaConexion = new MySqlCommand(queryUltimaConexion, dbManager.Connection);
+            cmdUltimaConexion.Parameters.AddWithValue("@usuario", nombreUsuario);
+
+            dbManager.Connection.Open();
+            var ultimaConexion = cmdUltimaConexion.ExecuteScalar();
+            dbManager.Connection.Close();
+
+            if (ultimaConexion != DBNull.Value)
+            {
+                lblUltimaConex.Content = "Última conexión: " + ((DateTime)ultimaConexion).ToString("yyyy-MM-dd HH:mm:ss");
+            }
+            else
+            {
+                lblUltimaConex.Content = "No hay información de última conexión disponible.";
+            }
+
             // Obtener la hora local del usuario
             DateTime horaActual = DateTime.Now;
 
@@ -130,7 +159,90 @@ namespace WpfApp1
 
         }
 
-    
+        private void MostrarFavoritos(string usuario)
+        {
+            try
+            {
+                string query = "SELECT ivc.Precio, v.Titulo " +
+                               "FROM vinilosFavoritos vf " +
+                               "JOIN vinilos v ON vf.idvinilo = v.Idvinilo " +
+                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
+                               "WHERE vf.usuario = @usuario";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@usuario", usuario);
+
+                    dbManager.Connection.Open();
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        Console.WriteLine("Nombre Usuario: " + usuario);
+
+                        while (reader.Read())
+                        {
+                            Console.WriteLine(2);
+                           
+                            string cantidadDisponible = reader["Titulo"].ToString();
+                            string precio = reader["Precio"].ToString();
+
+                            StackPanel stackPanel = new StackPanel();
+                            stackPanel.Margin = new Thickness(10);
+
+                            TextBlock precioTextBlock = new TextBlock();
+                            precioTextBlock.Text = precio;
+                            precioTextBlock.FontFamily = new FontFamily("Bahnschrift");
+
+                            TextBlock cantidadTextBlock = new TextBlock();
+                            cantidadTextBlock.Text = cantidadDisponible;
+                            cantidadTextBlock.FontFamily = new FontFamily("Bahnschrift");
+
+                            stackPanel.Children.Add(cantidadTextBlock);
+                            stackPanel.Children.Add(precioTextBlock);
+
+                            wrapPanelFavoritos.Children.Add(stackPanel);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar favoritos: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
+
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+            
+            double viewboxWidth = e.NewSize.Width / 800; // 800 es el ancho original de la ventana
+            double viewboxHeight = e.NewSize.Height / 500; // 500 es el alto original de la ventana
+
+            // Acceder al Rectangle y ajustar la porción de la imagen en el Viewbox
+           
+            /*
+             * backgroundRectangle.Dispatcher.Invoke(() =>
+            {
+                ((ImageBrush)backgroundRectangle.Fill).Viewbox = new Rect(0, 0, viewboxWidth, viewboxHeight);
+            });
+            /*
+            //Ajustar el tamaño de las etiquetas basándose en el ancho de la ventana
+            double nuevoTamaño = e.NewSize.Width / 40; // Puedes ajustar el divisor según tus necesidades
+            
+            lblSaludo.FontSize = nuevoTamaño * 0.3+25; ;
+            lblUltimaConex.FontSize = nuevoTamaño * 0.3+15; // Puedes ajustar el multiplicador según tus necesidades
+            */
+        }
+
+
+
+
+
 
     }
 }
