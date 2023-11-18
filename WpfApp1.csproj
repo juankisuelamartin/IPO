@@ -111,6 +111,7 @@
     <Compile Include="RegistroWindow.xaml.cs">
       <DependentUpon>RegistroWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Translator.cs" />
     <Page Include="IUSUARIO.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,6 +133,12 @@
     </Compile>
     <Page Include="RegistroWindow.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StringResources.en-US.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StringResources.es-ES.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

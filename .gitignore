@@ -1,0 +1,7 @@
+﻿################################################################################
+# Este archivo .gitignore ha sido creado automáticamente por Microsoft(R) Visual Studio.
+################################################################################
+
+/obj/Debug/WpfApp1.csproj.AssemblyReference.cache
+/obj/Debug/WpfApp1_MarkupCompile.lref
+/.idea/.idea.WpfApp1/.idea
