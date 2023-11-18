@@ -1,0 +1,24 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- MainWindow-->
+    <system:String x:Key="WelcomeTitle">Bienvenido</system:String>
+    <system:String x:Key="LoginButtonText">Iniciar Sesion</system:String>
+    <system:String x:Key="RegisterButtonText">Registrarse</system:String>
+    <system:String x:Key="KeepSessionText">Mantener Sesion Iniciada</system:String>
+    <system:String x:Key="EnterUserText">Ingresar Usuario</system:String>
+    <!-- RegistroWindow-->
+    <system:String x:Key="UsernameLabel">Nombre de usuario:</system:String>
+    <system:String x:Key="PasswordLabel">Contrasena:</system:String>
+    <system:String x:Key="ConfirmPasswordLabel">Vuelva a escribir la contrasena:</system:String>
+    <system:String x:Key="EmailLabel">Email:</system:String>
+    <system:String x:Key="NameLabel">Nombre:</system:String>
+    <system:String x:Key="LastNameLabel">Apellidos:</system:String>
+    <system:String x:Key="StreetLabel">Calle:</system:String>
+    <system:String x:Key="PostalCodeLabel">CP:</system:String>
+    <system:String x:Key="ProfilePhotoLabel">Foto de perfil:</system:String>
+    <system:String x:Key="ProvinceLabel">Provincia:</system:String>
+    <system:String x:Key="BirthdateLabel">Fecha de Nacimiento</system:String>
+    <system:String x:Key="alreadyhaveaccount">Ya tienes una cuenta?</system:String>
+
+</ResourceDictionary>

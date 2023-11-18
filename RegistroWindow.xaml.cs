@@ -26,8 +26,51 @@ namespace WpfApp1
         {
             InitializeComponent();
             dbManager = new DatabaseManager();
-            
+            LoadLanguageResources();
+            InitializeLanguageComboBox();
+            string selectedLanguage = Translator.GetSelectedLanguage();
+            if (!string.IsNullOrEmpty(selectedLanguage))
+            {
+                Translator.SwitchLanguage(selectedLanguage);
+                SetLanguageComboBox(selectedLanguage);
+            }
 
+
+        }
+
+        private void LoadLanguageResources()
+        {
+            Translator.Initialize();
+        }
+
+        private void InitializeLanguageComboBox()
+        {
+            // Limpiar los elementos existentes
+            LanguageComboBox.Items.Clear();
+
+            // Configurar el ComboBox con los idiomas disponibles
+            LanguageComboBox.ItemsSource = new[]
+            {
+            new { DisplayName = "en-US", Culture = "en-US" },
+            new { DisplayName = "es-ES", Culture = "es-ES" }
+             };
+            LanguageComboBox.DisplayMemberPath = "DisplayName";
+            LanguageComboBox.SelectedValuePath = "Culture";
+        }
+
+        private void SetLanguageComboBox(string culture)
+        {
+            LanguageComboBox.SelectedValue = culture;
+        }
+
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LanguageComboBox.SelectedItem != null)
+            {
+                string selectedCulture = ((dynamic)LanguageComboBox.SelectedItem).Culture;
+                Translator.SwitchLanguage(selectedCulture);
+                Translator.SaveSelectedLanguage(selectedCulture);
+            }
         }
         private void ButtonIniciar_Click(object sender, RoutedEventArgs e)
         {

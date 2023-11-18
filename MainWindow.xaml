@@ -32,15 +32,24 @@
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle Grid.RowSpan="6" Margin="35,48,34,10" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" RadiusX="10" RadiusY="10" Fill="#FF424242"/>
-        <Button x:Name="ButtonLogin" Grid.Column="2" Content="Iniciar Sesión" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="99" Background="White" Foreground="Black" Click="ButtonLogin_Click" Height="24" Margin="28,16,0,0"/>
+        <Button x:Name="ButtonLogin" Grid.Column="3" Content="{DynamicResource LoginButtonText}" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="99" Background="White" Foreground="Black" Click="ButtonLogin_Click" Height="24" Margin="12,17,0,0" Grid.RowSpan="2"/>
         <Rectangle Grid.Column="2" Grid.ColumnSpan="2" Margin="69,31,0,22" Grid.RowSpan="2" HorizontalAlignment="Left" Width="125">
             <Rectangle.Fill>
                 <ImageBrush ImageSource="/Logo.png"/>
             </Rectangle.Fill>
         </Rectangle>
-        <TextBox x:Name="UsuarioLogin" TextWrapping="Wrap" Text="Ingrese Usuario" Grid.Column="2" Margin="29,17,28,4" Grid.Row="2" Grid.ColumnSpan="2" Background="White" FontFamily="Bahnschrift" FontSize="16"/>
+        <ComboBox x:Name="LanguageComboBox" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" Width="61" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Margin="12,0,0,0">
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                </Style>
+            </ComboBox.ItemContainerStyle>
+            <ComboBoxItem Content="English" Tag="en-US"/>
+            <ComboBoxItem Content="Español" Tag="es-ES"/>
+        </ComboBox>
+        <TextBox x:Name="UsuarioLogin" TextWrapping="Wrap" Text="{DynamicResource EnterUserText}" Grid.Column="2" Margin="29,17,28,4" Grid.Row="2" Grid.ColumnSpan="2" Background="White" FontFamily="Bahnschrift" FontSize="16"/>
         <PasswordBox x:Name="PWDLogin" Grid.Column="2" Margin="28,16,28,4" Grid.Row="3" Grid.ColumnSpan="2" Background="White" FontFamily="Bahnschrift" FontSize="16"/>
-        <Button x:Name="ButtonRegistrarse" Grid.Column="3" Content="Registrarse" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="99" Background="White" Foreground="Black" Click="ButtonRegistrarse_Click" Height="24" Margin="12,16,0,0"/>
-        <CheckBox x:Name="mantener_sesion" Content="Mantener Iniciada la sesión" Grid.Column="2" Grid.ColumnSpan="2" Margin="29,15,28,3" Grid.Row="4" Foreground="White"/>
+        <Button x:Name="ButtonRegistrarse" Grid.Column="2" Content="{DynamicResource RegisterButtonText}" HorizontalAlignment="Left" Grid.Row="5" VerticalAlignment="Top" Width="99" Background="White" Foreground="Black" Click="ButtonRegistrarse_Click" Height="24" Margin="29,17,0,0" Grid.RowSpan="2"/>
+        <CheckBox x:Name="mantener_sesion" Content="{DynamicResource KeepSessionText}" Grid.Column="2" Grid.ColumnSpan="2" Margin="29,15,28,3" Grid.Row="4" Foreground="White"/>
     </Grid>
 </Window>

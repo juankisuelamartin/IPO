@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using MySql.Data.MySqlClient;
@@ -9,11 +10,21 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
         private readonly DatabaseManager dbManager;
+
         public MainWindow()
         {
             InitializeComponent();
             dbManager = new DatabaseManager();
-            // Asigna los manejadores de eventos para los cuadros de texto
+            LoadLanguageResources();
+            InitializeLanguageComboBox();
+            // Restaurar el idioma seleccionado previamente
+            string selectedLanguage = Translator.GetSelectedLanguage();
+            if (!string.IsNullOrEmpty(selectedLanguage))
+            {
+                Translator.SwitchLanguage(selectedLanguage);
+                SetLanguageComboBox(selectedLanguage);
+            }
+            // Asignar los manejadores de eventos para los cuadros de texto
             UsuarioLogin.GotFocus += TextBox_GotFocus;
             UsuarioLogin.LostFocus += TextBox_LostFocus;
             PWDLogin.GotFocus += TextBox_GotFocus;
@@ -21,11 +32,45 @@ namespace WpfApp1
             PWDLogin.Password = "Contraseña";
             this.Focus();
         }
+
+        private void LoadLanguageResources()
+        {
+            Translator.Initialize();
+        }
+
+        private void InitializeLanguageComboBox()
+        {
+            // Limpiar los elementos existentes
+            LanguageComboBox.Items.Clear();
+
+            // Configurar el ComboBox con los idiomas disponibles
+            LanguageComboBox.ItemsSource = new[]
+            {
+            new { DisplayName = "en-US", Culture = "en-US" },
+            new { DisplayName = "es-ES", Culture = "es-ES" }
+             };
+            LanguageComboBox.DisplayMemberPath = "DisplayName";
+            LanguageComboBox.SelectedValuePath = "Culture";
+        }
+
+        private void SetLanguageComboBox(string culture)
+        {
+            LanguageComboBox.SelectedValue = culture;
+        }
+
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (LanguageComboBox.SelectedItem != null)
+            {
+                string selectedCulture = ((dynamic)LanguageComboBox.SelectedItem).Culture;
+                Translator.SwitchLanguage(selectedCulture);
+                Translator.SaveSelectedLanguage(selectedCulture);
+            }
+        }
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            // Manejador de evento GotFocus
             Control control = (Control)sender;
-            if (control is TextBox textBox && (textBox.Text == "Ingrese Usuario" || textBox.Text == "Contraseña"))
+            if (control is TextBox textBox && (textBox.Text == (string)FindResource("EnterUserText") || textBox.Text == "Contraseña"))
             {
                 textBox.Text = "";
             }
@@ -37,19 +82,17 @@ namespace WpfApp1
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            // Manejador de evento LostFocus
             Control control = (Control)sender;
             if (control is TextBox textBox && string.IsNullOrWhiteSpace(textBox.Text))
             {
-                // Restablecer el texto por defecto si está vacío
-                textBox.Text = (textBox.Name == "UsuarioLogin") ? "Ingrese Usuario" : "Contraseña";
+                textBox.Text = (string)FindResource("EnterUserText");
             }
             else if (control is PasswordBox passwordBox && string.IsNullOrWhiteSpace(passwordBox.Password))
             {
-                // Restablecer el texto por defecto si está vacío
                 passwordBox.Password = "Contraseña";
             }
         }
+
         private void ButtonRegistrarse_Click(object sender, RoutedEventArgs e)
         {
             RegistroWindow registroWindow = new RegistroWindow();
