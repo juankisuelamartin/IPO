@@ -1,9 +1,23 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <!-- MainWindow -->
     <system:String x:Key="WelcomeTitle">Welcome</system:String>
     <system:String x:Key="LoginButtonText">Login</system:String>
     <system:String x:Key="RegisterButtonText">Register</system:String>
     <system:String x:Key="KeepSessionText">Keep Session Logged In</system:String>
     <system:String x:Key="EnterUserText">Enter User</system:String>
+    <!-- RegistroWindow -->
+    <system:String x:Key="UsernameLabel">Username:</system:String>
+    <system:String x:Key="PasswordLabel">Password:</system:String>
+    <system:String x:Key="ConfirmPasswordLabel">Confirm Password:</system:String>
+    <system:String x:Key="EmailLabel">Email:</system:String>
+    <system:String x:Key="NameLabel">Name:</system:String>
+    <system:String x:Key="LastNameLabel">Last Name:</system:String>
+    <system:String x:Key="StreetLabel">Street:</system:String>
+    <system:String x:Key="PostalCodeLabel">Postal Code:</system:String>
+    <system:String x:Key="ProfilePhotoLabel">Profile Photo:</system:String>
+    <system:String x:Key="ProvinceLabel">Province:</system:String>
+    <system:String x:Key="BirthdateLabel">Birthdate</system:String>
+    <system:String x:Key="alreadyhaveaccount">have an account?</system:String>
 </ResourceDictionary>

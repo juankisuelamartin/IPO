@@ -38,7 +38,7 @@
                 <ImageBrush ImageSource="/Logo.png"/>
             </Rectangle.Fill>
         </Rectangle>
-        <ComboBox x:Name="LanguageComboBox" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Margin="12,10,0,0">
+        <ComboBox x:Name="LanguageComboBox" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" Width="61" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Margin="12,0,0,0">
             <ComboBox.ItemContainerStyle>
                 <Style TargetType="ComboBoxItem">
                     <Setter Property="VerticalAlignment" Value="Bottom"/>

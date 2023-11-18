@@ -46,8 +46,8 @@ namespace WpfApp1
             // Configurar el ComboBox con los idiomas disponibles
             LanguageComboBox.ItemsSource = new[]
             {
-            new { DisplayName = "English", Culture = "en-US" },
-            new { DisplayName = "Español", Culture = "es-ES" }
+            new { DisplayName = "en-US", Culture = "en-US" },
+            new { DisplayName = "es-ES", Culture = "es-ES" }
              };
             LanguageComboBox.DisplayMemberPath = "DisplayName";
             LanguageComboBox.SelectedValuePath = "Culture";
