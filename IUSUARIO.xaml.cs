@@ -1,4 +1,5 @@
 ﻿using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.Cmp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -158,12 +160,11 @@ namespace WpfApp1
 
 
         }
-
         private void MostrarFavoritos(string usuario)
         {
             try
             {
-                string query = "SELECT ivc.Precio, v.Titulo " +
+                string query = "SELECT ivc.Precio, v.Titulo, v.Portada " +
                                "FROM vinilosFavoritos vf " +
                                "JOIN vinilos v ON vf.idvinilo = v.Idvinilo " +
                                "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
@@ -175,6 +176,12 @@ namespace WpfApp1
 
                     dbManager.Connection.Open();
 
+                    int columnCount = 3; // Define el número de columnas que deseas
+
+                    // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
+                    WrapPanel horizontalWrapPanel = new WrapPanel();
+                    horizontalWrapPanel.Orientation = Orientation.Horizontal;
+
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         Console.WriteLine("Nombre Usuario: " + usuario);
@@ -182,25 +189,79 @@ namespace WpfApp1
                         while (reader.Read())
                         {
                             Console.WriteLine(2);
-                           
-                            string cantidadDisponible = reader["Titulo"].ToString();
+
+                            string titulo = reader["Titulo"].ToString();
                             string precio = reader["Precio"].ToString();
 
+                            // Establecer un límite máximo de caracteres para el título
+                            int maxCaracteres = 15; // Puedes ajustar según tus necesidades
+                            string tituloRecortado = titulo.Length > maxCaracteres ? titulo.Substring(0, maxCaracteres) + "..." : titulo;
+
                             StackPanel stackPanel = new StackPanel();
-                            stackPanel.Margin = new Thickness(10);
+                            stackPanel.Margin = new Thickness(left: 75, top: 20, right: 70, bottom: 60);
 
-                            TextBlock precioTextBlock = new TextBlock();
-                            precioTextBlock.Text = precio;
-                            precioTextBlock.FontFamily = new FontFamily("Bahnschrift");
 
-                            TextBlock cantidadTextBlock = new TextBlock();
-                            cantidadTextBlock.Text = cantidadDisponible;
-                            cantidadTextBlock.FontFamily = new FontFamily("Bahnschrift");
 
-                            stackPanel.Children.Add(cantidadTextBlock);
-                            stackPanel.Children.Add(precioTextBlock);
 
-                            wrapPanelFavoritos.Children.Add(stackPanel);
+                            // Verificar si la columna Portada es NULL
+                            if (!(reader["Portada"] is DBNull))
+                            {
+                                byte[] portadaBytes = (byte[])reader["Portada"];
+
+                                // Crear una imagen a partir de los bytes de la portada
+                                Image portadaImage = new Image();
+                                BitmapImage bitmapImage = new BitmapImage();
+                                using (MemoryStream stream = new MemoryStream(portadaBytes))
+                                {
+                                    bitmapImage.BeginInit();
+                                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+
+                                    // Ajustar el tamaño máximo de la imagen a 100x100
+                                    bitmapImage.DecodePixelWidth = 100;
+                                    bitmapImage.DecodePixelHeight = 100;
+
+                                    bitmapImage.StreamSource = stream;
+                                    bitmapImage.EndInit();
+                                }
+
+                                // Crear un contenedor para la imagen con un fondo blanco
+                                Grid imageContainer = new Grid();
+                                imageContainer.Background = Brushes.White;
+
+                                // Crear una imagen con un tamaño fijo de 100x100
+                                Image finalImage = new Image();
+                                finalImage.Source = bitmapImage;
+                                finalImage.Width = 100;
+                                finalImage.Height = 100;
+
+                                // Centrar la imagen dentro del contenedor
+                                imageContainer.Children.Add(finalImage);
+                                imageContainer.HorizontalAlignment = HorizontalAlignment.Center;
+
+                                stackPanel.Children.Add(imageContainer);
+                            }
+                            else
+                            {
+                                // Si la columna Portada es NULL, usar una imagen por defecto
+                                Image defaultImage = new Image();
+                                BitmapImage defaultBitmapImage = new BitmapImage(new Uri("ViniloX.jpg", UriKind.Relative));
+                                defaultImage.Source = defaultBitmapImage;
+                                defaultImage.Width = 100; // Ajusta el ancho según tus necesidades
+
+                                stackPanel.Children.Add(defaultImage);
+                            }
+                            tituloFavoritos(titulo, stackPanel);
+                            precioFavoritos(precio, stackPanel);
+
+
+                            horizontalWrapPanel.Children.Add(stackPanel);
+
+                            // Agrega un salto de línea después de cada número de columnas especificado
+
+                            wrapPanelFavoritos.Children.Add(horizontalWrapPanel);
+                            horizontalWrapPanel = new WrapPanel();
+                            horizontalWrapPanel.Orientation = Orientation.Horizontal;
+
                         }
                     }
                 }
@@ -214,6 +275,37 @@ namespace WpfApp1
                 dbManager.Connection.Close();
             }
         }
+
+    
+
+
+        private void tituloFavoritos(String titulo, StackPanel stackPanel)
+        {
+            // Establecer un límite máximo de caracteres para el título
+            int maxCaracteres = 15; // Puedes ajustar según tus necesidades
+            string tituloRecortado = titulo.Length > maxCaracteres ? titulo.Substring(0, maxCaracteres) + "..." : titulo;
+            TextBlock tituloTextBlock = new TextBlock();
+            tituloTextBlock.Text = tituloRecortado; // Añadir etiqueta Título
+            tituloTextBlock.FontFamily = new FontFamily("Bahnschrift");
+            tituloTextBlock.HorizontalAlignment = HorizontalAlignment.Center; // Alinear al centro
+
+            // Establecer un Tooltip para mostrar el título completo
+            tituloTextBlock.ToolTip = titulo;
+
+            stackPanel.Children.Add(tituloTextBlock);
+
+        }
+
+        private void precioFavoritos(String precio, StackPanel stackPanel)
+        {
+            TextBlock precioTextBlock = new TextBlock();
+            precioTextBlock.Text = precio; // Añadir etiqueta Precio
+            precioTextBlock.FontFamily = new FontFamily("Bahnschrift");
+            precioTextBlock.HorizontalAlignment = HorizontalAlignment.Center; // Alinear al centro
+
+            stackPanel.Children.Add(precioTextBlock);
+        }
+
 
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)

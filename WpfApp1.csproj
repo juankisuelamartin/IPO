@@ -190,5 +190,8 @@
   <ItemGroup>
     <Resource Include="fotoperfildefault.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="ViniloX.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

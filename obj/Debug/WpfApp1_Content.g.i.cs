@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("return_blue.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("vinilox.jpg")]
 
 

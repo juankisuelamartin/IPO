@@ -17,26 +17,32 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="5*"/>
             <RowDefinition Height="33.003"/>
             <RowDefinition Height="18.001"/>
             <RowDefinition Height="20.002"/>
             <RowDefinition Height="23.002"/>
-            <RowDefinition Height="219*"/>
-            <RowDefinition Height="141*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="90*"/>
             <RowDefinition Height="20.002"/>
         </Grid.RowDefinitions>
 
 
 
 
-        <Image Source="/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,110" Grid.RowSpan="6" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500"/>
-        <ScrollViewer Grid.Row="5" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,18,0,121" Grid.RowSpan="2">
-            <WrapPanel x:Name="wrapPanelFavoritos" Orientation="Horizontal" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="Auto"/>
-        </ScrollViewer>
+        <Image Source="/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="7" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
+
+
 
         <Rectangle Grid.ColumnSpan="5" Grid.RowSpan="2" Grid.Row="5" Stroke="Black" Fill="#FFD6D6D6" Height="Auto"/>
+    
+        <ScrollViewer Grid.Row="5" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,31,0,10" Grid.RowSpan="2">
+            <WrapPanel x:Name="wrapPanelFavoritos" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Width="Auto" Height="Auto" Margin="0,0,7,0" />
+        </ScrollViewer>
 
+        <Label x:Name="lblFavoritos" Content="Favoritos" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="3" Grid.Row="5" Grid.RowSpan="1">
+
+        </Label>
         <Image x:Name="imgPerfil" Grid.Row="1" Grid.RowSpan="3" Grid.Column="4" Margin="70,6,70,6">
             <Image.Source>
                 <BitmapImage UriSource="/fotoperfildefault.png"/>
@@ -53,11 +59,11 @@
         </UniformGrid>
 
 
-        <Label x:Name="lblSaludo" Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="23" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="4" Grid.Row="1" Grid.RowSpan="3">
+        <Label x:Name="lblSaludo" Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="23" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3">
 
         </Label>
 
-        <Label x:Name="lblUltimaConex" Content="Ultima Conexion" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="32" Width="570" Grid.ColumnSpan="4" Grid.RowSpan="2">
+        <Label x:Name="lblUltimaConex" Content="Ultima Conexion" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="32" Width="570" Grid.ColumnSpan="3" Grid.RowSpan="2">
 
         </Label>
 

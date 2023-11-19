@@ -174,3 +174,5 @@ C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\WpfApp1.exe
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\WpfApp1.pdb
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\StringResources.en-US.baml
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\StringResources.es-ES.baml
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\StringResources.en-US.baml
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\StringResources.es-ES.baml
