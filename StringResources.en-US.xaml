@@ -20,4 +20,17 @@
     <system:String x:Key="ProvinceLabel">Province:</system:String>
     <system:String x:Key="BirthdateLabel">Birthdate</system:String>
     <system:String x:Key="alreadyhaveaccount">have an account?</system:String>
+    <!-- IU USUARIO-->
+    <system:String x:Key="ShopLabel">Shop</system:String>
+    <system:String x:Key="HomeLabel">Home</system:String>
+    <system:String x:Key="ArtistLabel">Artists</system:String>
+    <system:String x:Key="ProfileLabel">Profile</system:String>
+    <system:String x:Key="SignOutLabel">Sign Out</system:String>
+    <system:String x:Key="FavoritesLabel">Favorites</system:String>
+    <system:String x:Key="GoodMorningLabel">Good Morning:</system:String>
+    <system:String x:Key="GoodAfternoonLabel">Good Afternoon:</system:String>
+    <system:String x:Key="GoodNightLabel">Good Night:</system:String>
+    <system:String x:Key="ConctactUsLabel">Contact Us</system:String>
+    <system:String x:Key="HelpLabel">Help</system:String>
+    <system:String x:Key="AboutUsLabel">About Us</system:String>
 </ResourceDictionary>

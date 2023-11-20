@@ -20,5 +20,19 @@
     <system:String x:Key="ProvinceLabel">Provincia:</system:String>
     <system:String x:Key="BirthdateLabel">Fecha de Nacimiento</system:String>
     <system:String x:Key="alreadyhaveaccount">Ya tienes una cuenta?</system:String>
+    <!-- IUusuario-->
+    <system:String x:Key="ShopLabel">Tienda</system:String>
+    <system:String x:Key="HomeLabel">Inicio</system:String>
+    <system:String x:Key="ArtistLabel">Artistas</system:String>
+    <system:String x:Key="ProfileLabel">Perfil</system:String>
+    <system:String x:Key="SignOutLabel">Cerrar Sesion</system:String>
+    <system:String x:Key="FavoritesLabel">Favoritos</system:String>
+    <system:String x:Key="GoodMorningLabel">Buenos Dias:</system:String>
+    <system:String x:Key="GoodAfternoonLabel">Buenas Tardes:</system:String>
+    <system:String x:Key="GoodNightLabel">Buenas Noches:</system:String>
+    <system:String x:Key="ConctactUsLabel">Contactanos</system:String>
+    <system:String x:Key="HelpLabel">Ayuda</system:String>
+    <system:String x:Key="AboutUsLabel">Sobre Nosotros</system:String>
+
 
 </ResourceDictionary>

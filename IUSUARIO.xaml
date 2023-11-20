@@ -23,24 +23,22 @@
             <RowDefinition Height="20.002"/>
             <RowDefinition Height="23.002"/>
             <RowDefinition Height="90*"/>
-            <RowDefinition Height="90*"/>
-            <RowDefinition Height="20.002"/>
+            <RowDefinition Height="86*"/>
+            <RowDefinition Height="28.031"/>
         </Grid.RowDefinitions>
-
-
 
 
         <Image Source="/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="7" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
 
 
 
-        <Rectangle Grid.ColumnSpan="5" Grid.RowSpan="2" Grid.Row="5" Stroke="Black" Fill="#FFD6D6D6" Height="Auto"/>
-    
+        <Rectangle Grid.ColumnSpan="5" Grid.RowSpan="3" Grid.Row="4" Stroke="Black" Fill="#FFD6D6D6" Height="Auto" Margin="0,23,0,0"/>
+
         <ScrollViewer Grid.Row="5" Grid.ColumnSpan="5" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0,31,0,10" Grid.RowSpan="2">
             <WrapPanel x:Name="wrapPanelFavoritos" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Width="Auto" Height="Auto" Margin="0,0,7,0" />
         </ScrollViewer>
 
-        <Label x:Name="lblFavoritos" Content="Favoritos" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="3" Grid.Row="5" Grid.RowSpan="1">
+        <Label x:Name="lblFavoritos" Content="{DynamicResource FavoritesLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Margin="30,23,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2">
 
         </Label>
         <Image x:Name="imgPerfil" Grid.Row="1" Grid.RowSpan="3" Grid.Column="4" Margin="70,6,70,6">
@@ -50,7 +48,7 @@
         </Image>
 
 
-        <UniformGrid Grid.Row="4" Grid.ColumnSpan="5" Rows="1" Columns="5">
+        <UniformGrid Grid.Row="3" Grid.ColumnSpan="5" Rows="1" Columns="5" Margin="0,20,0,0" Grid.RowSpan="2">
             <Button x:Name="btnTienda" Content="TIENDA" Click="Button_tienda" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
             <Button x:Name="btnFavoritos" Content="FAVORITOS" Click="Button_Favoritos" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
             <Button x:Name="btnLibre" Content="LIBRE" Click="Button_Libre" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
@@ -73,7 +71,7 @@
 
 
 
-        <Rectangle Grid.ColumnSpan="5" Grid.Row="7"  Stroke="Black" Fill="#FFB9B9B9"/>
+        <Rectangle Grid.ColumnSpan="5" Grid.Row="7"  Stroke="Black" Fill="#FFB9B9B9" Margin="0,1,0,0"/>
         <Grid Grid.ColumnSpan="5" Grid.Row="7" VerticalAlignment="Center" Height="18">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -82,13 +80,20 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="0" Text="Contactanos" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <TextBlock Grid.Column="1" Text="Ayuda" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <TextBlock Grid.Column="2" Text="Sobre nosotros" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <Button Grid.Column="3" Content="Traducir" Click="Button_Traducir" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="1" Text="Contactanos" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="2" Text="Ayuda" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="3" Text="Sobre nosotros" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
         </Grid>
 
-
+        <ComboBox x:Name="LanguageComboBox" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Width="62" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Height="22">
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                </Style>
+            </ComboBox.ItemContainerStyle>
+            <ComboBoxItem Content="English" Tag="en-US"/>
+            <ComboBoxItem Content="Español" Tag="es-ES"/>
+        </ComboBox>
 
 
     </Grid>
