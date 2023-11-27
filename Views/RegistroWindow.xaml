@@ -28,7 +28,7 @@
         </Grid.ColumnDefinitions>
         <Rectangle Stroke="Black" Opacity="0.6" Grid.ColumnSpan="6" Grid.RowSpan="9">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/Background.jpg"/>
+                <ImageBrush ImageSource="/Assets/Images/Background.jpg"/>
             </Rectangle.Fill>
         </Rectangle>
         <Grid Grid.ColumnSpan="6" Margin="0,30,0,20" Grid.RowSpan="9">
@@ -138,7 +138,7 @@
         </Grid>
         <Rectangle Grid.Column="5" Margin="102,14,0,14" HorizontalAlignment="Left" Width="74">
             <Rectangle.Fill>
-                <ImageBrush ImageSource="/Logo.png"/>
+                <ImageBrush ImageSource="/Assets/Images/Logo.png"/>
             </Rectangle.Fill>
         </Rectangle>
         <ComboBox x:Name="LanguageComboBox" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" Width="61" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Margin="12,0,0,0">

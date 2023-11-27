@@ -4,6 +4,8 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using MySql.Data.MySqlClient;
+using WpfApp1.Helpers;
+using WpfApp1.Views;
 
 namespace WpfApp1
 {

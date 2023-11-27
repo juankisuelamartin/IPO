@@ -108,11 +108,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DatabaseManager.cs" />
-    <Compile Include="RegistroWindow.xaml.cs">
+    <Compile Include="Views\RegistroWindow.xaml.cs">
       <DependentUpon>RegistroWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Translator.cs" />
-    <Page Include="IUSUARIO.xaml">
+    <Compile Include="Helpers\Translator.cs" />
+    <Page Include="Views\IUSUARIO.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,21 +124,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IUSUARIO.xaml.cs">
+    <Compile Include="Views\IUSUARIO.xaml.cs">
       <DependentUpon>IUSUARIO.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="RegistroWindow.xaml">
+    <Page Include="Views\RegistroWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StringResources.en-US.xaml">
+    <Page Include="resources\StringResources\StringResources.en-US.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StringResources.es-ES.xaml">
+    <Page Include="resources\StringResources\StringResources.es-ES.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -170,28 +170,36 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Background.jpg" />
+    <Resource Include="Assets\Images\Background.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="LOGO.jpg" />
+    <Resource Include="Assets\Images\LOGO.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Logo.png" />
+    <Resource Include="Assets\Images\Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="20320.png" />
+    <Resource Include="Assets\Images\20320.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="return.png" />
+    <Resource Include="Assets\Images\return.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="return_blue.png" />
+    <Resource Include="Assets\Images\return_blue.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="fotoperfildefault.png" />
+    <Resource Include="Assets\Images\fotoperfildefault.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ViniloX.jpg" />
+    <Resource Include="Assets\Images\ViniloX.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Config\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Corazon.png" />
+    <Resource Include="Assets\Images\Corazon2.png" />
+    <Resource Include="Assets\Images\corazonColoreadoB.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

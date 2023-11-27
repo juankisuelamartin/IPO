@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Windows;
 
-namespace WpfApp1
+namespace WpfApp1.Helpers
 {
     public static class Translator
     {
@@ -16,7 +16,7 @@ namespace WpfApp1
 
         public static void SetLanguage(string culture)
         {
-            dict.Source = new Uri($"StringResources.{culture}.xaml", UriKind.Relative);
+            dict.Source = new Uri($"../resources/StringResources/StringResources.{culture}.xaml", UriKind.Relative);
             Application.Current.Resources.MergedDictionaries.Add(dict);
         }
 

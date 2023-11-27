@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\sergi\Documents\GitHub\IPO\App.xaml
-5-674658696
+5-1325532258
 
-102020003226
+101300071783
 33-1874978920
-IUSUARIO.xaml;MainWindow.xaml;RegistroWindow.xaml;StringResources.en-US.xaml;StringResources.es-ES.xaml;
+Views\IUSUARIO.xaml;MainWindow.xaml;Views\RegistroWindow.xaml;resources\StringResources\StringResources.en-US.xaml;resources\StringResources\StringResources.es-ES.xaml;
 
-False
+True
 

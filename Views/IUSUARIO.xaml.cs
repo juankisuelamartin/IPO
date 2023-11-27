@@ -15,8 +15,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.Helpers;
 
-namespace WpfApp1
+namespace WpfApp1.Views
 {
     /// <summary>
     /// Lógica de interacción para IUSUARIO.xaml
@@ -31,6 +32,9 @@ namespace WpfApp1
         private string nombreUsuario; // Agrega esta propiedad
 
         public string NombreUsuario
+
+
+
         {
             get { return nombreUsuario; }
             set
@@ -42,6 +46,7 @@ namespace WpfApp1
                 LoadLanguageResources();
                 InitializeLanguageComboBox();
                 // Restaurar el idioma seleccionado previamente
+
                 string selectedLanguage = Translator.GetSelectedLanguage();
                 if (!string.IsNullOrEmpty(selectedLanguage))
                 {
@@ -95,9 +100,9 @@ namespace WpfApp1
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
-            
-            
-            
+
+
+
         }
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
@@ -196,7 +201,7 @@ namespace WpfApp1
             {
                 // Manejar el caso en que no hay foto de perfil.
                 // mostrar una imagen predeterminada.
-                var uri = new Uri("fotoperfildefault.png", UriKind.Relative);
+                var uri = new Uri("../Assets/Images/fotoperfildefault.png", UriKind.Relative);
                 var image = new BitmapImage(uri);
 
                 imgPerfil.Source = image; // Aquí también estableces la imagen en el control de imagen.
@@ -208,7 +213,7 @@ namespace WpfApp1
         {
             try
             {
-                string query = "SELECT ivc.Precio, v.Titulo, v.Portada " +
+                string query = "SELECT ivc.Precio, v.Titulo, v.Portada, v.Idvinilo " +
                                "FROM vinilosFavoritos vf " +
                                "JOIN vinilos v ON vf.idvinilo = v.Idvinilo " +
                                "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
@@ -237,12 +242,14 @@ namespace WpfApp1
                             string titulo = reader["Titulo"].ToString();
                             string precio = reader["Precio"].ToString();
 
+
                             // Establecer un límite máximo de caracteres para el título
                             int maxCaracteres = 15; // Puedes ajustar según tus necesidades
                             string tituloRecortado = titulo.Length > maxCaracteres ? titulo.Substring(0, maxCaracteres) + "..." : titulo;
 
                             StackPanel stackPanel = new StackPanel();
                             stackPanel.Margin = new Thickness(left: 75, top: 20, right: 70, bottom: 60);
+
 
 
 
@@ -288,12 +295,45 @@ namespace WpfApp1
                             {
                                 // Si la columna Portada es NULL, usar una imagen por defecto
                                 Image defaultImage = new Image();
-                                BitmapImage defaultBitmapImage = new BitmapImage(new Uri("ViniloX.jpg", UriKind.Relative));
+                                BitmapImage defaultBitmapImage = new BitmapImage(new Uri("../Assets/Images/ViniloX.jpg", UriKind.Relative));
                                 defaultImage.Source = defaultBitmapImage;
                                 defaultImage.Width = 100; // Ajusta el ancho según tus necesidades
+                                
 
                                 stackPanel.Children.Add(defaultImage);
                             }
+
+
+                            ToggleButton toggleButton = new ToggleButton();
+                            toggleButton.Content = "Eliminar";
+                            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
+                            toggleButton.Checked += ToggleButton_Checked; // Asigna el manejador de eventos al hacer clic
+                            toggleButton.Unchecked += ToggleButton_Unchecked;
+                            toggleButton.Width = 45; // ajusta el tamaño según tus necesidades
+                            toggleButton.Height = 45;
+                            // Establecer propiedades para quitar el borde
+                            toggleButton.BorderThickness = new Thickness(0);
+                            toggleButton.Background = Brushes.Transparent;
+
+                            // Crear un Image con la imagen deseada
+                            Image buttonImage = new Image();
+                            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
+                            buttonImage.Source = buttonImageBitmapImage;
+                            buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
+                            buttonImage.Height = 40;
+
+
+
+                            // Establecer la imagen como contenido del botón
+                            toggleButton.Content = buttonImage;
+                            //TODO: Elegir mejor posicion: 90, -180, 0, 0 Esquina Sup Derecha
+                            //                             80, -20, 0, 0  Esquina Inf Derecha
+                            toggleButton.Margin= new Thickness(95,-180,0,0);
+
+
+
+                            stackPanel.Children.Add(toggleButton);
+
                             tituloFavoritos(titulo, stackPanel);
                             precioFavoritos(precio, stackPanel);
 
@@ -320,7 +360,105 @@ namespace WpfApp1
             }
         }
 
-    
+
+        private void ToggleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ToggleButton toggleButton = (ToggleButton)sender;
+
+            // Llama al método común para manejar el cambio de estado (solo Checked)
+            CambiarEstadoToggleButton(toggleButton, isChecked: true);
+        }
+
+        private void ToggleButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ToggleButton toggleButton = (ToggleButton)sender;
+
+            // Llama al método común para manejar el cambio de estado (solo Unchecked)
+            CambiarEstadoToggleButton(toggleButton, isChecked: false);
+        }
+
+        private void CambiarEstadoToggleButton(ToggleButton toggleButton, bool isChecked)
+        {
+            int idVinilo = (int)toggleButton.Tag;
+
+            // Aquí ejecuta la lógica para agregar o eliminar el vinilo de la tabla de favoritos
+            try
+            {
+                string usuario = nombreUsuario;
+                string insertQuery = "INSERT INTO vinilosFavoritos (usuario, idvinilo) VALUES (@usuario, @idvinilo)";
+                string deleteQuery = "DELETE FROM vinilosFavoritos WHERE usuario=@usuario AND idvinilo=@idvinilo";
+
+                using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, dbManager.Connection))
+                using (MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, dbManager.Connection))
+                {
+                    insertCmd.Parameters.AddWithValue("@usuario", usuario);
+                    insertCmd.Parameters.AddWithValue("@idvinilo", idVinilo);
+
+                    deleteCmd.Parameters.AddWithValue("@usuario", usuario);
+                    deleteCmd.Parameters.AddWithValue("@idvinilo", idVinilo);
+
+                    dbManager.Connection.Open();
+
+                    if (isChecked)
+                    {
+                        // Solo ejecuta la lógica de eliminación si el botón está siendo marcado (Checked)
+                        deleteCmd.ExecuteNonQuery();
+
+                        // Eliminación exitosa
+                        MessageBox.Show("Vinilo eliminado de favoritos correctamente.");
+                    }
+                    else
+                    {
+                        // Solo ejecuta la lógica de inserción si el botón está siendo desmarcado (Unchecked)
+                        bool isInserted = insertCmd.ExecuteNonQuery() > 0;
+
+                        if (isInserted)
+                        {
+                            // Inserción exitosa
+                            MessageBox.Show("Vinilo añadido a favoritos correctamente.");
+                        }
+                        else
+                        {
+                            // No se encontró el vinilo en favoritos, eliminarlo
+                            deleteCmd.ExecuteNonQuery();
+
+                            // Eliminación exitosa
+                            MessageBox.Show("No se ha podido añadir de nuevo a favoritos.");
+                        }
+                    }
+
+                    // Crear un Image con la imagen deseada
+                    Image buttonImage = new Image();
+                    BitmapImage buttonImageBitmapImage;
+
+                    if (isChecked)
+                    {
+                        buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/Corazon.png", UriKind.Relative));
+                    }
+                    else
+                    {
+                        buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
+                    }
+
+                    buttonImage.Source = buttonImageBitmapImage;
+                    buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
+                    buttonImage.Height = 40;
+
+                    // Establecer la imagen como contenido del botón
+                    toggleButton.Content = buttonImage;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al agregar/eliminar el vinilo de favoritos: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
+
+
 
 
         private void tituloFavoritos(String titulo, StackPanel stackPanel)
@@ -355,12 +493,12 @@ namespace WpfApp1
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
 
-            
+
             double viewboxWidth = e.NewSize.Width / 800; // 800 es el ancho original de la ventana
             double viewboxHeight = e.NewSize.Height / 500; // 500 es el alto original de la ventana
 
             // Acceder al Rectangle y ajustar la porción de la imagen en el Viewbox
-           
+
             /*
              * backgroundRectangle.Dispatcher.Invoke(() =>
             {
