@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Asn1.Cmp;
+using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -100,9 +101,6 @@ namespace WpfApp1.Views
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
-
-
-
         }
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
@@ -134,7 +132,7 @@ namespace WpfApp1.Views
         }
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
-
+            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
 
             string queryUltimaConexion = "SELECT ultima_conexion FROM usuarios WHERE usuario=@usuario";
             MySqlCommand cmdUltimaConexion = new MySqlCommand(queryUltimaConexion, dbManager.Connection);
@@ -143,32 +141,31 @@ namespace WpfApp1.Views
             dbManager.Connection.Open();
             var ultimaConexion = cmdUltimaConexion.ExecuteScalar();
             dbManager.Connection.Close();
-
+            
             if (ultimaConexion != DBNull.Value)
             {
-                lblUltimaConex.Content = "Última conexión: " + ((DateTime)ultimaConexion).ToString("yyyy-MM-dd HH:mm:ss");
+                DateTime ultimaConexionLocal = TimeZoneInfo.ConvertTimeFromUtc((DateTime)ultimaConexion, localTimeZone);
+                lblUltimaConex.Content = "Última conexión: " + ultimaConexionLocal.ToString("yyyy-MM-dd HH:mm:ss");
+
+                // Determinar si es buenos días, buenas tardes o buenas noches
+                if (ultimaConexionLocal.Hour >= 6 && ultimaConexionLocal.Hour < 13)
+                {
+                    lblSaludo.Content = "Buenos días: " + nombreUsuario;
+                }
+                else if (ultimaConexionLocal.Hour >= 13 && ultimaConexionLocal.Hour < 21)
+                {
+                    lblSaludo.Content = "Buenas tardes: " + nombreUsuario;
+                }
+                else
+                {
+                    lblSaludo.Content = "Buenas noches: " + nombreUsuario;
+                }
             }
             else
             {
                 lblUltimaConex.Content = "No hay información de última conexión disponible.";
             }
-
-            // Obtener la hora local del usuario
-            DateTime horaActual = DateTime.Now;
-
-            // Determinar si es buenos días, buenas tardes o buenas noches
-            if (horaActual.Hour >= 6 && horaActual.Hour < 13)
-            {
-                lblSaludo.Content = "Buenos días: " + nombreUsuario;
-            }
-            else if (horaActual.Hour >= 13 && horaActual.Hour < 21)
-            {
-                lblSaludo.Content = "Buenas tardes: " + nombreUsuario;
-            }
-            else
-            {
-                lblSaludo.Content = "Buenas noches: " + nombreUsuario;
-            }
+           
         }
 
 
@@ -209,6 +206,7 @@ namespace WpfApp1.Views
 
 
         }
+
         private void MostrarFavoritos(string usuario)
         {
             try
@@ -222,10 +220,8 @@ namespace WpfApp1.Views
                 using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
                 {
                     cmd.Parameters.AddWithValue("@usuario", usuario);
-
                     dbManager.Connection.Open();
 
-                    int columnCount = 3; // Define el número de columnas que deseas
 
                     // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
                     WrapPanel horizontalWrapPanel = new WrapPanel();
@@ -233,115 +229,25 @@ namespace WpfApp1.Views
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
-                        Console.WriteLine("Nombre Usuario: " + usuario);
 
                         while (reader.Read())
                         {
-                            Console.WriteLine(2);
 
                             string titulo = reader["Titulo"].ToString();
                             string precio = reader["Precio"].ToString();
 
-
-                            // Establecer un límite máximo de caracteres para el título
-                            int maxCaracteres = 15; // Puedes ajustar según tus necesidades
-                            string tituloRecortado = titulo.Length > maxCaracteres ? titulo.Substring(0, maxCaracteres) + "..." : titulo;
-
                             StackPanel stackPanel = new StackPanel();
-                            stackPanel.Margin = new Thickness(left: 75, top: 20, right: 70, bottom: 60);
+                            stackPanel.Margin=new Thickness(left: 0, top: 15, right:0, bottom: 10);
 
 
-
-
-
-                            // Verificar si la columna Portada es NULL
-                            if (!(reader["Portada"] is DBNull))
-                            {
-                                byte[] portadaBytes = (byte[])reader["Portada"];
-
-                                // Crear una imagen a partir de los bytes de la portada
-                                Image portadaImage = new Image();
-                                BitmapImage bitmapImage = new BitmapImage();
-                                using (MemoryStream stream = new MemoryStream(portadaBytes))
-                                {
-                                    bitmapImage.BeginInit();
-                                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-
-                                    // Ajustar el tamaño máximo de la imagen a 100x100
-                                    bitmapImage.DecodePixelWidth = 100;
-                                    bitmapImage.DecodePixelHeight = 100;
-
-                                    bitmapImage.StreamSource = stream;
-                                    bitmapImage.EndInit();
-                                }
-
-                                // Crear un contenedor para la imagen con un fondo blanco
-                                Grid imageContainer = new Grid();
-                                imageContainer.Background = Brushes.White;
-
-                                // Crear una imagen con un tamaño fijo de 100x100
-                                Image finalImage = new Image();
-                                finalImage.Source = bitmapImage;
-                                finalImage.Width = 100;
-                                finalImage.Height = 100;
-
-                                // Centrar la imagen dentro del contenedor
-                                imageContainer.Children.Add(finalImage);
-                                imageContainer.HorizontalAlignment = HorizontalAlignment.Center;
-
-                                stackPanel.Children.Add(imageContainer);
-                            }
-                            else
-                            {
-                                // Si la columna Portada es NULL, usar una imagen por defecto
-                                Image defaultImage = new Image();
-                                BitmapImage defaultBitmapImage = new BitmapImage(new Uri("../Assets/Images/ViniloX.jpg", UriKind.Relative));
-                                defaultImage.Source = defaultBitmapImage;
-                                defaultImage.Width = 100; // Ajusta el ancho según tus necesidades
-                                
-
-                                stackPanel.Children.Add(defaultImage);
-                            }
-
-
-                            ToggleButton toggleButton = new ToggleButton();
-                            toggleButton.Content = "Eliminar";
-                            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
-                            toggleButton.Checked += ToggleButton_Checked; // Asigna el manejador de eventos al hacer clic
-                            toggleButton.Unchecked += ToggleButton_Unchecked;
-                            toggleButton.Width = 45; // ajusta el tamaño según tus necesidades
-                            toggleButton.Height = 45;
-                            // Establecer propiedades para quitar el borde
-                            toggleButton.BorderThickness = new Thickness(0);
-                            toggleButton.Background = Brushes.Transparent;
-
-                            // Crear un Image con la imagen deseada
-                            Image buttonImage = new Image();
-                            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
-                            buttonImage.Source = buttonImageBitmapImage;
-                            buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
-                            buttonImage.Height = 40;
-
-
-
-                            // Establecer la imagen como contenido del botón
-                            toggleButton.Content = buttonImage;
-                            //TODO: Elegir mejor posicion: 90, -180, 0, 0 Esquina Sup Derecha
-                            //                             80, -20, 0, 0  Esquina Inf Derecha
-                            toggleButton.Margin= new Thickness(95,-180,0,0);
-
-
-
-                            stackPanel.Children.Add(toggleButton);
-
+                            //Lamadas cargar Tiulo y Precio
+                            portadaFavoritos(reader, stackPanel);
+                            toggleFavoritos(reader, wrapPanelFavoritos, stackPanel);
                             tituloFavoritos(titulo, stackPanel);
                             precioFavoritos(precio, stackPanel);
 
 
-                            horizontalWrapPanel.Children.Add(stackPanel);
-
                             // Agrega un salto de línea después de cada número de columnas especificado
-
                             wrapPanelFavoritos.Children.Add(horizontalWrapPanel);
                             horizontalWrapPanel = new WrapPanel();
                             horizontalWrapPanel.Orientation = Orientation.Horizontal;
@@ -359,7 +265,6 @@ namespace WpfApp1.Views
                 dbManager.Connection.Close();
             }
         }
-
 
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -458,8 +363,98 @@ namespace WpfApp1.Views
             }
         }
 
+        private void portadaFavoritos(MySqlDataReader reader, StackPanel stackPanel)
+        {
+            // Verificar si la columna Portada es NULL
+            if (!(reader["Portada"] is DBNull))
+            {
+                byte[] portadaBytes = (byte[])reader["Portada"];
+
+                // Crear una imagen a partir de los bytes de la portada
+                Image portadaImage = new Image();
+                BitmapImage bitmapImage = new BitmapImage();
+                using (MemoryStream stream = new MemoryStream(portadaBytes))
+                {
+                    bitmapImage.BeginInit();
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+
+                    // Ajustar el tamaño máximo de la imagen a 100x100
+                    bitmapImage.DecodePixelWidth = 100;
+                    bitmapImage.DecodePixelHeight = 100;
+
+                    bitmapImage.StreamSource = stream;
+                    bitmapImage.EndInit();
+                }
+
+                // Crear un contenedor para la imagen con un fondo blanco
+                Grid imageContainer = new Grid();
+                imageContainer.Background = Brushes.White;
+
+                // Crear una imagen con un tamaño fijo de 100x100
+                Image finalImage = new Image();
+                finalImage.Source = bitmapImage;
+                finalImage.Width = 90;
+                finalImage.Height = 100;
+
+                // Centrar la imagen dentro del contenedor
+                imageContainer.Children.Add(finalImage);
+                imageContainer.HorizontalAlignment = HorizontalAlignment.Center;
+
+                stackPanel.Children.Add(imageContainer);
+            }
+            else
+            {
+                // Si la columna Portada es NULL, usar una imagen por defecto
+                Image defaultImage = new Image();
+                BitmapImage defaultBitmapImage = new BitmapImage(new Uri("../Assets/Images/ViniloX.jpg", UriKind.Relative));
+                defaultImage.Source = defaultBitmapImage;
+                defaultImage.Width = 100; // Ajusta el ancho según tus necesidades
 
 
+                stackPanel.Children.Add(defaultImage);
+            }
+        }
+
+        private void toggleFavoritos(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel) {
+
+            //Crear borde con color hexadecimal
+            Border border = new Border();
+            border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4E4E4"));
+            border.CornerRadius = new CornerRadius(10);
+            border.Margin = new Thickness(left: 25, top: 30, right: 20, bottom: 50);
+
+            //Crear toggleButton para cada vinilo que encuentre en favoritos y sus eventos
+            ToggleButton toggleButton = new ToggleButton();
+            toggleButton.Content = "Eliminar";
+            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
+            toggleButton.Checked += ToggleButton_Checked; // Asigna el manejador de eventos al hacer clic
+            toggleButton.Unchecked += ToggleButton_Unchecked;
+            toggleButton.Width = 45; // ajusta el tamaño según tus necesidades
+            toggleButton.Height = 45;
+
+            // Establecer propiedades para quitar el borde
+            toggleButton.BorderThickness = new Thickness(0);
+            toggleButton.Background = Brushes.Transparent;
+
+            // Crear un Image con la imagen por defecto
+            Image buttonImage = new Image();
+            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
+            buttonImage.Source = buttonImageBitmapImage;
+            buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
+            buttonImage.Height = 40;
+
+            toggleButton.Content = buttonImage;
+
+
+            //TODO: Elegir mejor posicion: 95, -180, 0, 0 Esquina Sup Derecha
+            //                             80, -20, 0, 0  Esquina Inf Derecha
+            toggleButton.Margin = new Thickness(95, -180, 0, 0);
+            stackPanel.Children.Add(toggleButton);
+
+            border.Child = stackPanel;
+            horizontalWrapPanel.Children.Add(border);
+
+        }
 
         private void tituloFavoritos(String titulo, StackPanel stackPanel)
         {
@@ -469,7 +464,9 @@ namespace WpfApp1.Views
             TextBlock tituloTextBlock = new TextBlock();
             tituloTextBlock.Text = tituloRecortado; // Añadir etiqueta Título
             tituloTextBlock.FontFamily = new FontFamily("Bahnschrift");
+            tituloTextBlock.FontWeight = FontWeights.Bold;
             tituloTextBlock.HorizontalAlignment = HorizontalAlignment.Center; // Alinear al centro
+            tituloTextBlock.Margin=new Thickness(0,10,0,3);
 
             // Establecer un Tooltip para mostrar el título completo
             tituloTextBlock.ToolTip = titulo;
@@ -481,41 +478,17 @@ namespace WpfApp1.Views
         private void precioFavoritos(String precio, StackPanel stackPanel)
         {
             TextBlock precioTextBlock = new TextBlock();
-            precioTextBlock.Text = precio; // Añadir etiqueta Precio
+            precioTextBlock.Text = precio + " €"; // Añadir etiqueta Precio
             precioTextBlock.FontFamily = new FontFamily("Bahnschrift");
             precioTextBlock.HorizontalAlignment = HorizontalAlignment.Center; // Alinear al centro
 
             stackPanel.Children.Add(precioTextBlock);
         }
 
-
-
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
 
-
-            double viewboxWidth = e.NewSize.Width / 800; // 800 es el ancho original de la ventana
-            double viewboxHeight = e.NewSize.Height / 500; // 500 es el alto original de la ventana
-
-            // Acceder al Rectangle y ajustar la porción de la imagen en el Viewbox
-
-            /*
-             * backgroundRectangle.Dispatcher.Invoke(() =>
-            {
-                ((ImageBrush)backgroundRectangle.Fill).Viewbox = new Rect(0, 0, viewboxWidth, viewboxHeight);
-            });
-            /*
-            //Ajustar el tamaño de las etiquetas basándose en el ancho de la ventana
-            double nuevoTamaño = e.NewSize.Width / 40; // Puedes ajustar el divisor según tus necesidades
-            
-            lblSaludo.FontSize = nuevoTamaño * 0.3+25; ;
-            lblUltimaConex.FontSize = nuevoTamaño * 0.3+15; // Puedes ajustar el multiplicador según tus necesidades
-            */
         }
-
-
-
-
 
 
     }
