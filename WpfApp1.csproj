@@ -201,5 +201,13 @@
     <Resource Include="Assets\Images\Corazon2.png" />
     <Resource Include="Assets\Images\corazonColoreadoB.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\Desplegable.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\cerrarsesion.png" />
+    <Resource Include="Assets\Images\historial.png" />
+    <Resource Include="Assets\Images\profile-icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

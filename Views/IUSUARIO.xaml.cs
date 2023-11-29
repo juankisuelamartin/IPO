@@ -20,21 +20,14 @@ using WpfApp1.Helpers;
 
 namespace WpfApp1.Views
 {
-    /// <summary>
-    /// Lógica de interacción para IUSUARIO.xaml
-    /// </summary>
-    /// 
-
-
 
     public partial class IUSUARIO : Window
     {
+        private bool rotated = true; //Variable control menu desplegable
 
         private string nombreUsuario; // Agrega esta propiedad
 
         public string NombreUsuario
-
-
 
         {
             get { return nombreUsuario; }
@@ -59,7 +52,6 @@ namespace WpfApp1.Views
         }
 
         private readonly DatabaseManager dbManager;
-
 
         private void LoadLanguageResources()
         {
@@ -113,23 +105,83 @@ namespace WpfApp1.Views
         {
 
         }
-        private void Button_Libre(object sender, RoutedEventArgs e)
-        {
 
-        }
         private void Button_Perfil(object sender, RoutedEventArgs e)
         {
 
         }
-        private void Button_tienda(object sender, RoutedEventArgs e)
+        private void Button_Tienda(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Button_Home(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Carrito(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Buscar(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_historialCompras(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ProfileMenuPopup_Closed(object sender, EventArgs e)
+        {
+            // Se llama cuando el Popup se cierra
+           // imgPerfilBorder.Visibility = Visibility.Collapsed;
+        }
+
+        private void imgPerfil_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            // Si el Popup está abierto, ciérralo; de lo contrario, ábrelo
+            if (popupMarco.Visibility == Visibility.Visible)
+            {
+
+                popupMarco.Visibility = Visibility.Collapsed;
+
+
+            }
+            else
+            {
+                // Abre el Popup
+
+                popupMarco.Visibility = Visibility.Visible;
+                // Asigna el foco al Popup para que pueda manejar eventos de clic
+
+            }
+
+            if (rotated)
+            {
+                // Si ya está rotado, restaurar la rotación a 0º
+                desplegable.RenderTransform = new RotateTransform(0);
+                desplegable.Margin = new Thickness(-20, 0, 0, 0);
+            }
+            else
+            {
+                // Rotar a -90º
+                desplegable.RenderTransform = new RotateTransform(90);
+                desplegable.Margin = new Thickness(0, 0, 0, 0);
+
+            }
+            // Alternar el estado de rotación
+            rotated = !rotated;
         }
 
         private void Button_Traducir(object sender, RoutedEventArgs e)
         {
 
         }
+
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
             TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
@@ -168,7 +220,6 @@ namespace WpfApp1.Views
            
         }
 
-
         private void MostrarFotoPerfil(string usuario)
         {
 
@@ -191,19 +242,15 @@ namespace WpfApp1.Views
                     image.StreamSource = ms;
                     image.EndInit();
 
-                    imgPerfil.Source = image; // Aquí estableces la imagen en el control de imagen.
+
+                    Ellipse ellipse = new Ellipse();
+                    ellipse.Width = 90; // ajusta el tamaño según tus necesidades
+                    ellipse.Height = 90;
+
+                    // Establecer el contenedor Ellipse como contenido de imgPerfil
+                    imgPerfil.Fill = new ImageBrush(image);
                 }
             }
-            else
-            {
-                // Manejar el caso en que no hay foto de perfil.
-                // mostrar una imagen predeterminada.
-                var uri = new Uri("../Assets/Images/fotoperfildefault.png", UriKind.Relative);
-                var image = new BitmapImage(uri);
-
-                imgPerfil.Source = image; // Aquí también estableces la imagen en el control de imagen.
-            }
-
 
         }
 
@@ -338,6 +385,8 @@ namespace WpfApp1.Views
 
                     if (isChecked)
                     {
+
+
                         buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/Corazon.png", UriKind.Relative));
                     }
                     else
@@ -351,6 +400,7 @@ namespace WpfApp1.Views
 
                     // Establecer la imagen como contenido del botón
                     toggleButton.Content = buttonImage;
+
                 }
             }
             catch (Exception ex)
@@ -436,6 +486,10 @@ namespace WpfApp1.Views
             toggleButton.BorderThickness = new Thickness(0);
             toggleButton.Background = Brushes.Transparent;
 
+            toggleButton.FocusVisualStyle = null;
+            toggleButton.BorderBrush = Brushes.Transparent;
+            toggleButton.Background = Brushes.Transparent;
+
             // Crear un Image con la imagen por defecto
             Image buttonImage = new Image();
             BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
@@ -449,6 +503,7 @@ namespace WpfApp1.Views
             //TODO: Elegir mejor posicion: 95, -180, 0, 0 Esquina Sup Derecha
             //                             80, -20, 0, 0  Esquina Inf Derecha
             toggleButton.Margin = new Thickness(95, -180, 0, 0);
+            toggleButton.FocusVisualStyle = null;
             stackPanel.Children.Add(toggleButton);
 
             border.Child = stackPanel;
