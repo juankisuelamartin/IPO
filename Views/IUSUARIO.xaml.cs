@@ -97,6 +97,8 @@ namespace WpfApp1.Views
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
         {
+            Properties.Settings.Default.KeepSession = false;
+            Properties.Settings.Default.Save();
             MainWindow mainwindow = new MainWindow();
             mainwindow.Show();
             this.Close();

@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.BC;
 using WpfApp1.Helpers;
 using WpfApp1.Views;
 
@@ -17,22 +18,33 @@ namespace WpfApp1
         {
             InitializeComponent();
             dbManager = new DatabaseManager();
-            LoadLanguageResources();
-            InitializeLanguageComboBox();
-            // Restaurar el idioma seleccionado previamente
-            string selectedLanguage = Translator.GetSelectedLanguage();
-            if (!string.IsNullOrEmpty(selectedLanguage))
+
+            // Verifica si la opción "mantener sesión" fue seleccionada la última vez
+            if (Properties.Settings.Default.KeepSession == true)
             {
-                Translator.SwitchLanguage(selectedLanguage);
-                SetLanguageComboBox(selectedLanguage);
+
+                Login(Properties.Settings.Default.Usuario, Properties.Settings.Default.PWD);
             }
-            // Asignar los manejadores de eventos para los cuadros de texto
-            UsuarioLogin.GotFocus += TextBox_GotFocus;
-            UsuarioLogin.LostFocus += TextBox_LostFocus;
-            PWDLogin.GotFocus += TextBox_GotFocus;
-            PWDLogin.LostFocus += TextBox_LostFocus;
-            PWDLogin.Password = "Contraseña";
-            this.Focus();
+            else
+            {
+                LoadLanguageResources();
+                InitializeLanguageComboBox();
+                // Restaurar el idioma seleccionado previamente
+                string selectedLanguage = Translator.GetSelectedLanguage();
+                if (!string.IsNullOrEmpty(selectedLanguage))
+                {
+                    Translator.SwitchLanguage(selectedLanguage);
+                    SetLanguageComboBox(selectedLanguage);
+                }
+                // Asignar los manejadores de eventos para los cuadros de texto
+                UsuarioLogin.GotFocus += TextBox_GotFocus;
+                UsuarioLogin.LostFocus += TextBox_LostFocus;
+                PWDLogin.GotFocus += TextBox_GotFocus;
+                PWDLogin.LostFocus += TextBox_LostFocus;
+                PWDLogin.Password = "Contraseña";
+                this.Focus();
+            }
+            
         }
 
         private void LoadLanguageResources()
@@ -122,37 +134,51 @@ namespace WpfApp1
 
             if (IsLoginValid(usuario, password))
             {
-                string queryUpdate = "UPDATE usuarios SET ultima_conexion = NOW() WHERE usuario = @usuario";
-                MySqlCommand cmdUpdate = new MySqlCommand(queryUpdate, dbManager.Connection);
-                cmdUpdate.Parameters.AddWithValue("@usuario", usuario);
-                dbManager.Connection.Open();
-                cmdUpdate.ExecuteNonQuery();
-
-                string query = "SELECT ROL FROM usuarios WHERE usuario=@usuario";
-                MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
-                cmd.Parameters.AddWithValue("@usuario", usuario);
-                bool rol = Convert.ToBoolean(cmd.ExecuteScalar());
-                dbManager.Connection.Close();
-
-                if (rol == false) 
-                    //USUARIO:
+                // Si el checkbox "mantener sesión" está marcado
+                if (mantener_sesion.IsChecked == true)
                 {
-               
-                    IUSUARIO iUSUARIO = new IUSUARIO();
-                    iUSUARIO.NombreUsuario = usuario; // Establece la propiedad NombreUsuario antes de mostrar la ventana.
-                    iUSUARIO.Show();
-                    this.Close();
+                    // Guarda la opción seleccionada en las configuraciones de la aplicación
+                    Properties.Settings.Default.KeepSession = true;
+                    Properties.Settings.Default.Usuario = usuario;
+                    Properties.Settings.Default.PWD = PWDLogin.Password;
+                    Properties.Settings.Default.Save();
                 }
-                else
-                {
-                    // TODO ADMIN VIEW
-                    MessageBox.Show("ADMIN VIEW");
-                }
+                Login(usuario, password);
 
             }
             else
             {
                 MessageBox.Show("Las credenciales proporcionadas son incorrectas.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void Login(string usuario, string password)
+        {
+
+            string queryUpdate = "UPDATE usuarios SET ultima_conexion = NOW() WHERE usuario = @usuario";
+            MySqlCommand cmdUpdate = new MySqlCommand(queryUpdate, dbManager.Connection);
+            cmdUpdate.Parameters.AddWithValue("@usuario", usuario);
+            dbManager.Connection.Open();
+            cmdUpdate.ExecuteNonQuery();
+
+            string query = "SELECT ROL FROM usuarios WHERE usuario=@usuario";
+            MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
+            cmd.Parameters.AddWithValue("@usuario", usuario);
+            bool rol = Convert.ToBoolean(cmd.ExecuteScalar());
+            dbManager.Connection.Close();
+
+            if (rol == false)
+            //USUARIO:
+            {
+
+                IUSUARIO iUSUARIO = new IUSUARIO();
+                iUSUARIO.NombreUsuario = usuario; // Establece la propiedad NombreUsuario antes de mostrar la ventana.
+                iUSUARIO.Show();
+                this.Close();
+            }
+            else
+            {
+                // TODO ADMIN VIEW
+                MessageBox.Show("ADMIN VIEW");
             }
         }
 
