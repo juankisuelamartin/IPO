@@ -108,11 +108,18 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DatabaseManager.cs" />
+    <Compile Include="Views\IUPrincipalU.xaml.cs">
+      <DependentUpon>IUPrincipalU.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RegistroWindow.xaml.cs">
       <DependentUpon>RegistroWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Translator.cs" />
-    <Page Include="Views\IUSUARIO.xaml">
+    <Page Include="Views\IUPrincipalU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\IUFavoritos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,8 +131,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\IUSUARIO.xaml.cs">
-      <DependentUpon>IUSUARIO.xaml</DependentUpon>
+    <Compile Include="Views\IUFavoritos.xaml.cs">
+      <DependentUpon>IUFavoritos.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

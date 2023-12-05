@@ -188,3 +188,7 @@ C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\Views\IUSUARIO.g.cs
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\Views\RegistroWindow.g.cs
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\Views\IUSUARIO.baml
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\Views\RegistroWindow.baml
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\IUPrincipalU.g.cs
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\IUPrincipalU.baml
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\IUFavoritos.g.cs
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\IUFavoritos.baml

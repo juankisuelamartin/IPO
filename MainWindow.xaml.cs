@@ -168,12 +168,17 @@ namespace WpfApp1
 
             if (rol == false)
             //USUARIO:
-            {
-
-                IUSUARIO iUSUARIO = new IUSUARIO();
-                iUSUARIO.NombreUsuario = usuario; // Establece la propiedad NombreUsuario antes de mostrar la ventana.
-                iUSUARIO.Show();
+            {   /*
+                IUSUARIO iusuario= new IUSUARIO();
+                iusuario.NombreUsuario = usuario;
+                iusuario.Show();
                 this.Close();
+                */
+                IUPrincipalU iuPrincipal = new IUPrincipalU();
+                iuPrincipal.NombreUsuario = usuario; // Establece la propiedad NombreUsuario antes de mostrar la ventana.
+                iuPrincipal.Show();
+                this.Close();
+                
             }
             else
             {

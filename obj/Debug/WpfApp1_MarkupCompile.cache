@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\
 WpfApp1
 none
 false
 DEBUG;TRACE
-C:\Users\soyju\Documents\GitHub\IPO\App.xaml
-5-1325532258
+C:\Users\sergi\Documents\GitHub\IPO\App.xaml
+6-1302042561
 
-9-621706338
-33-1179667184
-Views\IUSUARIO.xaml;MainWindow.xaml;Views\RegistroWindow.xaml;resources\StringResources\StringResources.en-US.xaml;resources\StringResources\StringResources.es-ES.xaml;
+10-1823967551
+33-1874978920
+Views\IUPrincipalU.xaml;Views\IUFavoritos.xaml;MainWindow.xaml;Views\RegistroWindow.xaml;resources\StringResources\StringResources.en-US.xaml;resources\StringResources\StringResources.es-ES.xaml;
 
 False
 

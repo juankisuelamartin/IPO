@@ -21,7 +21,7 @@ using WpfApp1.Helpers;
 namespace WpfApp1.Views
 {
 
-    public partial class IUSUARIO : Window
+    public partial class IUPrincipalU : Window
     {
         private bool rotated = true; //Variable control menu desplegable
 
@@ -37,6 +37,7 @@ namespace WpfApp1.Views
                 // Aquí puedes llamar al método para cargar la imagen de perfil o realizar otras acciones basadas en el usuario.
                 MostrarFotoPerfil(value);
                 MostrarFavoritos(value);
+                MostrarNovedades();
                 LoadLanguageResources();
                 InitializeLanguageComboBox();
                 // Restaurar el idioma seleccionado previamente
@@ -88,11 +89,16 @@ namespace WpfApp1.Views
             }
         }
 
-        public IUSUARIO()
+        public IUPrincipalU()
         {
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
+
+            // Suscribir a los eventos "Click" de los enlaces "Ver más..."
+            lblverMasNov.MouseUp += VerMasNovedades_Click;
+            lblverMasOft.MouseUp += VerMasOfertas_Click;
+            lblverMasFav.MouseUp += VerMasFavoritos_Click;
         }
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
@@ -105,7 +111,10 @@ namespace WpfApp1.Views
         }
         private void Button_Favoritos(object sender, RoutedEventArgs e)
         {
-
+            IUFavoritos iuFavoritos = new IUFavoritos();
+            iuFavoritos.NombreUsuario = this.NombreUsuario;
+            iuFavoritos.Show();
+            this.Close();
         }
 
         private void Button_Perfil(object sender, RoutedEventArgs e)
@@ -131,6 +140,25 @@ namespace WpfApp1.Views
         {
 
         }
+
+        private void VerMasNovedades_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void VerMasOfertas_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void VerMasFavoritos_Click(object sender, MouseButtonEventArgs e)
+        {
+            IUFavoritos iuFavoritos = new IUFavoritos();
+            iuFavoritos.NombreUsuario = this.NombreUsuario;
+            iuFavoritos.Show();
+            this.Close();
+        }
+
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)
         {
@@ -255,7 +283,7 @@ namespace WpfApp1.Views
             }
 
         }
-
+      
         private void MostrarFavoritos(string usuario)
         {
             try
@@ -275,7 +303,7 @@ namespace WpfApp1.Views
                     // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
                     WrapPanel horizontalWrapPanel = new WrapPanel();
                     horizontalWrapPanel.Orientation = Orientation.Horizontal;
-
+                    
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
 
@@ -284,20 +312,20 @@ namespace WpfApp1.Views
 
                             string titulo = reader["Titulo"].ToString();
                             string precio = reader["Precio"].ToString();
-
+                            Console.WriteLine(titulo + " " + precio);
                             StackPanel stackPanel = new StackPanel();
                             stackPanel.Margin=new Thickness(left: 0, top: 15, right:0, bottom: 10);
 
 
                             //Lamadas cargar Tiulo y Precio
                             portadaFavoritos(reader, stackPanel);
-                            toggleFavoritos(reader, wrapPanelFavoritos, stackPanel);
+                            toggleFavoritos(reader, wrapPanelFavoritosP, stackPanel);
                             tituloFavoritos(titulo, stackPanel);
                             precioFavoritos(precio, stackPanel);
 
 
                             // Agrega un salto de línea después de cada número de columnas especificado
-                            wrapPanelFavoritos.Children.Add(horizontalWrapPanel);
+                            wrapPanelFavoritosP.Children.Add(horizontalWrapPanel);
                             horizontalWrapPanel = new WrapPanel();
                             horizontalWrapPanel.Orientation = Orientation.Horizontal;
 
@@ -314,7 +342,7 @@ namespace WpfApp1.Views
                 dbManager.Connection.Close();
             }
         }
-
+        
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             ToggleButton toggleButton = (ToggleButton)sender;
@@ -547,6 +575,57 @@ namespace WpfApp1.Views
 
         }
 
+
+        private void MostrarNovedades()
+        {
+            try
+            {
+                string query = "SELECT ivc.Precio, v.Titulo, v.Portada, v.Idvinilo " +
+                               "FROM vinilos v " +
+                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
+                               "ORDER BY v.Idvinilo DESC"; // Ordenar por ID descendente
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    dbManager.Connection.Open();
+
+                    // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
+                    WrapPanel horizontalWrapPanel = new WrapPanel();
+                    horizontalWrapPanel.Orientation = Orientation.Horizontal;
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string titulo = reader["Titulo"].ToString();
+                            string precio = reader["Precio"].ToString();
+                            Console.WriteLine(titulo + " " + precio);
+                            StackPanel stackPanel = new StackPanel();
+                            stackPanel.Margin = new Thickness(left: 0, top: 15, right: 0, bottom: 10);
+
+                            //Llamadas a cargar Titulo y Precio
+                            portadaFavoritos(reader, stackPanel);
+                            toggleFavoritos(reader, wrapPanelNovedadesP, stackPanel);
+                            tituloFavoritos(titulo, stackPanel);
+                            precioFavoritos(precio, stackPanel);
+
+                            // Agrega un salto de línea después de cada número de columnas especificado
+                            wrapPanelNovedadesP.Children.Add(horizontalWrapPanel);
+                            horizontalWrapPanel = new WrapPanel();
+                            horizontalWrapPanel.Orientation = Orientation.Horizontal;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar novedades: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
 
     }
 }
