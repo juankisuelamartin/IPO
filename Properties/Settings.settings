@@ -6,13 +6,13 @@
       <Value Profile="(Default)">es-ES</Value>
     </Setting>
     <Setting Name="KeepSession" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Token" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="Usuario" Type="System.String" Scope="User">
-      <Value Profile="(Default)">admin</Value>
-    </Setting>
-    <Setting Name="PWD" Type="System.String" Scope="User">
-      <Value Profile="(Default)">123</Value>
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

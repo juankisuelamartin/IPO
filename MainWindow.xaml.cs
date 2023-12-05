@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Text;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,29 +23,71 @@ namespace WpfApp1
             // Verifica si la opción "mantener sesión" fue seleccionada la última vez
             if (Properties.Settings.Default.KeepSession == true)
             {
+                string usuario = Properties.Settings.Default.Usuario;
+                string token = Properties.Settings.Default.Token;
 
-                Login(Properties.Settings.Default.Usuario, Properties.Settings.Default.PWD);
+                string query = "SELECT * FROM session_tokens WHERE user_id=@usuario AND token=@token";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@usuario", usuario);
+                    cmd.Parameters.AddWithValue("@token", token);
+
+                    dbManager.Connection.Open();
+                    MySqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        DateTime expiryTime = reader.GetDateTime("expiry_time");
+
+                        if (DateTime.Now < expiryTime)
+                        {
+                            dbManager.Connection.Close();
+                            Login(usuario);
+                        }
+                        else
+                        {
+                            // El token ha expirado
+                            Properties.Settings.Default.KeepSession = false;
+                            dbManager.Connection.Close();
+                            IniciarVentana();
+                        }
+                    }
+                    else
+                    {
+                        Properties.Settings.Default.KeepSession = false;
+                        dbManager.Connection.Close();
+                        IniciarVentana();
+                    }
+
+                    dbManager.Connection.Close();
+                }
             }
+
             else
             {
-                LoadLanguageResources();
-                InitializeLanguageComboBox();
-                // Restaurar el idioma seleccionado previamente
-                string selectedLanguage = Translator.GetSelectedLanguage();
-                if (!string.IsNullOrEmpty(selectedLanguage))
-                {
-                    Translator.SwitchLanguage(selectedLanguage);
-                    SetLanguageComboBox(selectedLanguage);
-                }
-                // Asignar los manejadores de eventos para los cuadros de texto
-                UsuarioLogin.GotFocus += TextBox_GotFocus;
-                UsuarioLogin.LostFocus += TextBox_LostFocus;
-                PWDLogin.GotFocus += TextBox_GotFocus;
-                PWDLogin.LostFocus += TextBox_LostFocus;
-                PWDLogin.Password = "Contraseña";
-                this.Focus();
+                IniciarVentana();
             }
             
+        }
+        private void IniciarVentana()
+        {
+            LoadLanguageResources();
+            InitializeLanguageComboBox();
+            // Restaurar el idioma seleccionado previamente
+            string selectedLanguage = Translator.GetSelectedLanguage();
+            if (!string.IsNullOrEmpty(selectedLanguage))
+            {
+                Translator.SwitchLanguage(selectedLanguage);
+                SetLanguageComboBox(selectedLanguage);
+            }
+            // Asignar los manejadores de eventos para los cuadros de texto
+            UsuarioLogin.GotFocus += TextBox_GotFocus;
+            UsuarioLogin.LostFocus += TextBox_LostFocus;
+            PWDLogin.GotFocus += TextBox_GotFocus;
+            PWDLogin.LostFocus += TextBox_LostFocus;
+            PWDLogin.Password = "Contraseña";
+            this.Focus();
         }
 
         private void LoadLanguageResources()
@@ -137,13 +180,13 @@ namespace WpfApp1
                 // Si el checkbox "mantener sesión" está marcado
                 if (mantener_sesion.IsChecked == true)
                 {
+                    // generar token - 2 semanas
                     // Guarda la opción seleccionada en las configuraciones de la aplicación
-                    Properties.Settings.Default.KeepSession = true;
-                    Properties.Settings.Default.Usuario = usuario;
-                    Properties.Settings.Default.PWD = PWDLogin.Password;
-                    Properties.Settings.Default.Save();
+
+                    String token = GenerateSessionToken();
+                    StoreSessionToken(usuario, token);
                 }
-                Login(usuario, password);
+                Login(usuario);
 
             }
             else
@@ -151,7 +194,7 @@ namespace WpfApp1
                 MessageBox.Show("Las credenciales proporcionadas son incorrectas.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void Login(string usuario, string password)
+        private void Login(string usuario)
         {
 
             string queryUpdate = "UPDATE usuarios SET ultima_conexion = NOW() WHERE usuario = @usuario";
@@ -186,6 +229,49 @@ namespace WpfApp1
                 MessageBox.Show("ADMIN VIEW");
             }
         }
+        public static string GenerateSessionToken()
+        {
+            // Define la longitud del token.
+            int tokenLength = 60;
+
+            // Define los caracteres que se pueden utilizar en el token.
+            const string validChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
+            StringBuilder token = new StringBuilder();
+            Random random = new Random();
+
+            for (int i = 0; i < tokenLength; i++)
+            {
+                token.Append(validChars[random.Next(validChars.Length)]);
+            }
+
+            return token.ToString();
+        }
+        public void StoreSessionToken(string userId, string sessionToken)
+        {
+            string query = @"
+                INSERT INTO session_tokens (user_id, token, expiry_time) 
+                VALUES (@userId, @token, NOW() + INTERVAL 14 DAY)
+                ON DUPLICATE KEY UPDATE token = @token, expiry_time = NOW() + INTERVAL 14 DAY";
+            using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+            {
+                cmd.Parameters.AddWithValue("@userId", userId);
+                cmd.Parameters.AddWithValue("@token", sessionToken);
+
+                dbManager.Connection.Open();
+                cmd.ExecuteNonQuery();
+                dbManager.Connection.Close();
+
+                // guardamos en local el token.
+
+                Properties.Settings.Default.KeepSession = true;
+                Properties.Settings.Default.Token = sessionToken;
+                Properties.Settings.Default.Usuario = userId;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+
 
     }
 }
