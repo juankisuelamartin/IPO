@@ -541,6 +541,50 @@ namespace WpfApp1.Views
 
         }
 
+        private void toggleNovedades(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel)
+        {
+
+            //Crear borde con color hexadecimal
+            Border border = new Border();
+            border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4E4E4"));
+            border.CornerRadius = new CornerRadius(10);
+            border.Margin = new Thickness(left: 25, top: 30, right: 20, bottom: 50);
+
+            //Crear toggleButton para cada vinilo que encuentre en favoritos y sus eventos
+            ToggleButton toggleButton = new ToggleButton();
+            toggleButton.Content = "Eliminar";
+            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
+            toggleButton.Width = 45; // ajusta el tamaño según tus necesidades
+            toggleButton.Height = 45;
+
+            // Establecer propiedades para quitar el borde
+            toggleButton.BorderThickness = new Thickness(0);
+            toggleButton.Background = Brushes.Transparent;
+
+            toggleButton.FocusVisualStyle = null;
+            toggleButton.BorderBrush = Brushes.Transparent;
+            toggleButton.Background = Brushes.Transparent;
+
+            // Crear un Image con la imagen por defecto
+            Image buttonImage = new Image();
+            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/New.png", UriKind.Relative));
+            buttonImage.Source = buttonImageBitmapImage;
+            buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
+            buttonImage.Height = 40;
+
+            toggleButton.Content = buttonImage;
+
+
+            //TODO: Elegir mejor posicion: 95, -180, 0, 0 Esquina Sup Derecha
+            //                             80, -20, 0, 0  Esquina Inf Derecha
+            toggleButton.Margin = new Thickness(95, -180, 0, 0);
+            toggleButton.FocusVisualStyle = null;
+            stackPanel.Children.Add(toggleButton);
+
+            border.Child = stackPanel;
+            horizontalWrapPanel.Children.Add(border);
+
+        }
         private void tituloFavoritos(String titulo, StackPanel stackPanel)
         {
             // Establecer un límite máximo de caracteres para el título
@@ -605,7 +649,7 @@ namespace WpfApp1.Views
 
                             //Llamadas a cargar Titulo y Precio
                             portadaFavoritos(reader, stackPanel);
-                            toggleFavoritos(reader, wrapPanelNovedadesP, stackPanel);
+                            toggleNovedades(reader, wrapPanelNovedadesP, stackPanel);
                             tituloFavoritos(titulo, stackPanel);
                             precioFavoritos(precio, stackPanel);
 
