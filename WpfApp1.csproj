@@ -216,5 +216,8 @@
     <Resource Include="Assets\Images\historial.png" />
     <Resource Include="Assets\Images\profile-icon.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\New.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
