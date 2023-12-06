@@ -36,6 +36,7 @@
 
     <!-- PrincipalA-->
     <system:String x:Key="lblIntroAdmin">Welcome Administrator!</system:String>
+    <system:String x:Key="lblIntro2Admin">Have a productive and vinyl-filled day!</system:String>
     <system:String x:Key="lblIntroAdmin2">Have a productive and vinyl-filled day!</system:String>
 
    

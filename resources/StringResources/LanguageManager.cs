@@ -15,16 +15,18 @@ namespace WpfApp1
         public void InitializeLanguageComboBox(ComboBox LanguageComboBox)
         {
             // Limpiar los elementos existentes
-            LanguageComboBox.Items.Clear();
+            
+                LanguageComboBox.Items.Clear();
 
-            // Configurar el ComboBox con los idiomas disponibles
-            LanguageComboBox.ItemsSource = new[]
-            {
+                // Configurar el ComboBox con los idiomas disponibles
+                LanguageComboBox.ItemsSource = new[]
+                {
                 new { DisplayName = "en-US", Culture = "en-US" },
                 new { DisplayName = "es-ES", Culture = "es-ES" }
             };
-            LanguageComboBox.DisplayMemberPath = "DisplayName";
-            LanguageComboBox.SelectedValuePath = "Culture";
+                LanguageComboBox.DisplayMemberPath = "DisplayName";
+                LanguageComboBox.SelectedValuePath = "Culture";
+
         }
 
         public void SetLanguageComboBox(string culture, ComboBox LanguageComboBox)
