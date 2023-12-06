@@ -108,6 +108,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DatabaseManager.cs" />
+    <Compile Include="resources\Dominio\Vinilo.cs" />
     <Compile Include="resources\StringResources\LanguageManager.cs" />
     <Compile Include="Views\Admin\IUArtistasA.xaml.cs">
       <DependentUpon>IUArtistasA.xaml</DependentUpon>

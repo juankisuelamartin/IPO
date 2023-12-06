@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Helpers;
+using WpfApp1.Views.Admin;
 
 namespace WpfApp1.Views
 {
@@ -75,10 +76,10 @@ namespace WpfApp1.Views
 
         private void Button_Home(object sender, RoutedEventArgs e)
         {
-
-        }
-        private void Button_Gestion(object sender, RoutedEventArgs e)
-        {
+            IUPrincipalA iUPrincipalA = new IUPrincipalA();
+            iUPrincipalA.NombreUsuario = this.NombreUsuario;
+            iUPrincipalA.Show();
+            this.Close();
 
         }
 
@@ -156,7 +157,10 @@ namespace WpfApp1.Views
 
         private void BtnGestionVinilos_Click(object sender, RoutedEventArgs e)
         {
-            
+            IUVinilosA iUVinilosA = new IUVinilosA();
+            iUVinilosA.NombreUsuario = this.NombreUsuario;
+            iUVinilosA.Show();
+            this.Close();
         }
 
         private void BtnGestionArtistas_Click(object sender, RoutedEventArgs e)
