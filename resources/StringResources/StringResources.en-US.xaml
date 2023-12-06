@@ -35,8 +35,8 @@
     <system:String x:Key="AboutUsLabel">About Us</system:String>
 
     <!-- PrincipalA-->
-    <system:String x:Key="lblIntro">Welcome Administrator!</system:String>
-    <system:String x:Key="lblIntro2">Have a productive and vinyl-filled day!</system:String>
+    <system:String x:Key="lblIntroAdmin">Welcome Administrator!</system:String>
+    <system:String x:Key="lblIntro2Admin">Have a productive and vinyl-filled day!</system:String>
     <system:String x:Key="btnGestión">MANAGEMENT</system:String>
     <system:String x:Key="btnOfertas">OFFERS</system:String>
     <system:String x:Key="btnHistorialPedidos">ORDERS HISTORY</system:String>

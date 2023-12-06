@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Helpers;
+using WpfApp1.resources.StringResources;
 
 namespace WpfApp1.Views
 {
@@ -26,7 +27,7 @@ namespace WpfApp1.Views
         private string nombreUsuario; // Agrega esta propiedad
         private readonly DatabaseManager dbManager;
         private readonly LanguageManager languageManager; // Agrega esta propiedad
-
+        private readonly MainMethods mainMethods;
         public string NombreUsuario
         {
             get { return nombreUsuario; }
@@ -35,7 +36,7 @@ namespace WpfApp1.Views
                 nombreUsuario = value;
                 // Aquí puedes llamar al método para cargar la imagen de perfil o realizar otras acciones basadas en el usuario.
                 MostrarFotoPerfil(value);
-                MostrarFavoritos(value);
+                MostrarFavoritos(value, wrapPanelFavoritos);
                 languageManager.LoadLanguageResources();
                 languageManager.InitializeLanguageComboBox(LanguageComboBox);
                 // Restaurar el idioma seleccionado previamente
@@ -53,6 +54,7 @@ namespace WpfApp1.Views
             InitializeComponent();
             dbManager = new DatabaseManager();
             languageManager = new LanguageManager(); // Inicializa la instancia de LanguageManager
+            mainMethods = new MainMethods();
         }
 
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -63,11 +65,7 @@ namespace WpfApp1.Views
 
 private void Button_cerrarsesion(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.KeepSession = false;
-            Properties.Settings.Default.Save();
-            MainWindow mainwindow = new MainWindow();
-            mainwindow.Show();
-            this.Close();
+            mainMethods.Button_cerrarsesion(this);
         }
         private void Button_Favoritos(object sender, RoutedEventArgs e)
         {
@@ -85,10 +83,7 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
 
         private void Button_Home(object sender, RoutedEventArgs e)
         {
-            IUPrincipalU iuPrincipal= new IUPrincipalU();
-            iuPrincipal.NombreUsuario = this.NombreUsuario;
-            iuPrincipal.Show();
-            this.Close();
+            mainMethods.Button_Home(NombreUsuario, this);
         }
 
         private void Button_Carrito(object sender, RoutedEventArgs e)
@@ -114,38 +109,7 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
 
         private void imgPerfil_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            // Si el Popup está abierto, ciérralo; de lo contrario, ábrelo
-            if (popupMarco.Visibility == Visibility.Visible)
-            {
-
-                popupMarco.Visibility = Visibility.Collapsed;
-
-
-            }
-            else
-            {
-                // Abre el Popup
-
-                popupMarco.Visibility = Visibility.Visible;
-                // Asigna el foco al Popup para que pueda manejar eventos de clic
-
-            }
-
-            if (rotated)
-            {
-                // Si ya está rotado, restaurar la rotación a 0º
-                desplegable.RenderTransform = new RotateTransform(0);
-                desplegable.Margin = new Thickness(-20, 0, 0, 0);
-            }
-            else
-            {
-                // Rotar a -90º
-                desplegable.RenderTransform = new RotateTransform(90);
-                desplegable.Margin = new Thickness(0, 0, 0, 0);
-
-            }
-            // Alternar el estado de rotación
-            rotated = !rotated;
+            mainMethods.ImgPerfil_MouseUp(popupMarco, rotated, desplegable, this);
         }
 
         private void Button_Traducir(object sender, RoutedEventArgs e)
@@ -155,77 +119,16 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
 
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
-            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
-
-            string queryUltimaConexion = "SELECT ultima_conexion FROM usuarios WHERE usuario=@usuario";
-            MySqlCommand cmdUltimaConexion = new MySqlCommand(queryUltimaConexion, dbManager.Connection);
-            cmdUltimaConexion.Parameters.AddWithValue("@usuario", nombreUsuario);
-
-            dbManager.Connection.Open();
-            var ultimaConexion = cmdUltimaConexion.ExecuteScalar();
-            dbManager.Connection.Close();
-            
-            if (ultimaConexion != DBNull.Value)
-            {
-                DateTime ultimaConexionLocal = TimeZoneInfo.ConvertTimeFromUtc((DateTime)ultimaConexion, localTimeZone);
-                lblUltimaConex.Content = "Última conexión: " + ultimaConexionLocal.ToString("yyyy-MM-dd HH:mm:ss");
-
-                // Determinar si es buenos días, buenas tardes o buenas noches
-                if (ultimaConexionLocal.Hour >= 6 && ultimaConexionLocal.Hour < 13)
-                {
-                    lblSaludo.Content = "Buenos días: " + nombreUsuario;
-                }
-                else if (ultimaConexionLocal.Hour >= 13 && ultimaConexionLocal.Hour < 21)
-                {
-                    lblSaludo.Content = "Buenas tardes: " + nombreUsuario;
-                }
-                else
-                {
-                    lblSaludo.Content = "Buenas noches: " + nombreUsuario;
-                }
-            }
-            else
-            {
-                lblUltimaConex.Content = "No hay información de última conexión disponible.";
-            }
-           
+            mainMethods.IUSUARIO_Loaded(dbManager, nombreUsuario, lblUltimaConex, ContentProperty, lblSaludo, this);
         }
 
         private void MostrarFotoPerfil(string usuario)
         {
-
-            string query = "SELECT foto_perfil FROM usuarios WHERE usuario=@usuario";
-            MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
-            cmd.Parameters.AddWithValue("@usuario", usuario);
-
-            dbManager.Connection.Open();
-            var result = cmd.ExecuteScalar();
-            dbManager.Connection.Close();
-
-            if (result != DBNull.Value)
-            {
-                byte[] fotoPerfil = (byte[])result;
-                using (var ms = new MemoryStream(fotoPerfil))
-                {
-                    var image = new BitmapImage();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = ms;
-                    image.EndInit();
-
-
-                    Ellipse ellipse = new Ellipse();
-                    ellipse.Width = 90; // ajusta el tamaño según tus necesidades
-                    ellipse.Height = 90;
-
-                    // Establecer el contenedor Ellipse como contenido de imgPerfil
-                    imgPerfil.Fill = new ImageBrush(image);
-                }
-            }
+            mainMethods.MostrarFotoPerfil(usuario, dbManager, imgPerfil, this);
 
         }
 
-        private void MostrarFavoritos(string usuario)
+        public void MostrarFavoritos(string usuario, WrapPanel wrapPanelFavoritos)
         {
             try
             {
@@ -264,7 +167,6 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
                             tituloFavoritos(titulo, stackPanel);
                             precioFavoritos(precio, stackPanel);
 
-
                             // Agrega un salto de línea después de cada número de columnas especificado
                             wrapPanelFavoritos.Children.Add(horizontalWrapPanel);
                             horizontalWrapPanel = new WrapPanel();
@@ -280,6 +182,7 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
             }
             finally
             {
+
                 dbManager.Connection.Close();
             }
         }
@@ -300,7 +203,7 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
             CambiarEstadoToggleButton(toggleButton, isChecked: false);
         }
 
-        private void CambiarEstadoToggleButton(ToggleButton toggleButton, bool isChecked)
+        public void CambiarEstadoToggleButton(ToggleButton toggleButton, bool isChecked)
         {
             int idVinilo = (int)toggleButton.Tag;
 
@@ -384,7 +287,7 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
             }
         }
 
-        private void portadaFavoritos(MySqlDataReader reader, StackPanel stackPanel)
+        public void portadaFavoritos(MySqlDataReader reader, StackPanel stackPanel)
         {
             // Verificar si la columna Portada es NULL
             if (!(reader["Portada"] is DBNull))
@@ -436,7 +339,7 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
             }
         }
 
-        private void toggleFavoritos(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel) {
+        public void toggleFavoritos(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel) {
 
             //Crear borde con color hexadecimal
             Border border = new Border();
@@ -482,7 +385,7 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
 
         }
 
-        private void tituloFavoritos(String titulo, StackPanel stackPanel)
+        public void tituloFavoritos(String titulo, StackPanel stackPanel)
         {
             // Establecer un límite máximo de caracteres para el título
             int maxCaracteres = 15; // Puedes ajustar según tus necesidades
@@ -501,7 +404,7 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
 
         }
 
-        private void precioFavoritos(String precio, StackPanel stackPanel)
+        public void precioFavoritos(String precio, StackPanel stackPanel)
         {
             TextBlock precioTextBlock = new TextBlock();
             precioTextBlock.Text = precio + " €"; // Añadir etiqueta Precio
@@ -515,7 +418,5 @@ private void Button_cerrarsesion(object sender, RoutedEventArgs e)
         {
 
         }
-
-
     }
 }

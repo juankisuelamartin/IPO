@@ -14,11 +14,12 @@ namespace WpfApp1
     public partial class MainWindow : Window
     {
         private readonly DatabaseManager dbManager;
-
+        private readonly LanguageManager languageManager;
         public MainWindow()
         {
             InitializeComponent();
             dbManager = new DatabaseManager();
+            languageManager = new LanguageManager();
 
             // Verifica si la opción "mantener sesión" fue seleccionada la última vez
             if (Properties.Settings.Default.KeepSession == true)
@@ -72,14 +73,14 @@ namespace WpfApp1
         }
         private void IniciarVentana()
         {
-            LoadLanguageResources();
-            InitializeLanguageComboBox();
+            languageManager.LoadLanguageResources();
+            languageManager.InitializeLanguageComboBox(LanguageComboBox);
             // Restaurar el idioma seleccionado previamente
             string selectedLanguage = Translator.GetSelectedLanguage();
             if (!string.IsNullOrEmpty(selectedLanguage))
             {
                 Translator.SwitchLanguage(selectedLanguage);
-                SetLanguageComboBox(selectedLanguage);
+                languageManager.SetLanguageComboBox(selectedLanguage, LanguageComboBox);
             }
             // Asignar los manejadores de eventos para los cuadros de texto
             UsuarioLogin.GotFocus += TextBox_GotFocus;
@@ -90,39 +91,9 @@ namespace WpfApp1
             this.Focus();
         }
 
-        private void LoadLanguageResources()
-        {
-            Translator.Initialize();
-        }
-
-        private void InitializeLanguageComboBox()
-        {
-            // Limpiar los elementos existentes
-            LanguageComboBox.Items.Clear();
-
-            // Configurar el ComboBox con los idiomas disponibles
-            LanguageComboBox.ItemsSource = new[]
-            {
-            new { DisplayName = "en-US", Culture = "en-US" },
-            new { DisplayName = "es-ES", Culture = "es-ES" }
-             };
-            LanguageComboBox.DisplayMemberPath = "DisplayName";
-            LanguageComboBox.SelectedValuePath = "Culture";
-        }
-
-        private void SetLanguageComboBox(string culture)
-        {
-            LanguageComboBox.SelectedValue = culture;
-        }
-
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (LanguageComboBox.SelectedItem != null)
-            {
-                string selectedCulture = ((dynamic)LanguageComboBox.SelectedItem).Culture;
-                Translator.SwitchLanguage(selectedCulture);
-                Translator.SaveSelectedLanguage(selectedCulture);
-            }
+            languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
         }
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
