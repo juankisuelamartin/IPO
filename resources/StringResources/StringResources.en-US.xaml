@@ -35,16 +35,18 @@
     <system:String x:Key="AboutUsLabel">About Us</system:String>
 
     <!-- PrincipalA-->
-    <system:String x:Key="lblIntro">Welcome Administrator!</system:String>
-    <system:String x:Key="lblIntro2">Have a productive and vinyl-filled day!</system:String>
+    <system:String x:Key="lblIntroAdmin">Welcome Administrator!</system:String>
+    <system:String x:Key="lblIntroAdmin2">Have a productive and vinyl-filled day!</system:String>
+
+   
+    <!--BarraBusquedaA-->
     <system:String x:Key="btnGestión">MANAGEMENT</system:String>
+    <system:String x:Key="btnHistorialPedidos">ORDER HISTORY</system:String>
     <system:String x:Key="btnOfertas">OFFERS</system:String>
-    <system:String x:Key="btnHistorialPedidos">ORDERS HISTORY</system:String>
     <system:String x:Key="btnIncidencias">INCIDENTS</system:String>
     <system:String x:Key="btnVinilos">VINYLS</system:String>
     <system:String x:Key="btnArtistas">ARTISTS</system:String>
     <system:String x:Key="btnContacto">CONTACT</system:String>
-
 
 
     <!--IUprincipal-->

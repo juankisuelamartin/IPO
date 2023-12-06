@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\
 WpfApp1
 none
 false
 DEBUG;TRACE
-C:\Users\soyju\Documents\GitHub\IPO\App.xaml
+C:\Users\sergi\Documents\GitHub\IPO\App.xaml
 13-2031641258
 
 191565045519
-33-1179667184
+33-1874978920
 Views\Admin\IUArtistasA.xaml;Views\Admin\IUContactoA.xaml;Views\Admin\IUHistorialPedidosA.xaml;Views\Admin\IUIncidenciasA.xaml;Views\Admin\IUOfertasA.xaml;Views\Admin\IUPrincipalA.xaml;Views\Admin\IUVinilosA.xaml;Views\Cliente\IUPrincipalU.xaml;Views\Cliente\IUFavoritos.xaml;MainWindow.xaml;Views\RegistroWindow.xaml;resources\StringResources\StringResources.en-US.xaml;resources\StringResources\StringResources.es-ES.xaml;
 
-False
+True
 
