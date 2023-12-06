@@ -33,6 +33,7 @@
     <system:String x:Key="ConctactUsLabel">Contact Us</system:String>
     <system:String x:Key="HelpLabel">Help</system:String>
     <system:String x:Key="AboutUsLabel">About Us</system:String>
+
     <!-- PrincipalA-->
     <system:String x:Key="lblIntro">Welcome Administrator!</system:String>
     <system:String x:Key="lblIntro2">Have a productive and vinyl-filled day!</system:String>
@@ -43,5 +44,25 @@
     <system:String x:Key="btnVinilos">VINYLS</system:String>
     <system:String x:Key="btnArtistas">ARTISTS</system:String>
     <system:String x:Key="btnContacto">CONTACT</system:String>
+
+
+
+    <!--IUprincipal-->
+    <system:String x:Key="lblNovedades">News</system:String>
+    <system:String x:Key="lblverMasNov">See more...</system:String>
+    <system:String x:Key="lblOfertas">Offers</system:String>
+    <system:String x:Key="lblverMasOft">See more...</system:String>
+    <system:String x:Key="lblFavoritos">Favorites</system:String>
+    <system:String x:Key="lblIntro">Welcome back to your creative corner at Vinyl Studio!</system:String>
+    <system:String x:Key="lblIntro2">Creativity starts here. Explore, choose, and put music to your ideas.</system:String>
+    <system:String x:Key="HistorialcomprasLabel">Purchase History</system:String>
+    <system:String x:Key="lblUltimaConex">Last Connection: </system:String>
+    <system:String x:Key="lblverMasFav">See more...</system:String>
+    <!--BarraBusqueda-->
+    <system:String x:Key="PrincipalLbl">Main Menu</system:String>
+    <system:String x:Key="btnTienda">STORE</system:String>
+    <system:String x:Key="btnCarrito">CART</system:String>
+    <system:String x:Key="btnFavoritos">FAVORITES</system:String>
+    <system:String x:Key="btnBuscar">SEARCH</system:String>
 
 </ResourceDictionary>

@@ -6,7 +6,7 @@
       <Value Profile="(Default)">es-ES</Value>
     </Setting>
     <Setting Name="KeepSession" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Token" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
