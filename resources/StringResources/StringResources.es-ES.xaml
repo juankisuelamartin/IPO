@@ -33,6 +33,15 @@
     <system:String x:Key="ConctactUsLabel">Contactanos</system:String>
     <system:String x:Key="HelpLabel">Ayuda</system:String>
     <system:String x:Key="AboutUsLabel">Sobre Nosotros</system:String>
-
+    <!-- IUPrincipalA-->
+    <system:String x:Key="lblIntro">¡Bienvenido Administrador!</system:String>
+    <system:String x:Key="lblIntro2">¡Que tengas un día productivo y lleno de vinilos!</system:String>
+    <system:String x:Key="btnGestión">GESTIÓN</system:String>
+    <system:String x:Key="btnOfertas">OFERTAS</system:String>
+    <system:String x:Key="btnHistorialPedidos">HISTORIAL PEDIDOS</system:String>
+    <system:String x:Key="btnIncidencias">INCIDENCIAS</system:String>
+    <system:String x:Key="btnVinilos">VINILOS</system:String>
+    <system:String x:Key="btnArtistas">ARTISTAS</system:String>
+    <system:String x:Key="btnContacto">CONTACTO</system:String>
 
 </ResourceDictionary>

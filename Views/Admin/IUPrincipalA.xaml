@@ -188,9 +188,9 @@
             <Border Background="#FFE4E4E4"  CornerRadius="2" BorderThickness="0" BorderBrush="Transparent">
                 <StackPanel Orientation="Vertical" Margin="5" Background="Transparent" >
                     <!-- Contenido del Popup -->
-                    <Button Content="Vinilos" Click="BtnGestionVinilos_Click" Margin="0,3,0,3"/>
-                    <Button Content="Artistas" Click="BtnGestionArtistas_Click" Margin="0,3,0,3"/>
-                    <Button Content="Contacto" Click="BtnGestionContacto_Click" Margin="0,3,0,3"/>
+                    <Button x:Name="btnVinilos" Content="Vinilos" Click="BtnGestionVinilos_Click" Margin="0,3,0,3"/>
+                    <Button x:Name="btnArtistas" Click="BtnGestionArtistas_Click" Margin="0,3,0,3"/>
+                    <Button x:Name="btnContacto" Content="Contacto" Click="BtnGestionContacto_Click" Margin="0,3,0,3"/>
                 </StackPanel>
             </Border>
         </Popup>
