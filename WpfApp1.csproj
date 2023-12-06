@@ -108,18 +108,67 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DatabaseManager.cs" />
-    <Compile Include="Views\IUPrincipalU.xaml.cs">
+    <Compile Include="Views\Admin\IUArtistasA.xaml.cs">
+      <DependentUpon>IUArtistasA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\IUContactoA.xaml.cs">
+      <DependentUpon>IUContactoA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\IUHistorialPedidosA.xaml.cs">
+      <DependentUpon>IUHistorialPedidosA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\IUIncidenciasA.xaml.cs">
+      <DependentUpon>IUIncidenciasA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\IUOfertasA.xaml.cs">
+      <DependentUpon>IUOfertasA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\IUPrincipalA.xaml.cs">
+      <DependentUpon>IUPrincipalA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\IUVinilosA.xaml.cs">
+      <DependentUpon>IUVinilosA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cliente\IUPrincipalU.xaml.cs">
       <DependentUpon>IUPrincipalU.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\RegistroWindow.xaml.cs">
       <DependentUpon>RegistroWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Translator.cs" />
-    <Page Include="Views\IUPrincipalU.xaml">
+    <Page Include="Views\Admin\IUArtistasA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\IUContactoA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\IUHistorialPedidosA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\IUIncidenciasA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\IUOfertasA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin\IUPrincipalA.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\IUFavoritos.xaml">
+    <Page Include="Views\Admin\IUVinilosA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cliente\IUPrincipalU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cliente\IUFavoritos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -131,7 +180,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\IUFavoritos.xaml.cs">
+    <Compile Include="Views\Cliente\IUFavoritos.xaml.cs">
       <DependentUpon>IUFavoritos.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">

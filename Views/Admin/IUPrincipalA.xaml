@@ -1,13 +1,20 @@
-﻿<Window x:Class="WpfApp1.Views.IUPrincipalU"
+﻿<Window x:Class="WpfApp1.Views.IUPrincipalA"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="Menu Principal" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
+        Title="Menu Principal" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen">
 
-
+    <Window.Resources>
+        <Style x:Key="PopupStyle" TargetType="Popup">
+            <Setter Property="Placement" Value="Bottom"/>
+            <Setter Property="IsOpen" Value="False"/>
+            <Setter Property="AllowsTransparency" Value="True"/>
+            <Setter Property="PopupAnimation" Value="Slide"/>
+        </Style>
+    </Window.Resources>
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -30,22 +37,17 @@
             <RowDefinition Height="28.031"/>
         </Grid.RowDefinitions>
 
-        <Image Source="../Assets/Images/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="7" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
+        <Image Source="../../Assets/Images/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="7" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
 
         <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="3" Grid.Row="4" Stroke="Black" Fill="#FFD6D6D6" Height="Auto" Margin="0,23,0,0"/>
 
-
-
-
         <UniformGrid Grid.Row="3" Grid.ColumnSpan="6" Rows="1" Columns="5" Margin="0,20,0,0" Grid.RowSpan="2">
             <Button x:Name="btnHome" Content="HOME" Click="Button_Home" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnTienda" Content="TIENDA" Click="Button_Tienda" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnCarrito" Content="CARRITO" Click="Button_Carrito" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnFavoritos" Content="FAVORITOS" Click="Button_Favoritos" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnBuscar" Content="BUSCAR" Click="Button_Buscar" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-
+            <Button x:Name="btnGestión" Content="GESTIÓN" Click="BtnGestion" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnOfertas" Content="OFERTAS" Click="Button_Ofertas" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnHistorialPedidos" Content="HISTORIAL PEDIDOS" Click="Button_Historial" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnIncidencias" Content="INCIDENCIAS" Click="Button_Incidencias" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
         </UniformGrid>
-
 
         <Label x:Name="lblSaludo" Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="23" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3"/>
 
@@ -54,20 +56,13 @@
         <Viewbox Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0" Height="0" Width="0" Grid.Row="1"/>
 
 
-
-       
-        
-
-
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="5" Grid.RowSpan="5" Grid.ColumnSpan="6">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="5" Grid.RowSpan="5" Grid.ColumnSpan="6" Margin="0,0,0,30">
             <StackPanel>
 
 
 
-                <Label x:Name="lblIntro" Content="¡Bienvenido de vuelta a tu rincón creativo en Vinilos Studio!" HorizontalAlignment="Left" FontSize="17" Margin="11,10,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="579"/>
-                <Label x:Name="lblIntro2" Content="La creatividad comienza aquí. Explora, elige y pon música a tus ideas." HorizontalAlignment="Left" Margin="11,-4,0,0" Width="Auto" Height="29" FontSize="13" Grid.Row="2"/>
-
-
+                <Label x:Name="lblIntro" Content="¡Bienvenido Administrador!"  HorizontalAlignment="Left" FontSize="17" Margin="11,10,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="579"/>
+                <Label x:Name="lblIntro2" Content="¡Que tengas un día productivo y lleno de vinilos!" HorizontalAlignment="Left" Margin="11,-4,0,0" Width="Auto" Height="29" FontSize="13" Grid.Row="2"/>
 
 
 
@@ -153,17 +148,17 @@
                 <Button x:Name="btnCerrarSesión" Content="CERRAR SESIÓN" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="../Assets/Images/historial.png"/>
+                        <ImageBrush ImageSource="../../Assets/Images/historial.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="../Assets/Images/profile-icon.png"/>
+                        <ImageBrush ImageSource="../../Assets/Images/profile-icon.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="../Assets/Images/cerrarsesion.png"/>
+                        <ImageBrush ImageSource="../../Assets/Images/cerrarsesion.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </WrapPanel>
@@ -172,19 +167,48 @@
         <StackPanel Grid.Row="1" Grid.RowSpan="3" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0" Height="71" Width="185">
             <Ellipse x:Name="imgPerfil" Margin="0,6,10,6" MouseUp="imgPerfil_MouseUp" VerticalAlignment="Center" Stretch="Uniform"  RenderTransformOrigin="0.5,0.5" Width="60" Height="60">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="../Assets/Images/fotoperfildefault.png"/>
+                    <ImageBrush ImageSource="../../Assets/Images/fotoperfildefault.png"/>
                 </Ellipse.Fill>
             </Ellipse>
             <Image x:Name="desplegable" MouseUp="imgPerfil_MouseUp" Height="27" Width="55" VerticalAlignment="Center">
                 <Image.Source>
-                    <BitmapImage UriSource="../Assets/Images/Desplegable.png"/>
+                    <BitmapImage UriSource="../../Assets/Images/Desplegable.png"/>
                 </Image.Source>
                 <Image.RenderTransform>
                     <RotateTransform Angle="90"/>
                 </Image.RenderTransform>
             </Image>
         </StackPanel>
+
+
+
+
+        <!-- Popup Gestiones: Vinilos, Artistas y Contacto -->
+        <Popup x:Name="popupGestiones" StaysOpen="False" PlacementTarget="{Binding ElementName=btnGestión}" Placement="Bottom" IsOpen="False" Width="{Binding ElementName=btnGestión, Path=ActualWidth}" HorizontalOffset="0" VerticalOffset="0">
+            <Border Background="#FFE4E4E4"  CornerRadius="2" BorderThickness="0" BorderBrush="Transparent">
+                <StackPanel Orientation="Vertical" Margin="5" Background="Transparent" >
+                    <!-- Contenido del Popup -->
+                    <Button Content="Vinilos" Click="BtnGestionVinilos_Click" Margin="0,3,0,3"/>
+                    <Button Content="Artistas" Click="BtnGestionArtistas_Click" Margin="0,3,0,3"/>
+                    <Button Content="Contacto" Click="BtnGestionContacto_Click" Margin="0,3,0,3"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+
+        <!-- Botón Gestión -->
         
+
+
+
+
+
+
+
+
+
+
+
 
     </Grid>
 

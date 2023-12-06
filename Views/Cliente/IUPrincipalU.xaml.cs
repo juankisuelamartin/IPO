@@ -21,7 +21,7 @@ using WpfApp1.Helpers;
 namespace WpfApp1.Views
 {
 
-    public partial class IUFavoritos : Window
+    public partial class IUPrincipalU : Window
     {
         private bool rotated = true; //Variable control menu desplegable
 
@@ -37,6 +37,7 @@ namespace WpfApp1.Views
                 // Aquí puedes llamar al método para cargar la imagen de perfil o realizar otras acciones basadas en el usuario.
                 MostrarFotoPerfil(value);
                 MostrarFavoritos(value);
+                MostrarNovedades();
                 LoadLanguageResources();
                 InitializeLanguageComboBox();
                 // Restaurar el idioma seleccionado previamente
@@ -88,11 +89,16 @@ namespace WpfApp1.Views
             }
         }
 
-        public IUFavoritos()
+        public IUPrincipalU()
         {
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
+
+            // Suscribir a los eventos "Click" de los enlaces "Ver más..."
+            lblverMasNov.MouseUp += VerMasNovedades_Click;
+            lblverMasOft.MouseUp += VerMasOfertas_Click;
+            lblverMasFav.MouseUp += VerMasFavoritos_Click;
         }
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
@@ -105,7 +111,10 @@ namespace WpfApp1.Views
         }
         private void Button_Favoritos(object sender, RoutedEventArgs e)
         {
-
+            IUFavoritos iuFavoritos = new IUFavoritos();
+            iuFavoritos.NombreUsuario = this.NombreUsuario;
+            iuFavoritos.Show();
+            this.Close();
         }
 
         private void Button_Perfil(object sender, RoutedEventArgs e)
@@ -119,10 +128,7 @@ namespace WpfApp1.Views
 
         private void Button_Home(object sender, RoutedEventArgs e)
         {
-            IUPrincipalU iuPrincipal= new IUPrincipalU();
-            iuPrincipal.NombreUsuario = this.NombreUsuario;
-            iuPrincipal.Show();
-            this.Close();
+
         }
 
         private void Button_Carrito(object sender, RoutedEventArgs e)
@@ -134,6 +140,25 @@ namespace WpfApp1.Views
         {
 
         }
+
+        private void VerMasNovedades_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void VerMasOfertas_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void VerMasFavoritos_Click(object sender, MouseButtonEventArgs e)
+        {
+            IUFavoritos iuFavoritos = new IUFavoritos();
+            iuFavoritos.NombreUsuario = this.NombreUsuario;
+            iuFavoritos.Show();
+            this.Close();
+        }
+
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)
         {
@@ -258,7 +283,7 @@ namespace WpfApp1.Views
             }
 
         }
-
+      
         private void MostrarFavoritos(string usuario)
         {
             try
@@ -278,7 +303,7 @@ namespace WpfApp1.Views
                     // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
                     WrapPanel horizontalWrapPanel = new WrapPanel();
                     horizontalWrapPanel.Orientation = Orientation.Horizontal;
-
+                    
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
 
@@ -287,20 +312,20 @@ namespace WpfApp1.Views
 
                             string titulo = reader["Titulo"].ToString();
                             string precio = reader["Precio"].ToString();
-
+                            Console.WriteLine(titulo + " " + precio);
                             StackPanel stackPanel = new StackPanel();
                             stackPanel.Margin=new Thickness(left: 0, top: 15, right:0, bottom: 10);
 
 
                             //Lamadas cargar Tiulo y Precio
                             portadaFavoritos(reader, stackPanel);
-                            toggleFavoritos(reader, wrapPanelFavoritos, stackPanel);
+                            toggleFavoritos(reader, wrapPanelFavoritosP, stackPanel);
                             tituloFavoritos(titulo, stackPanel);
                             precioFavoritos(precio, stackPanel);
 
 
                             // Agrega un salto de línea después de cada número de columnas especificado
-                            wrapPanelFavoritos.Children.Add(horizontalWrapPanel);
+                            wrapPanelFavoritosP.Children.Add(horizontalWrapPanel);
                             horizontalWrapPanel = new WrapPanel();
                             horizontalWrapPanel.Orientation = Orientation.Horizontal;
 
@@ -317,7 +342,7 @@ namespace WpfApp1.Views
                 dbManager.Connection.Close();
             }
         }
-
+        
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
             ToggleButton toggleButton = (ToggleButton)sender;
@@ -392,11 +417,11 @@ namespace WpfApp1.Views
                     {
 
 
-                        buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/Corazon.png", UriKind.Relative));
+                        buttonImageBitmapImage = new BitmapImage(new Uri("../../Assets/Images/Corazon.png", UriKind.Relative));
                     }
                     else
                     {
-                        buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
+                        buttonImageBitmapImage = new BitmapImage(new Uri("../../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
                     }
 
                     buttonImage.Source = buttonImageBitmapImage;
@@ -461,7 +486,7 @@ namespace WpfApp1.Views
             {
                 // Si la columna Portada es NULL, usar una imagen por defecto
                 Image defaultImage = new Image();
-                BitmapImage defaultBitmapImage = new BitmapImage(new Uri("../Assets/Images/ViniloX.jpg", UriKind.Relative));
+                BitmapImage defaultBitmapImage = new BitmapImage(new Uri("../../Assets/Images/ViniloX.jpg", UriKind.Relative));
                 defaultImage.Source = defaultBitmapImage;
                 defaultImage.Width = 100; // Ajusta el ancho según tus necesidades
 
@@ -497,7 +522,7 @@ namespace WpfApp1.Views
 
             // Crear un Image con la imagen por defecto
             Image buttonImage = new Image();
-            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
+            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
             buttonImage.Source = buttonImageBitmapImage;
             buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
             buttonImage.Height = 40;
@@ -516,6 +541,50 @@ namespace WpfApp1.Views
 
         }
 
+        private void toggleNovedades(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel)
+        {
+
+            //Crear borde con color hexadecimal
+            Border border = new Border();
+            border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4E4E4"));
+            border.CornerRadius = new CornerRadius(10);
+            border.Margin = new Thickness(left: 25, top: 30, right: 20, bottom: 50);
+
+            //Crear toggleButton para cada vinilo que encuentre en favoritos y sus eventos
+            ToggleButton toggleButton = new ToggleButton();
+            toggleButton.Content = "Eliminar";
+            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
+            toggleButton.Width = 45; // ajusta el tamaño según tus necesidades
+            toggleButton.Height = 45;
+
+            // Establecer propiedades para quitar el borde
+            toggleButton.BorderThickness = new Thickness(0);
+            toggleButton.Background = Brushes.Transparent;
+
+            toggleButton.FocusVisualStyle = null;
+            toggleButton.BorderBrush = Brushes.Transparent;
+            toggleButton.Background = Brushes.Transparent;
+
+            // Crear un Image con la imagen por defecto
+            Image buttonImage = new Image();
+            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../../Assets/Images/New.png", UriKind.Relative));
+            buttonImage.Source = buttonImageBitmapImage;
+            buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
+            buttonImage.Height = 40;
+
+            toggleButton.Content = buttonImage;
+
+
+            //TODO: Elegir mejor posicion: 95, -180, 0, 0 Esquina Sup Derecha
+            //                             80, -20, 0, 0  Esquina Inf Derecha
+            toggleButton.Margin = new Thickness(95, -180, 0, 0);
+            toggleButton.FocusVisualStyle = null;
+            stackPanel.Children.Add(toggleButton);
+
+            border.Child = stackPanel;
+            horizontalWrapPanel.Children.Add(border);
+
+        }
         private void tituloFavoritos(String titulo, StackPanel stackPanel)
         {
             // Establecer un límite máximo de caracteres para el título
@@ -550,6 +619,57 @@ namespace WpfApp1.Views
 
         }
 
+
+        private void MostrarNovedades()
+        {
+            try
+            {
+                string query = "SELECT ivc.Precio, v.Titulo, v.Portada, v.Idvinilo " +
+                               "FROM vinilos v " +
+                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
+                               "ORDER BY v.Idvinilo DESC"; // Ordenar por ID descendente
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    dbManager.Connection.Open();
+
+                    // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
+                    WrapPanel horizontalWrapPanel = new WrapPanel();
+                    horizontalWrapPanel.Orientation = Orientation.Horizontal;
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string titulo = reader["Titulo"].ToString();
+                            string precio = reader["Precio"].ToString();
+                            Console.WriteLine(titulo + " " + precio);
+                            StackPanel stackPanel = new StackPanel();
+                            stackPanel.Margin = new Thickness(left: 0, top: 15, right: 0, bottom: 10);
+
+                            //Llamadas a cargar Titulo y Precio
+                            portadaFavoritos(reader, stackPanel);
+                            toggleNovedades(reader, wrapPanelNovedadesP, stackPanel);
+                            tituloFavoritos(titulo, stackPanel);
+                            precioFavoritos(precio, stackPanel);
+
+                            // Agrega un salto de línea después de cada número de columnas especificado
+                            wrapPanelNovedadesP.Children.Add(horizontalWrapPanel);
+                            horizontalWrapPanel = new WrapPanel();
+                            horizontalWrapPanel.Orientation = Orientation.Horizontal;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar novedades: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
 
     }
 }
