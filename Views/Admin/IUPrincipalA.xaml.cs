@@ -24,8 +24,9 @@ namespace WpfApp1.Views
     public partial class IUPrincipalA : Window
     {
         private bool rotated = true; //Variable control menu desplegable
-
         private string nombreUsuario; // Agrega esta propiedad
+        private readonly LanguageManager languageManager; // Agrega esta propiedad
+        private readonly DatabaseManager dbManager;
 
         public string NombreUsuario
 
@@ -37,55 +38,25 @@ namespace WpfApp1.Views
                 // Aquí puedes llamar al método para cargar la imagen de perfil o realizar otras acciones basadas en el usuario.
                 MostrarFotoPerfil(value);
 
-                LoadLanguageResources();
-                InitializeLanguageComboBox();
+                languageManager.LoadLanguageResources();
+                languageManager.InitializeLanguageComboBox(LanguageComboBox);
                 // Restaurar el idioma seleccionado previamente
 
                 string selectedLanguage = Translator.GetSelectedLanguage();
                 if (!string.IsNullOrEmpty(selectedLanguage))
                 {
                     Translator.SwitchLanguage(selectedLanguage);
-                    SetLanguageComboBox(selectedLanguage);
+                    languageManager.SetLanguageComboBox(selectedLanguage, LanguageComboBox);
+
                 }
 
             }
         }
 
-        private readonly DatabaseManager dbManager;
-
-        private void LoadLanguageResources()
-        {
-            Translator.Initialize();
-        }
-
-        private void InitializeLanguageComboBox()
-        {
-            // Limpiar los elementos existentes
-            LanguageComboBox.Items.Clear();
-
-            // Configurar el ComboBox con los idiomas disponibles
-            LanguageComboBox.ItemsSource = new[]
-            {
-            new { DisplayName = "en-US", Culture = "en-US" },
-            new { DisplayName = "es-ES", Culture = "es-ES" }
-             };
-            LanguageComboBox.DisplayMemberPath = "DisplayName";
-            LanguageComboBox.SelectedValuePath = "Culture";
-        }
-
-        private void SetLanguageComboBox(string culture)
-        {
-            LanguageComboBox.SelectedValue = culture;
-        }
 
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (LanguageComboBox.SelectedItem != null)
-            {
-                string selectedCulture = ((dynamic)LanguageComboBox.SelectedItem).Culture;
-                Translator.SwitchLanguage(selectedCulture);
-                Translator.SaveSelectedLanguage(selectedCulture);
-            }
+            languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
         }
 
         public IUPrincipalA()
@@ -93,7 +64,7 @@ namespace WpfApp1.Views
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
-
+            languageManager = new LanguageManager();
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
             lblverMasNov.MouseUp += VerMasNovedades_Click;
             lblverMasOft.MouseUp += VerMasOfertas_Click;

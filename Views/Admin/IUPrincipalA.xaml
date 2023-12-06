@@ -43,10 +43,10 @@
 
         <UniformGrid Grid.Row="3" Grid.ColumnSpan="6" Rows="1" Columns="5" Margin="0,20,0,0" Grid.RowSpan="2">
             <Button x:Name="btnHome" Content="HOME" Click="Button_Home" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnGestión" Content="GESTIÓN" Click="BtnGestion" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnOfertas" Content="OFERTAS" Click="Button_Ofertas" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnHistorialPedidos" Content="HISTORIAL PEDIDOS" Click="Button_Historial" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnIncidencias" Content="INCIDENCIAS" Click="Button_Incidencias" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnGestión" Content="{DynamicResource btnGestión}" Click="BtnGestion" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnOfertas" Content="{DynamicResource btnOfertas}" Click="Button_Ofertas" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnHistorialPedidos" Content="{DynamicResource btnHistorialPedidos}" Click="Button_Historial" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnIncidencias" Content="{DynamicResource btnIncidencias}" Click="Button_Incidencias" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
         </UniformGrid>
 
         <Label x:Name="lblSaludo" Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="23" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3"/>
@@ -61,8 +61,8 @@
 
 
 
-                <Label x:Name="lblIntro" Content="¡Bienvenido Administrador!"  HorizontalAlignment="Left" FontSize="17" Margin="11,10,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="579"/>
-                <Label x:Name="lblIntro2" Content="¡Que tengas un día productivo y lleno de vinilos!" HorizontalAlignment="Left" Margin="11,-4,0,0" Width="Auto" Height="29" FontSize="13" Grid.Row="2"/>
+                <Label x:Name="lblIntroAdmin" Content="{DynamicResource lblIntroAdmin}"  HorizontalAlignment="Left" FontSize="17" Margin="11,10,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="579"/>
+                <Label x:Name="lblIntroAdmin2" Content="{DynamicResource lblIntroAdmin2}" HorizontalAlignment="Left" Margin="11,-4,0,0" Width="Auto" Height="29" FontSize="13" Grid.Row="2"/>
 
 
 
@@ -121,9 +121,9 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="1" Text="Contactanos" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <TextBlock Grid.Column="2" Text="Ayuda" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <TextBlock Grid.Column="3" Text="Sobre nosotros" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="1" Text="{DynamicResource ConctactUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="2" Text="{DynamicResource HelpLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="3" Text="{DynamicResource AboutUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
         </Grid>
 
 
@@ -143,9 +143,9 @@
             <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
 
 
-                <Button x:Name="btnHistorialCompras" Content="HISTORIAL COMPRAS" Click="Button_historialCompras" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderThickness="0"  BorderBrush="#FFE4E4E4" />
-                <Button x:Name="btnPerfil" Content="PERFIL" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
-                <Button x:Name="btnCerrarSesión" Content="CERRAR SESIÓN" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+                <Button x:Name="btnHistorialCompras" Content="{DynamicResource HistorialcomprasLabel}" Click="Button_historialCompras" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderThickness="0"  BorderBrush="#FFE4E4E4" />
+                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
                         <ImageBrush ImageSource="../../Assets/Images/historial.png"/>
@@ -188,9 +188,9 @@
             <Border Background="#FFE4E4E4"  CornerRadius="2" BorderThickness="0" BorderBrush="Transparent">
                 <StackPanel Orientation="Vertical" Margin="5" Background="Transparent" >
                     <!-- Contenido del Popup -->
-                    <Button x:Name="btnVinilos" Content="Vinilos" Click="BtnGestionVinilos_Click" Margin="0,3,0,3"/>
-                    <Button x:Name="btnArtistas" Click="BtnGestionArtistas_Click" Margin="0,3,0,3"/>
-                    <Button x:Name="btnContacto" Content="Contacto" Click="BtnGestionContacto_Click" Margin="0,3,0,3"/>
+                    <Button x:Name="btnVinilos" Content="{DynamicResource btnVinilos}" Click="BtnGestionVinilos_Click" Margin="0,3,0,3"/>
+                    <Button x:Name="btnArtistas" Content="{DynamicResource btnArtistas}" Click="BtnGestionArtistas_Click" Margin="0,3,0,3"/>
+                    <Button x:Name="btnContacto" Content="{DynamicResource btnContacto}" Click="BtnGestionContacto_Click" Margin="0,3,0,3"/>
                 </StackPanel>
             </Border>
         </Popup>

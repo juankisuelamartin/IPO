@@ -37,6 +37,8 @@
     <!-- IUPrincipalA-->
     <system:String x:Key="lblIntroAdmin">¡Bienvenido Administrador!</system:String>
     <system:String x:Key="lblIntro2Admin">¡Que tengas un día productivo y lleno de vinilos!</system:String>
+    <system:String x:Key="lblIntroAdmin2">¡Que tengas un día productivo y lleno de vinilos!</system:String>
+    <!--BarraBusquedaA-->
     <system:String x:Key="btnGestión">GESTIÓN</system:String>
     <system:String x:Key="btnOfertas">OFERTAS</system:String>
     <system:String x:Key="btnHistorialPedidos">HISTORIAL PEDIDOS</system:String>
@@ -44,7 +46,6 @@
     <system:String x:Key="btnVinilos">VINILOS</system:String>
     <system:String x:Key="btnArtistas">ARTISTAS</system:String>
     <system:String x:Key="btnContacto">CONTACTO</system:String>
-
 
     <!--IUprincipal-->
     <system:String x:Key="lblNovedades">Novedades</system:String>
