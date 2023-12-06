@@ -108,6 +108,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DatabaseManager.cs" />
+    <Compile Include="LanguageManager.cs" />
+    <Compile Include="Mainmethods.cs" />
     <Compile Include="Views\IUPrincipalU.xaml.cs">
       <DependentUpon>IUPrincipalU.xaml</DependentUpon>
     </Compile>

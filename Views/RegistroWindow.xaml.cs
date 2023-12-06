@@ -23,58 +23,31 @@ namespace WpfApp1
     public partial class RegistroWindow : Window
     {
         private readonly DatabaseManager dbManager;
+        private readonly LanguageManager languageManager;
         private byte[] fotoPerfil;
+
         public RegistroWindow()
         {
             InitializeComponent();
             dbManager = new DatabaseManager();
-            LoadLanguageResources();
-            InitializeLanguageComboBox();
+            languageManager = new LanguageManager();
+            languageManager.LoadLanguageResources();
+            languageManager.InitializeLanguageComboBox(LanguageComboBox);
             string selectedLanguage = Translator.GetSelectedLanguage();
             if (!string.IsNullOrEmpty(selectedLanguage))
             {
                 Translator.SwitchLanguage(selectedLanguage);
-                SetLanguageComboBox(selectedLanguage);
+                languageManager.SetLanguageComboBox(selectedLanguage, LanguageComboBox);
             }
-
-
-        }
-
-        private void LoadLanguageResources()
-        {
-            Translator.Initialize();
-        }
-
-        private void InitializeLanguageComboBox()
-        {
-            // Limpiar los elementos existentes
-            LanguageComboBox.Items.Clear();
-
-            // Configurar el ComboBox con los idiomas disponibles
-            LanguageComboBox.ItemsSource = new[]
-            {
-            new { DisplayName = "en-US", Culture = "en-US" },
-            new { DisplayName = "es-ES", Culture = "es-ES" }
-             };
-            LanguageComboBox.DisplayMemberPath = "DisplayName";
-            LanguageComboBox.SelectedValuePath = "Culture";
-        }
-
-        private void SetLanguageComboBox(string culture)
-        {
-            LanguageComboBox.SelectedValue = culture;
         }
 
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (LanguageComboBox.SelectedItem != null)
-            {
-                string selectedCulture = ((dynamic)LanguageComboBox.SelectedItem).Culture;
-                Translator.SwitchLanguage(selectedCulture);
-                Translator.SaveSelectedLanguage(selectedCulture);
-            }
+            languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
         }
-        private void ButtonIniciar_Click(object sender, RoutedEventArgs e)
+    
+
+    private void ButtonIniciar_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainwindow = new MainWindow();
             mainwindow.Show();
@@ -225,6 +198,7 @@ namespace WpfApp1
             cmd2.ExecuteNonQuery();
             dbManager.Connection.Close();
             MessageBox.Show("Usuario registrado con éxito", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+
         }
 
 

@@ -24,11 +24,11 @@ namespace WpfApp1.Views
     public partial class IUPrincipalU : Window
     {
         private bool rotated = true; //Variable control menu desplegable
-
         private string nombreUsuario; // Agrega esta propiedad
+        private readonly DatabaseManager dbManager;
+        private readonly LanguageManager languageManager; // Agrega esta propiedad
 
         public string NombreUsuario
-
         {
             get { return nombreUsuario; }
             set
@@ -38,54 +38,15 @@ namespace WpfApp1.Views
                 MostrarFotoPerfil(value);
                 MostrarFavoritos(value);
                 MostrarNovedades();
-                LoadLanguageResources();
-                InitializeLanguageComboBox();
+                languageManager.LoadLanguageResources();
+                languageManager.InitializeLanguageComboBox(LanguageComboBox);
                 // Restaurar el idioma seleccionado previamente
-
                 string selectedLanguage = Translator.GetSelectedLanguage();
                 if (!string.IsNullOrEmpty(selectedLanguage))
                 {
                     Translator.SwitchLanguage(selectedLanguage);
-                    SetLanguageComboBox(selectedLanguage);
+                    languageManager.SetLanguageComboBox(selectedLanguage, LanguageComboBox);
                 }
-
-            }
-        }
-
-        private readonly DatabaseManager dbManager;
-
-        private void LoadLanguageResources()
-        {
-            Translator.Initialize();
-        }
-
-        private void InitializeLanguageComboBox()
-        {
-            // Limpiar los elementos existentes
-            LanguageComboBox.Items.Clear();
-
-            // Configurar el ComboBox con los idiomas disponibles
-            LanguageComboBox.ItemsSource = new[]
-            {
-            new { DisplayName = "en-US", Culture = "en-US" },
-            new { DisplayName = "es-ES", Culture = "es-ES" }
-             };
-            LanguageComboBox.DisplayMemberPath = "DisplayName";
-            LanguageComboBox.SelectedValuePath = "Culture";
-        }
-
-        private void SetLanguageComboBox(string culture)
-        {
-            LanguageComboBox.SelectedValue = culture;
-        }
-
-        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (LanguageComboBox.SelectedItem != null)
-            {
-                string selectedCulture = ((dynamic)LanguageComboBox.SelectedItem).Culture;
-                Translator.SwitchLanguage(selectedCulture);
-                Translator.SaveSelectedLanguage(selectedCulture);
             }
         }
 
@@ -94,12 +55,20 @@ namespace WpfApp1.Views
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
+            languageManager = new LanguageManager(); // Inicializa la instancia de LanguageManager
 
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
             lblverMasNov.MouseUp += VerMasNovedades_Click;
             lblverMasOft.MouseUp += VerMasOfertas_Click;
             lblverMasFav.MouseUp += VerMasFavoritos_Click;
         }
+
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
+        }
+    
+
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
         {
@@ -227,21 +196,26 @@ namespace WpfApp1.Views
             if (ultimaConexion != DBNull.Value)
             {
                 DateTime ultimaConexionLocal = TimeZoneInfo.ConvertTimeFromUtc((DateTime)ultimaConexion, localTimeZone);
-                lblUltimaConex.Content = "Última conexión: " + ultimaConexionLocal.ToString("yyyy-MM-dd HH:mm:ss");
+                lblUltimaConex.SetResourceReference(ContentProperty, "lblUltimaConex");
+                lblUltimaConex.Content += ": " + ultimaConexionLocal.ToString("yyyy-MM-dd HH:mm:ss");
 
                 // Determinar si es buenos días, buenas tardes o buenas noches
                 if (ultimaConexionLocal.Hour >= 6 && ultimaConexionLocal.Hour < 13)
                 {
-                    lblSaludo.Content = "Buenos días: " + nombreUsuario;
+                    lblSaludo.SetResourceReference(ContentProperty, "GoodMorningLabel");
+                    lblSaludo.Content += " " + nombreUsuario;
                 }
                 else if (ultimaConexionLocal.Hour >= 13 && ultimaConexionLocal.Hour < 21)
                 {
-                    lblSaludo.Content = "Buenas tardes: " + nombreUsuario;
+                    lblSaludo.SetResourceReference(ContentProperty, "GoodAfternoonLabel");
+                    lblSaludo.Content += " " + nombreUsuario;
                 }
                 else
                 {
-                    lblSaludo.Content = "Buenas noches: " + nombreUsuario;
+                    lblSaludo.SetResourceReference(ContentProperty, "GoodNightLabel");
+                    lblSaludo.Content += " " + nombreUsuario;
                 }
+
             }
             else
             {

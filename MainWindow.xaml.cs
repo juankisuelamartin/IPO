@@ -186,6 +186,14 @@ namespace WpfApp1
                     String token = GenerateSessionToken();
                     StoreSessionToken(usuario, token);
                 }
+                else
+                {
+                    Properties.Settings.Default.KeepSession = false;
+                    Properties.Settings.Default.Token = null;
+                    Properties.Settings.Default.Usuario = null;
+                    Properties.Settings.Default.Save();
+                }
+
                 Login(usuario);
 
             }

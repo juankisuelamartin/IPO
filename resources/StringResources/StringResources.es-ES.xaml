@@ -33,6 +33,21 @@
     <system:String x:Key="ConctactUsLabel">Contactanos</system:String>
     <system:String x:Key="HelpLabel">Ayuda</system:String>
     <system:String x:Key="AboutUsLabel">Sobre Nosotros</system:String>
-
-
+    <!--IUprincipal-->
+    <system:String x:Key="lblNovedades">Novedades</system:String>
+    <system:String x:Key="lblverMasNov">Ver mas...</system:String>
+    <system:String x:Key="lblOfertas">Ofertas</system:String>
+    <system:String x:Key="lblverMasOft">Ver mas...</system:String>
+    <system:String x:Key="lblFavoritos">Favoritos</system:String>
+    <system:String x:Key="lblIntro">Bienvenido de vuelta a tu rincon creativo en Vinilos Studio!</system:String>
+    <system:String x:Key="lblIntro2">La creatividad comienza aqui. Explora, elige y pon musica a tus ideas.</system:String>
+    <system:String x:Key="HistorialcomprasLabel">Historial compras</system:String>
+    <system:String x:Key="lblUltimaConex">Ultima Conexion</system:String>
+    <system:String x:Key="lblverMasFav">Ver mas...</system:String>
+    <!--BarraBusqueda-->
+    <system:String x:Key="PrincipalLbl">Menu Principal</system:String>
+    <system:String x:Key="btnTienda">TIENDA</system:String>
+    <system:String x:Key="btnCarrito">CARRITO</system:String>
+    <system:String x:Key="btnFavoritos">FAVORITOS</system:String>
+    <system:String x:Key="btnBuscar">BUSCAR</system:String>
 </ResourceDictionary>

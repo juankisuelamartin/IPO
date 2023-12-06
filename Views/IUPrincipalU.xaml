@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="Menu Principal" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
-
+        Title="{DynamicResource PrincipalLbl}" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
 
     <Grid>
 
@@ -39,17 +38,17 @@
 
         <UniformGrid Grid.Row="3" Grid.ColumnSpan="6" Rows="1" Columns="5" Margin="0,20,0,0" Grid.RowSpan="2">
             <Button x:Name="btnHome" Content="HOME" Click="Button_Home" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnTienda" Content="TIENDA" Click="Button_Tienda" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnCarrito" Content="CARRITO" Click="Button_Carrito" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnFavoritos" Content="FAVORITOS" Click="Button_Favoritos" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnBuscar" Content="BUSCAR" Click="Button_Buscar" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnTienda" Content="{DynamicResource btnTienda}" Click="Button_Tienda" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnCarrito" Content="{DynamicResource btnCarrito}" Click="Button_Carrito" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnFavoritos" Content="{DynamicResource btnFavoritos}" Click="Button_Favoritos" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnBuscar" Content="{DynamicResource btnBuscar}" Click="Button_Buscar" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
 
         </UniformGrid>
 
 
         <Label x:Name="lblSaludo" Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="23" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3"/>
 
-        <Label x:Name="lblUltimaConex" Content="Ultima Conexion" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="32" Width="570" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+        <Label x:Name="lblUltimaConex" Content="{DynamicResource lblUltimaConex}" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="32" Width="570" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
 
         <Viewbox Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0" Height="0" Width="0" Grid.Row="1"/>
 
@@ -64,8 +63,8 @@
 
 
 
-                <Label x:Name="lblIntro" Content="¡Bienvenido de vuelta a tu rincón creativo en Vinilos Studio!" HorizontalAlignment="Left" FontSize="17" Margin="11,10,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="579"/>
-                <Label x:Name="lblIntro2" Content="La creatividad comienza aquí. Explora, elige y pon música a tus ideas." HorizontalAlignment="Left" Margin="11,-4,0,0" Width="Auto" Height="29" FontSize="13" Grid.Row="2"/>
+                <Label x:Name="lblIntro" Content="{DynamicResource lblIntro}" HorizontalAlignment="Left" FontSize="17" Margin="11,10,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="579"/>
+                <Label x:Name="lblIntro2" Content="{DynamicResource lblIntro2}" HorizontalAlignment="Left" Margin="11,-4,0,0" Width="Auto" Height="29" FontSize="13" Grid.Row="2"/>
 
 
 
@@ -73,8 +72,8 @@
 
                 <!--Novedades-->
                 <Grid  Width="Auto" Height="50" Margin="0,10,0,5">
-                    <Label x:Name="lblNovedades" Content="Novedades" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="11,0,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="297"/>
-                    <Label x:Name="lblverMasNov" Content="Ver más..." VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0" Width="Auto" Height="25" FontSize="13" Grid.Row="2"/>
+                    <Label x:Name="lblNovedades" Content="{DynamicResource lblNovedades}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="11,0,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="297"/>
+                    <Label x:Name="lblverMasNov" Content="{DynamicResource lblverMasNov}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0" Width="Auto" Height="25" FontSize="13" Grid.Row="2"/>
 
 
                 </Grid>
@@ -86,8 +85,8 @@
 
                 <!--Ofertas-->
                 <Grid  Width="Auto" Height="50" Margin="0,10,0,5">
-                    <Label x:Name="lblOfertas" Content="Ofertas" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="11,0,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="297"/>
-                    <Label x:Name="lblverMasOft" Content="Ver más..." VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0" Width="Auto" Height="25" FontSize="13" Grid.Row="2"/>
+                    <Label x:Name="lblOfertas" Content="{DynamicResource lblOfertas}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="11,0,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="297"/>
+                    <Label x:Name="lblverMasOft" Content="{DynamicResource lblverMasOft}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0" Width="Auto" Height="25" FontSize="13" Grid.Row="2"/>
 
 
                 </Grid>
@@ -100,8 +99,8 @@
 
                 <!--Favoritos-->
                 <Grid  Width="Auto" Height="50" Margin="0,10,0,5">
-                    <Label x:Name="lblFavoritos" Content="Favoritos" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="11,0,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="297"/>
-                    <Label x:Name="lblverMasFav" Content="Ver más..." VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0" Width="Auto" Height="25" FontSize="13" Grid.Row="2"/>
+                    <Label x:Name="lblFavoritos" Content="{DynamicResource lblFavoritos}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="11,0,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="297"/>
+                    <Label x:Name="lblverMasFav" Content="{DynamicResource lblverMasFav}" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,30,0" Width="Auto" Height="25" FontSize="13" Grid.Row="2"/>
 
 
                 </Grid>
@@ -126,9 +125,9 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="1" Text="Contactanos" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <TextBlock Grid.Column="2" Text="Ayuda" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <TextBlock Grid.Column="3" Text="Sobre nosotros" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="1" Text="{DynamicResource ConctactUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="2" Text="{DynamicResource HelpLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="3" Text="{DynamicResource AboutUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
         </Grid>
 
 
@@ -148,9 +147,9 @@
             <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
 
 
-                <Button x:Name="btnHistorialCompras" Content="HISTORIAL COMPRAS" Click="Button_historialCompras" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderThickness="0"  BorderBrush="#FFE4E4E4" />
-                <Button x:Name="btnPerfil" Content="PERFIL" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
-                <Button x:Name="btnCerrarSesión" Content="CERRAR SESIÓN" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+                <Button x:Name="btnHistorialCompras" Content="{DynamicResource HistorialcomprasLabel}" Click="Button_historialCompras" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderThickness="0"  BorderBrush="#FFE4E4E4" />
+                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
                         <ImageBrush ImageSource="../Assets/Images/historial.png"/>
