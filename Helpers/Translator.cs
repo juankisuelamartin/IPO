@@ -16,7 +16,7 @@ namespace WpfApp1.Helpers
 
         public static void SetLanguage(string culture)
         {
-            dict.Source = new Uri($"../resources/StringResources/StringResources.{culture}.xaml", UriKind.Relative);
+            dict.Source = new Uri($"../../resources/StringResources/StringResources.{culture}.xaml", UriKind.Relative);
             Application.Current.Resources.MergedDictionaries.Add(dict);
         }
 

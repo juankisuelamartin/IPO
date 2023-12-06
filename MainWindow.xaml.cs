@@ -219,12 +219,8 @@ namespace WpfApp1
 
             if (rol == false)
             //USUARIO:
-            {   /*
-                IUSUARIO iusuario= new IUSUARIO();
-                iusuario.NombreUsuario = usuario;
-                iusuario.Show();
-                this.Close();
-                */
+            {   
+ 
                 IUPrincipalU iuPrincipal = new IUPrincipalU();
                 iuPrincipal.NombreUsuario = usuario; // Establece la propiedad NombreUsuario antes de mostrar la ventana.
                 iuPrincipal.Show();
@@ -233,8 +229,10 @@ namespace WpfApp1
             }
             else
             {
-                // TODO ADMIN VIEW
-                MessageBox.Show("ADMIN VIEW");
+                IUPrincipalA iuPrincipalAdmin = new IUPrincipalA();
+                iuPrincipalAdmin.NombreUsuario = usuario; // Establece la propiedad NombreUsuario antes de mostrar la ventana.
+                iuPrincipalAdmin.Show();
+                this.Close();
             }
         }
         public static string GenerateSessionToken()

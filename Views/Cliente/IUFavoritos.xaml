@@ -28,7 +28,7 @@
             <RowDefinition Height="28.031"/>
         </Grid.RowDefinitions>
 
-        <Image Source="../Assets/Images/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="7" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
+        <Image Source="../../Assets/Images/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="7" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
 
         <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="3" Grid.Row="4" Stroke="Black" Fill="#FFD6D6D6" Height="Auto" Margin="0,23,0,0"/>
 
@@ -87,17 +87,17 @@
                 <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="../Assets/Images/historial.png"/>
+                        <ImageBrush ImageSource="../../Assets/Images/historial.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="../Assets/Images/profile-icon.png"/>
+                        <ImageBrush ImageSource="../../Assets/Images/profile-icon.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
-                        <ImageBrush ImageSource="../Assets/Images/cerrarsesion.png"/>
+                        <ImageBrush ImageSource="../../Assets/Images/cerrarsesion.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </WrapPanel>
@@ -106,12 +106,12 @@
         <StackPanel Grid.Row="1" Grid.RowSpan="3" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0" Height="71" Width="185">
             <Ellipse x:Name="imgPerfil" Margin="0,6,10,6" MouseUp="imgPerfil_MouseUp" VerticalAlignment="Center" Stretch="Uniform"  RenderTransformOrigin="0.5,0.5" Width="60" Height="60">
                 <Ellipse.Fill>
-                    <ImageBrush ImageSource="../Assets/Images/fotoperfildefault.png"/>
+                    <ImageBrush ImageSource="../../Assets/Images/fotoperfildefault.png"/>
                 </Ellipse.Fill>
             </Ellipse>
             <Image x:Name="desplegable" MouseUp="imgPerfil_MouseUp" Height="27" Width="55" VerticalAlignment="Center">
                 <Image.Source>
-                    <BitmapImage UriSource="../Assets/Images/Desplegable.png"/>
+                    <BitmapImage UriSource="../../Assets/Images/Desplegable.png"/>
                 </Image.Source>
                 <Image.RenderTransform>
                     <RotateTransform Angle="90"/>
