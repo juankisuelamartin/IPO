@@ -321,6 +321,8 @@ namespace WpfApp1.Views.Admin
             // Muestra los detalles del vinilo en la interfaz de usuario
             if (vinilo != null)
             {
+                listCanciones.Items.Clear();
+
                 tituloDetallesInput.Text = vinilo.Titulo;
 
                 ComboBoxItem artista = new ComboBoxItem();
@@ -347,14 +349,21 @@ namespace WpfApp1.Views.Admin
                 pais.Content = vinilo.Pais;
                 paisInput.Items.Add(pais);
                 paisInput.SelectedItem = pais;
+
+                
                 // Convertir la imagen de bytes a BitmapImage
                 BitmapImage bitmapImage = ConvertirBytesAImagen(vinilo.Portada);
 
                 // Asignar la imagen al control imgCaratula
                 imgCaratula.Source = bitmapImage;
 
-                // Puedes continuar asignando otros detalles del vinilo a tus controles
-                // (lblDuracion, txtArgumento, etc.)
+                foreach (string cancion in vinilo.Canciones)
+                {
+                    ListBoxItem listBoxItem = new ListBoxItem();
+                    listBoxItem.Content = cancion;
+                    listCanciones.Items.Add(listBoxItem);
+                }
+
             }
         }
         
@@ -437,9 +446,10 @@ namespace WpfApp1.Views.Admin
 
             try
             {
-                string query = "SELECT v.*, ivc.Precio " +
+                string query = "SELECT v.*, ivc.Precio, cv.Titulo " +
                                "FROM vinilos v " +
-                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo";
+                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
+                               "LEFT JOIN cancionesVinilo cv ON v.Idvinilo = cv.Idvinilo";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
                 {
@@ -462,10 +472,16 @@ namespace WpfApp1.Views.Admin
                                 Fecha = Convert.ToInt32(reader["FechaSalida"]),
                                 // El campo de la portada es un byte[] (mediumblob)
                                 Portada = (byte[])reader["Portada"],
-                                Precio = Convert.ToSingle(reader["Precio"])
+                                Precio = Convert.ToSingle(reader["Precio"]),
+                                Canciones = new List<string>()
                             };
 
-
+                            // Agregar canción al vinilo actual si hay una
+                            string cancion = reader["Titulo"].ToString();
+                            if (!string.IsNullOrEmpty(cancion))
+                            {
+                                vinilo.Canciones.Add(cancion);
+                            }
 
                             listaVinilos.Add(vinilo);
                         }
@@ -496,11 +512,7 @@ namespace WpfApp1.Views.Admin
             string pais = paisInput.Text;
             string sello = selloInput.Text;
 
-            List<string> listaCanciones = new List<string>();
-            foreach (var item in listCanciones.Items)
-            {
-                listaCanciones.Add(item.ToString());
-            }
+            List<string> listaCanciones = listCanciones.Items.Cast<ListBoxItem>().Select(item => item.Content.ToString()).ToList();
             try
             {
 
@@ -542,13 +554,9 @@ namespace WpfApp1.Views.Admin
             }
 
 
-                    // Aquí deberías tener código para actualizar los datos en la base de datos
-                    // Esto puede variar según la tecnología que estés utilizando para interactuar con la base de datos (Entity Framework, ADO.NET, etc.)
+                    // Actualiza también las canciones
+                    ActualizarCancionesBBDD(listaCanciones, viniloId);
 
-                    // Limpia los controles de entrada después de la actualización
-
-
-                    // Opcional: Actualiza la visualización de la lista
                     //ActualizarListaVinilos();
                     ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
                 }
@@ -564,6 +572,54 @@ namespace WpfApp1.Views.Admin
             }
 
         }
+
+        private void ActualizarCancionesBBDD(List<string> canciones, int Idvinilo)
+        {
+            try
+            {
+                // Elimina las canciones antiguas asociadas a este vinilo
+                string deleteQuery = "DELETE FROM cancionesVinilo WHERE Idvinilo = @Idvinilo";
+
+                using (MySqlCommand deleteCmd = new MySqlCommand(deleteQuery, dbManager.Connection))
+                {
+                    deleteCmd.Parameters.AddWithValue("@Idvinilo", Idvinilo);
+
+                    dbManager.Connection.Open();
+                    deleteCmd.ExecuteNonQuery();
+                }
+
+                // Inserta las nuevas canciones asociadas a este vinilo con el mismo Idcancion
+                string insertQuery = "INSERT INTO cancionesVinilo (Idvinilo, Idcancion, Titulo) VALUES (@Idvinilo, @Idcancion, @Titulo)";
+
+                int Idcancion = 1; // Asigna un valor constante para Idcancion
+
+                foreach (var cancion in canciones)
+                {
+                    using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, dbManager.Connection))
+                    {
+                        insertCmd.Parameters.AddWithValue("@Idvinilo", Idvinilo);
+                        insertCmd.Parameters.AddWithValue("@Idcancion", Idcancion);
+                        insertCmd.Parameters.AddWithValue("@Titulo", cancion);
+
+                        insertCmd.ExecuteNonQuery();
+                    }
+
+                    // Incrementa el valor de Idcancion para la siguiente canción
+                    Idcancion++;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar las canciones: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
+
+
+
 
         private void ActualizarImagenBBDD(byte[] imagenBytes, int Id)
         {
