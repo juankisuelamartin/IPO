@@ -232,3 +232,11 @@ C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\Views\Admin\IUPrincipalA.baml
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\Views\Admin\IUVinilosA.baml
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUPrincipalU.baml
 C:\Users\soyju\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUFavoritos.baml
+C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\MaterialDesignColors.dll
+C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\Microsoft.Xaml.Behaviors.dll
+C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\MaterialDesignColors.pdb
+C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\Microsoft.Xaml.Behaviors.pdb
+C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\Microsoft.Xaml.Behaviors.xml

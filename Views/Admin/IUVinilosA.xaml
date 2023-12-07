@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views.Admin"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="IUVinilosA" Height="450" Width="800">
+        Title="IUVinilosA" Height="450" Width="800" MinHeight="450" MinWidth="800">
     <Window.Resources>
         <Style x:Key="PopupStyle" TargetType="Popup">
             <Setter Property="Placement" Value="Bottom"/>
@@ -26,19 +27,20 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="9*"/>
             <RowDefinition Height="33.003"/>
             <RowDefinition Height="18.001"/>
             <RowDefinition Height="20.002"/>
             <RowDefinition Height="23.002"/>
-            <RowDefinition Height="90*"/>
-            <RowDefinition Height="86*"/>
+            <RowDefinition Height="141*"/>
+            <RowDefinition Height="142*"/>
+            <RowDefinition Height="20*"/>
             <RowDefinition Height="28.031"/>
         </Grid.RowDefinitions>
 
-        <Image Source="../../Assets/Images/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="7" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
+        <Image Source="../../Assets/Images/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="9" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
 
-        <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="3" Grid.Row="4" Stroke="Black" Fill="#FFD6D6D6" Height="Auto" Margin="0,23,0,0"/>
+        <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="4" Stroke="Black" Fill="#FFD6D6D6" Height="Auto" Margin="0,23,0,0"/>
 
         <UniformGrid Grid.Row="3" Grid.ColumnSpan="6" Rows="1" Columns="5" Margin="0,20,0,0" Grid.RowSpan="2">
             <Button x:Name="btnHome" Content="HOME" Click="Button_Home" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
@@ -55,30 +57,169 @@
         <Viewbox Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0" Height="0" Width="0" Grid.Row="1"/>
 
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="5" Grid.RowSpan="5" Grid.ColumnSpan="6" Margin="0,0,0,30">
-            <StackPanel x:Name="pnlVinilos" Orientation="Horizontal" Margin="5">
-                <ListBox x:Name="lstVinilos"
-                        SelectedIndex="0"
-                        Width="200" Margin="5">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="5" Grid.RowSpan="3" Grid.ColumnSpan="6" Margin="0,0,0,2">
+            <DockPanel x:Name="pnlVinilos" LastChildFill="True" Margin="5"  Grid.Row="5" Grid.RowSpan="2" >
+
+                <!--Lista Vinilos-->
+
+                <ListBox x:Name="lstVinilos" Margin="5" Height="Auto" AlternationCount="2" SelectedIndex="0" Width="200">
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="miAniadirViniloB" Header="Añadir vinilo" Click="miAniadirViniloB_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="../../Assets/Images/add_c.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem x:Name="miEliminarViniloB" Header="Eliminar vinilo" Click="miEliminarViniloB_Click">
+                                <MenuItem.Icon>
+                                    <Image Source="../../Assets/Images/remove_c.png"/>
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Height="30" Orientation="Horizontal">
+                                <Image Width="32" Height="32" Stretch="Fill"
+                                    Source="{Binding Caratula}"/>
+                                <TextBlock Padding="2" Margin="10,0,0,0"
+                                    Text="{Binding Titulo}" FontSize="10"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Foreground" Value="Blue"/>
+                                    <Setter Property="FontWeight" Value="Bold"/>
+                                    <Setter Property="BorderBrush" Value="Blue"/>
+                                    <Setter Property="BorderThickness" Value="3"/>
+                                </Trigger>
+
+                                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                    <Setter Property="Background" Value="#FFE4E4E4"/>
+                                </Trigger>
+                            </Style.Triggers>
+
+                        </Style>
+
+                    </ListBox.ItemContainerStyle>
+
                 </ListBox>
-                <StackPanel x:Name="spDetallesPelicula" Orientation="Vertical">
-                    <Label x:Name="lblTitulo" FontWeight="Bold" FontSize="20"/>
-                    <Image x:Name="imgCaratula"
-                        Height="120" Width="100"
-                        HorizontalAlignment="Left"
-                        Margin="5" Stretch="Fill"/>
-                    <Label FontWeight="Bold">Año:</Label>
-                    <Label x:Name="lblAnio" />
-                    <Label FontWeight="Bold">Duración (min.):</Label>
-                    <Label x:Name="lblDuracion" />
-                    <Label FontWeight="Bold">Argumento:</Label>
-                    <TextBlock x:Name="txtArgumento" Margin="5"/>
+
+                <!--Atributos Vinilos-->
+                <StackPanel x:Name="spDetallesVinilo" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Height="500" Width="Auto" MinWidth="557">
+                    <Grid x:Name="grdDetallesVinilo" Margin="5">
+
+                        <!-- Contenedor 1: Imagen -->
+                        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
+                            <Image x:Name="imgCaratula"
+                                Height="120" Width="120"
+                                HorizontalAlignment="Left"
+                                Stretch="Fill"/>
+                        </StackPanel>
+
+
+                        <!-- Contenedor 2: Título, Artista y Precio -->
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
+                            <Label x:Name="lblTituloDetalles" FontWeight="Bold" Width="210" Margin="0,15,0,0">Título:</Label>
+                            <Label x:Name="lblArtistasDetalles" FontWeight="Bold" Width="259" Margin="0,15,0,0">Artistas/Grupo:</Label>
+                            <Label x:Name="lblPrecio" FontWeight="Bold" Width="211" Margin="10,5,0,0">Precio:</Label>
+
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="75,5,0,0">
+                            <TextBox x:Name="tituloDetallesInput" Width="225" Margin="120,15,0,0"></TextBox>
+                            <ComboBox x:Name="artistasDetallesInput" FontWeight="Bold"  Width="225" Margin="120,15,0,0"></ComboBox>
+                            <TextBox x:Name="precioInput" Width="225" Margin="120,15,0,0"></TextBox>
+                        </StackPanel>
+                    </Grid>
+                    <!--Contenedor: Detalles Vinilos-->
+                    <Border Background="#FFE4E4E4" Width="Auto" Height="300" CornerRadius="10">
+                        <Grid x:Name="grdPrincipal" Height="240">
+
+                            <Grid x:Name="DetallesSecundarios" Height="400">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="21*"/>
+                                    <RowDefinition Height="19*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <!-- Definir las columnas -->
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--Primera Columna-->
+                                <StackPanel Grid.Column="0" Grid.RowSpan="2">
+                                    <Label x:Name="lblFormato" FontWeight="Bold" Margin="0,10,0,0">Formato:</Label>
+                                    <Label x:Name="lblAnio" FontWeight="Bold" Margin="0,10,0,0">Año:</Label>
+                                    <Label x:Name="lblGenero" FontWeight="Bold"  Margin="0,10,0,0">Genero:</Label>
+                                    <Label x:Name="lblPais" FontWeight="Bold"  Margin="0,10,0,0">Pais:</Label>
+
+
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Width="Auto" Grid.RowSpan="2">
+                                    <ComboBox x:Name="formatoInput" FontWeight="Bold" Width="85" Margin="0,13,0,0"></ComboBox>
+                                    <TextBox x:Name="anioInput" Width="85" Margin="0,15,0,0"></TextBox>
+                                    <ComboBox x:Name="generoInput" FontWeight="Bold" Width="85" Margin="0,15,0,0"></ComboBox>
+                                    <ComboBox x:Name="paisInput" FontWeight="Bold" Width="85" Margin="0,15,0,0"></ComboBox>
+
+                                </StackPanel>
+
+                                <!--Segunda Columna-->
+                                <StackPanel Grid.Column="2" Grid.RowSpan="2" >
+                                    <Label x:Name="lblSello" FontWeight="Bold" Margin="40,10,0,0">Sello:</Label>
+                                    <Label x:Name="lblCanciones" FontWeight="Bold" Margin="25,10,0,0">Canciones:</Label>
+
+
+
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="3" Grid.RowSpan="2">
+                                    <StackPanel>
+                                        <TextBox x:Name="selloInput" Width="220" Margin="25,15,0,0"></TextBox>
+
+                                        <TextBox x:Name="cancionesInput" Width="130"  Margin="-65,15,0,10"/>
+                                        <Button x:Name="anadirListaCanciones" Content="Agregar a Lista" Click="listaCanciones_Click" Margin="160,-30,0,10"/>
+                                        <ListBox x:Name="listCanciones" Width="220" Height="70" Margin="25,0,0,0">
+                                        </ListBox>
+                                    </StackPanel>
+
+                                </StackPanel>
+                                <StackPanel x:Name="Preview" HorizontalAlignment="Left" Margin="-40,160,0,125" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.488,0.572" Grid.Column="2">
+                                    <Button Content="Seleccionar Fragmento de Audio" HorizontalAlignment="Left" Width="180" Click="SelectAudioFile_Click" Margin="0,10,0,0"/>
+                                    
+                                    <StackPanel x:Name="Reproductor" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="190,-25,0,0">
+                                        <Button x:Name="Pause" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Pause_Click">
+                                            <Image Source="../../Assets/Images/pause.png"    />
+                                        </Button>
+                                        <Button x:Name="Play" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Play_Click">
+                                            <Image Source="../../Assets/Images/Play.png" />
+                                        </Button>
+                                        <Button x:Name="Reload" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Reload_Click">
+                                            <Image Source="../../Assets/Images/reload.png"  />
+                                        </Button>
+                                    </StackPanel>
+                                    <Button x:Name="actualizarVinilo" Content="Actualizar Vinilo" FontWeight="Bold" Margin="0,20,0,10"  Click="actualizarVinilo_Click"></Button>
+                                    <MediaElement x:Name="audioPlayer" Height="30" Width="200" Visibility="Collapsed" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
+                                </StackPanel>
+                            </Grid>
+
+
+
+
+                        </Grid>
+                    </Border>
+
                 </StackPanel>
-            </StackPanel>
+            </DockPanel>
         </ScrollViewer>
 
-        <Rectangle Grid.ColumnSpan="6" Grid.Row="7"  Stroke="Black" Fill="#FFB9B9B9" Margin="0,1,0,0"/>
-        <Grid Grid.ColumnSpan="6" Grid.Row="7" VerticalAlignment="Center" Height="18">
+        <Rectangle Grid.ColumnSpan="6" Grid.Row="8"  Stroke="Black" Fill="#FFB9B9B9" Margin="0,1,0,0"/>
+        <Grid Grid.ColumnSpan="6" Grid.Row="8" VerticalAlignment="Center" Height="18">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -92,7 +233,7 @@
         </Grid>
 
 
-        <ComboBox x:Name="LanguageComboBox" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Width="62" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Height="22">
+        <ComboBox x:Name="LanguageComboBox" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="62" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Height="22">
             <ComboBox.ItemContainerStyle>
                 <Style TargetType="ComboBoxItem">
                     <Setter Property="VerticalAlignment" Value="Bottom"/>
@@ -104,7 +245,7 @@
 
 
 
-        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="130" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="144" >
+        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="130" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="48,0,0,0" Width="144" >
             <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
 
 
@@ -149,7 +290,7 @@
 
 
         <!-- Popup Gestiones: Vinilos, Artistas y Contacto -->
-        <Popup x:Name="popupGestiones" StaysOpen="False" PlacementTarget="{Binding ElementName=btnGestión}" Placement="Bottom" IsOpen="False" Width="{Binding ElementName=btnGestión, Path=ActualWidth}" HorizontalOffset="0" VerticalOffset="0">
+        <Popup x:Name="popupGestiones" StaysOpen="False" PlacementTarget="{Binding ElementName=btnGestión}" Placement="Bottom" IsOpen="False" HorizontalOffset="0" VerticalOffset="0" Margin="20,0,20,0">
             <Border Background="#FFE4E4E4"  CornerRadius="2" BorderThickness="0" BorderBrush="Transparent">
                 <StackPanel Orientation="Vertical" Margin="5" Background="Transparent" >
                     <!-- Contenido del Popup -->
@@ -159,19 +300,6 @@
                 </StackPanel>
             </Border>
         </Popup>
-
-
-        <!-- Botón Gestión -->
-
-
-
-
-
-
-
-
-
-
 
 
 

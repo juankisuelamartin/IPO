@@ -1,5 +1,7 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Win32;
+using MySql.Data.MySqlClient;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,6 +25,7 @@ namespace WpfApp1.Views.Admin
     /// </summary>
     public partial class IUVinilosA : Window
     {
+        TimeSpan lastPosition = TimeSpan.Zero;
         private bool rotated = true; //Variable control menu desplegable
         private string nombreUsuario; // Agrega esta propiedad
         private readonly LanguageManager languageManager; // Agrega esta propiedad
@@ -256,6 +259,23 @@ namespace WpfApp1.Views.Admin
 
         }
 
+        private void miAniadirViniloB_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: Meter en bbdd
+            // Actualizaremos tanto el ListBox como el DataGrid para que las dos vistas// queden actualizadas
+            lstVinilos.Items.Refresh();
+
+        }
+
+
+        private void miEliminarViniloB_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO: Borrar de bbdd
+            // Actualizaremos tanto el ListBox como el DataGrid para que las dos vistas// queden actualizadas
+            lstVinilos.Items.Refresh();
+            
+        }
+
         private void CargarContenidoLista()
         {
             // Aquí deberías tener un método para obtener los datos de tus vinilos desde la base de datos
@@ -294,12 +314,114 @@ namespace WpfApp1.Views.Admin
             // Muestra los detalles del vinilo en la interfaz de usuario
             if (vinilo != null)
             {
-                lblTitulo.Content = vinilo.Titulo;
-                lblAnio.Content = vinilo.FechaSalida;
+                tituloDetallesInput.Text = vinilo.Titulo;
+
+                ComboBoxItem artista = new ComboBoxItem();
+                artista.Content = vinilo.Artista;
+                artistasDetallesInput.Items.Add(artista);
+                artistasDetallesInput.SelectedItem = artista;
+
+                precioInput.Text = vinilo.Precio.ToString();
+
+                ComboBoxItem formato = new ComboBoxItem();
+                formato.Content = vinilo.Formato;
+                formatoInput.Items.Add(formato);
+                formatoInput.SelectedItem = formato;
+
+                selloInput.Text = vinilo.Sello;
+                anioInput.Text = vinilo.Fecha.ToString();
+
+                ComboBoxItem genero = new ComboBoxItem();
+                genero.Content = vinilo.Genero;
+                generoInput.Items.Add(genero);
+                generoInput.SelectedItem = genero;
+
+                ComboBoxItem pais = new ComboBoxItem();
+                pais.Content = vinilo.Pais;
+                paisInput.Items.Add(pais);
+                paisInput.SelectedItem = pais;
+                // Convertir la imagen de bytes a BitmapImage
+                BitmapImage bitmapImage = ConvertirBytesAImagen(vinilo.Portada);
+
+                // Asignar la imagen al control imgCaratula
+                imgCaratula.Source = bitmapImage;
+
                 // Puedes continuar asignando otros detalles del vinilo a tus controles
                 // (lblDuracion, txtArgumento, etc.)
             }
         }
+        
+        private void listaCanciones_Click(object sender, RoutedEventArgs e)
+        {
+            // Obtiene el texto del TextBox
+            string nuevoElemento = cancionesInput.Text;
+
+            // Añade el elemento a la lista
+            ListBoxItem cancion = new ListBoxItem();
+            cancion.Content = nuevoElemento;
+            listCanciones.Items.Add(cancion);
+
+            // Limpia el TextBox después de agregar el elemento
+            cancionesInput.Clear();
+        }
+
+        private void SelectAudioFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos de Audio|*.mp3;*.wav;*.wma|Todos los archivos|*.*";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Obtener la ruta del archivo de audio seleccionado
+                string audioPath = openFileDialog.FileName;
+
+                try
+                {
+                    // Validar que el archivo seleccionado tenga una extensión de audio permitida
+                    string[] allowedExtensions = { ".mp3", ".wav", ".wma" };
+                    string extension = System.IO.Path.GetExtension(audioPath);
+
+                    if (allowedExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase))
+                    {
+                        // Configurar la fuente del MediaElement para reproducir el audio
+                        audioPlayer.Source = new Uri(audioPath);
+
+                        // Mostrar el control de reproducción de audio
+                        audioPlayer.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Formato de archivo no válido. Selecciona un archivo de audio permitido.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error al cargar y reproducir el audio: {ex.Message}");
+                }
+            }
+        }
+        private BitmapImage ConvertirBytesAImagen(byte[] bytesImagen)
+        {
+            if (bytesImagen == null || bytesImagen.Length == 0)
+            {
+                return null;
+            }
+
+            BitmapImage imagen = new BitmapImage();
+            using (MemoryStream stream = new MemoryStream(bytesImagen))
+            {
+                stream.Position = 0;
+                imagen.BeginInit();
+                imagen.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                imagen.CacheOption = BitmapCacheOption.OnLoad;
+                imagen.UriSource = null;
+                imagen.StreamSource = stream;
+                imagen.EndInit();
+            }
+
+            return imagen;
+        }
+
 
         private List<Vinilo> CargarVinilosDesdeBaseDeDatos()
         {
@@ -307,7 +429,9 @@ namespace WpfApp1.Views.Admin
 
             try
             {
-                string query = "SELECT * FROM vinilos";
+                string query = "SELECT v.*, ivc.Precio " +
+                               "FROM vinilos v " +
+                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
                 {
@@ -327,9 +451,13 @@ namespace WpfApp1.Views.Admin
                                 Pais = reader["Pais"].ToString(),
                                 Sello = reader["Sello"].ToString(),
                                 Formato = reader["Formato"].ToString(),
+                                Fecha = Convert.ToInt32(reader["FechaSalida"]),
                                 // El campo de la portada es un byte[] (mediumblob)
-                                Portada = (byte[])reader["Portada"]
+                                Portada = (byte[])reader["Portada"],
+                                Precio = Convert.ToSingle(reader["Precio"])
                             };
+
+
 
                             listaVinilos.Add(vinilo);
                         }
@@ -347,6 +475,122 @@ namespace WpfApp1.Views.Admin
 
             return listaVinilos;
         }
+
+        private void actualizarVinilo_Click(object sender, RoutedEventArgs e)
+        {
+            // Obtén los valores de los controles de entrada
+            string titulo = tituloDetallesInput.Text;
+            string artistas = artistasDetallesInput.Text;
+            string precio = precioInput.Text;
+            string formato = formatoInput.Text;
+            string anio = anioInput.Text;
+            string genero = generoInput.Text;
+            string pais = paisInput.Text;
+            string sello = selloInput.Text;
+
+            List<string> listaCanciones = new List<string>();
+            foreach (var item in listCanciones.Items)
+            {
+                listaCanciones.Add(item.ToString());
+            }
+
+            // Verifica que tengas un identificador único del vinilo (puedes usar el índice seleccionado o algún otro identificador único)
+            int indiceSeleccionado = lstVinilos.SelectedIndex;
+
+            Vinilo viniloAntiguo = (Vinilo)lstVinilos.SelectedItem;
+            int viniloId = viniloAntiguo.Idvinilo;
+
+            // Obtén el vinilo seleccionado de la lista
+            Vinilo viniloSeleccionado = (Vinilo)lstVinilos.Items[indiceSeleccionado];
+
+            // Actualiza los datos del vinilo
+            viniloSeleccionado.Titulo = titulo;
+            viniloSeleccionado.Artista = artistas;
+            viniloSeleccionado.Precio = float.Parse(precio);
+            viniloSeleccionado.Formato = formato;
+            viniloSeleccionado.FechaSalida = anio;
+            viniloSeleccionado.Genero = genero;
+            viniloSeleccionado.Pais = pais;
+            viniloSeleccionado.Sello = sello;
+            viniloSeleccionado.Canciones = listaCanciones;
+
+
+
+            
+
+            // Aquí deberías tener código para actualizar los datos en la base de datos
+            // Esto puede variar según la tecnología que estés utilizando para interactuar con la base de datos (Entity Framework, ADO.NET, etc.)
+
+            // Limpia los controles de entrada después de la actualización
+
+
+            // Opcional: Actualiza la visualización de la lista
+            //ActualizarListaVinilos();
+            ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
+
+        }
+
+        private void ActualizarVinilosBBDD(Vinilo vinilo, int Id)
+        {
+            Console.WriteLine(Id);
+            try
+            {
+                // Crea el comando SQL para la actualización
+                string query =
+            "UPDATE vinilos v " +
+            "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
+            "SET v.Titulo = @Titulo, v.Artista = @Artista, ivc.Precio = @Precio, " +
+            "v.Formato = @Formato, v.FechaSalida = @FechaSalida, v.Genero = @Genero, " +
+            "v.Pais = @Pais, v.Sello = @Sello " +
+            //TODO: METER CANCIONES//"v.Canciones = @Canciones " +
+            "WHERE v.Idvinilo = @Id";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    // Asigna los parámetros
+                    cmd.Parameters.AddWithValue("@Titulo", vinilo.Titulo);
+                    cmd.Parameters.AddWithValue("@Artista", vinilo.Artista);
+                    cmd.Parameters.AddWithValue("@Precio", vinilo.Precio);
+                    cmd.Parameters.AddWithValue("@Formato", vinilo.Formato);
+                    cmd.Parameters.AddWithValue("@FechaSalida", vinilo.FechaSalida);
+                    cmd.Parameters.AddWithValue("@Genero", vinilo.Genero);
+                    cmd.Parameters.AddWithValue("@Pais", vinilo.Pais);
+                    cmd.Parameters.AddWithValue("@Sello", vinilo.Sello);
+                    //cmd.Parameters.AddWithValue("@Canciones", string.Join(",", vinilo.Canciones));
+                    cmd.Parameters.AddWithValue("@Id", Id); // Asume que Id es la clave primaria
+
+                    dbManager.Connection.Open();
+
+                    // Ejecuta la actualización
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected > 0)
+                    {
+                        // La actualización se realizó con éxito
+                        MessageBox.Show("Vinilo actualizado con éxito", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        // No se actualizó ningún registro
+                        MessageBox.Show("No se pudo actualizar el vinilo.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+
+                    dbManager.Connection.Close();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar vinilo: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
+
+
+
 
         private void MostrarFotoPerfil(string usuario)
         {
@@ -383,5 +627,24 @@ namespace WpfApp1.Views.Admin
         }
 
 
+
+        private void Play_Click(object sender, RoutedEventArgs e)
+        {
+            audioPlayer.Position = lastPosition;
+            audioPlayer.Play();  // Iniciar la reproducción desde el principio
+        }
+
+        private void Pause_Click(object sender, RoutedEventArgs e)
+        {
+            audioPlayer.Pause();  // Detener la reproducción
+            lastPosition = audioPlayer.Position;
+        }
+
+        private void Reload_Click(object sender, RoutedEventArgs e)
+        {
+            audioPlayer.Stop();  // Detener la reproducción
+            audioPlayer.Position = TimeSpan.Zero;  // Reiniciar la posición a cero
+            audioPlayer.Play();  // Iniciar la reproducción desde el principio
+        }
     }
 }
