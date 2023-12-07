@@ -446,7 +446,7 @@ namespace WpfApp1.Views.Admin
 
             try
             {
-                string query = "SELECT v.*, ivc.Precio, cv.Titulo " +
+                string query = "SELECT v.*, ivc.Precio, cv.Cancion " +
                                "FROM vinilos v " +
                                "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
                                "LEFT JOIN cancionesVinilo cv ON v.Idvinilo = cv.Idvinilo";
@@ -477,7 +477,7 @@ namespace WpfApp1.Views.Admin
                             };
 
                             // Agregar canción al vinilo actual si hay una
-                            string cancion = reader["Titulo"].ToString();
+                            string cancion = reader["Cancion"].ToString();
                             if (!string.IsNullOrEmpty(cancion))
                             {
                                 vinilo.Canciones.Add(cancion);
@@ -589,7 +589,7 @@ namespace WpfApp1.Views.Admin
                 }
 
                 // Inserta las nuevas canciones asociadas a este vinilo con el mismo Idcancion
-                string insertQuery = "INSERT INTO cancionesVinilo (Idvinilo, Idcancion, Titulo) VALUES (@Idvinilo, @Idcancion, @Titulo)";
+                string insertQuery = "INSERT INTO cancionesVinilo (Idvinilo, Idcancion, Cancion) VALUES (@Idvinilo, @Idcancion, @Titulo)";
 
                 int Idcancion = 1; // Asigna un valor constante para Idcancion
 
