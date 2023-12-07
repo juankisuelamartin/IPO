@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1.BC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,9 +16,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using WpfApp1.Helpers;
 using WpfApp1.resources.Dominio;
 using WpfApp1.resources.StringResources;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfApp1.Views.Admin
 {
@@ -72,6 +75,7 @@ namespace WpfApp1.Views.Admin
             languageManager = new LanguageManager();
             mainMethods = new MainMethods();
             CargarContenidoLista();
+            miAniadirViniloB_Click(null, null);
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
         }
 
@@ -224,12 +228,77 @@ namespace WpfApp1.Views.Admin
 
         private void miAniadirViniloB_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Meter en bbdd
-            // Actualizaremos tanto el ListBox como el DataGrid para que las dos vistas// queden actualizadas
-            lstVinilos.Items.Refresh();
+            
+            lstVinilos.SelectedItem = null;
+            actualizarVinilo.Content = "Insertar Vinilo";
+            // Obtén los valores de los controles de entrada
+            string titulo = tituloDetallesInput.Text;
+            string artistas = artistasDetallesInput.Text;
+            string precio = precioInput.Text;
+            string formato = formatoInput.Text;
+            string anio = anioInput.Text;
+            string genero = generoInput.Text;
+            string pais = paisInput.Text;
+            string sello = selloInput.Text;
+            string canciones = cancionesInput.Text;
 
+            List<string> listaCanciones = listCanciones.Items.Cast<ListBoxItem>().Select(item => item.Content.ToString()).ToList();
+                tituloDetallesInput.Text = "";
+                artistasDetallesInput.Text = "";
+                precioInput.Text = "";
+                formatoInput.Text = "";
+                anioInput.Text = "";
+                generoInput.Text = "";
+                paisInput.Text = "";
+                selloInput.Text = "";
+                cancionesInput.Text = "";
+                string rutaRelativa = "pack://application:,,,/Assets/Images/ViniloX.jpg";
+                MostrarImagen(rutaRelativa);
+                listCanciones.Items.Clear(); 
+
+               
+            
         }
 
+        /*--
+         *         private void actualizarVinilo_Click(object sender, RoutedEventArgs e)
+        {
+            // Obtén los valores de los controles de entrada
+            string titulo = tituloDetallesInput.Text;
+            string artistas = artistasDetallesInput.Text;
+            string precio = precioInput.Text;
+            string formato = formatoInput.Text;
+            string anio = anioInput.Text;
+            string genero = generoInput.Text;
+            string pais = paisInput.Text;
+            string sello = selloInput.Text;
+
+            if (actualizarVinilo.Content.ToString() == "Insertar Vinilo")
+            {
+                InsertarViniloEnBBDD(titulo, artistas, precio, formato, anio, genero, pais, sello);
+
+                // Verifica si se ha seleccionado una nueva imagen
+                if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
+                {
+                    // Convierte la imagen a un formato que puedas almacenar en la base de datos
+                    byte[] imagenBytes = ConvertirImagenAByteArray(imagenInput.Source as BitmapImage);
+
+                    // Actualiza la imagen en la base de datos
+                    InsertarImagenBBDD(imagenBytes);
+                }
+                // Actualiza también las canciones
+                InsertarCancionesBBDD(listaCanciones);
+
+                //ActualizarListaVinilos();
+                InsertarVinilosBBDD(viniloSeleccionado);
+            }
+        */
+
+        private int InsertarViniloEnBBDD(string titulo, string artistas, string precio, string formato, string anio, string genero, string pais, string sello)
+        {
+            MessageBox.Show("Prueba");
+            return 1;
+        }
 
         private void miEliminarViniloB_Click(object sender, RoutedEventArgs e)
         {
@@ -311,8 +380,11 @@ namespace WpfApp1.Views.Admin
 
         private void LstVinilos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            actualizarVinilo.Content = "Actualizar Vinilo";
+            imagenInput.Source = null;
             // Muestra los detalles del vinilo seleccionado en la interfaz de usuario
             Vinilo viniloSeleccionado = (Vinilo)lstVinilos.SelectedItem;
+            
             MostrarDetallesVinilo(viniloSeleccionado);
         }
 
@@ -322,7 +394,6 @@ namespace WpfApp1.Views.Admin
             if (vinilo != null)
             {
                 listCanciones.Items.Clear();
-
                 tituloDetallesInput.Text = vinilo.Titulo;
 
                 ComboBoxItem artista = new ComboBoxItem();
@@ -512,64 +583,88 @@ namespace WpfApp1.Views.Admin
             string pais = paisInput.Text;
             string sello = selloInput.Text;
 
-            List<string> listaCanciones = listCanciones.Items.Cast<ListBoxItem>().Select(item => item.Content.ToString()).ToList();
-            try
+            if (actualizarVinilo.Content.ToString() == "Insertar Vinilo")
             {
+                InsertarViniloEnBBDD(titulo, artistas, precio, formato, anio, genero, pais, sello);
 
-
-            // Verifica que tengas un identificador único del vinilo (puedes usar el índice seleccionado o algún otro identificador único)
-            int indiceSeleccionado = lstVinilos.SelectedIndex;
-
-            Vinilo viniloAntiguo = (Vinilo)lstVinilos.SelectedItem;
-                if (viniloAntiguo == null)
+                // Verifica si se ha seleccionado una nueva imagen
+                if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
                 {
-                    MessageBox.Show("El Vinilo ya no existe en el contexto actual.");
+                    // Convierte la imagen a un formato que puedas almacenar en la base de datos
+                    byte[] imagenBytes = ConvertirImagenAByteArray(imagenInput.Source as BitmapImage);
+
+                    // Actualiza la imagen en la base de datos
+                    InsertarImagenBBDD(imagenBytes);
                 }
-                else
+                // Actualiza también las canciones
+                InsertarCancionesBBDD(listaCanciones);
+
+                //ActualizarListaVinilos();
+                InsertarVinilosBBDD(viniloSeleccionado);
+            }
+            else
+            {
+
+                List<string> listaCanciones = listCanciones.Items.Cast<ListBoxItem>().Select(item => item.Content.ToString()).ToList();
+                try
                 {
-                    int viniloId = viniloAntiguo.Idvinilo;
-
-                    // Obtén el vinilo seleccionado de la lista
-                    Vinilo viniloSeleccionado = (Vinilo)lstVinilos.Items[indiceSeleccionado];
-
-                    // Actualiza los datos del vinilo
-                    viniloSeleccionado.Titulo = titulo;
-                    viniloSeleccionado.Artista = artistas;
-                    viniloSeleccionado.Precio = float.Parse(precio);
-                    viniloSeleccionado.Formato = formato;
-                    viniloSeleccionado.FechaSalida = anio;
-                    viniloSeleccionado.Genero = genero;
-                    viniloSeleccionado.Pais = pais;
-                    viniloSeleccionado.Sello = sello;
-                    viniloSeleccionado.Canciones = listaCanciones;
-
-            // Verifica si se ha seleccionado una nueva imagen
-            if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
-            {
-                // Convierte la imagen a un formato que puedas almacenar en la base de datos
-                byte[] imagenBytes = ConvertirImagenAByteArray(imagenInput.Source as BitmapImage);
-
-                // Actualiza la imagen en la base de datos
-                ActualizarImagenBBDD(imagenBytes, viniloId);
-            }
 
 
-                    // Actualiza también las canciones
-                    ActualizarCancionesBBDD(listaCanciones, viniloId);
+                    // Verifica que tengas un identificador único del vinilo (puedes usar el índice seleccionado o algún otro identificador único)
+                    int indiceSeleccionado = lstVinilos.SelectedIndex;
 
-                    //ActualizarListaVinilos();
-                    ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
+                    Vinilo viniloAntiguo = (Vinilo)lstVinilos.SelectedItem;
+                    if (viniloAntiguo == null)
+                    {
+                        MessageBox.Show("El Vinilo ya no existe en el contexto actual.");
+                    }
+                    else
+                    {
+                        int viniloId = viniloAntiguo.Idvinilo;
+
+                        // Obtén el vinilo seleccionado de la lista
+                        Vinilo viniloSeleccionado = (Vinilo)lstVinilos.Items[indiceSeleccionado];
+
+                        // Actualiza los datos del vinilo
+                        viniloSeleccionado.Titulo = titulo;
+                        viniloSeleccionado.Artista = artistas;
+                        viniloSeleccionado.Precio = float.Parse(precio);
+                        viniloSeleccionado.Formato = formato;
+                        viniloSeleccionado.FechaSalida = anio;
+                        viniloSeleccionado.Genero = genero;
+                        viniloSeleccionado.Pais = pais;
+                        viniloSeleccionado.Sello = sello;
+                        viniloSeleccionado.Canciones = listaCanciones;
+
+                        // Verifica si se ha seleccionado una nueva imagen
+                        if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
+                        {
+                            // Convierte la imagen a un formato que puedas almacenar en la base de datos
+                            byte[] imagenBytes = ConvertirImagenAByteArray(imagenInput.Source as BitmapImage);
+
+                            // Actualiza la imagen en la base de datos
+                            ActualizarImagenBBDD(imagenBytes, viniloId);
+                        }
+
+
+                        // Actualiza también las canciones
+                        ActualizarCancionesBBDD(listaCanciones, viniloId);
+
+                        //ActualizarListaVinilos();
+                        ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
+                    }
+
                 }
+                catch (NullReferenceException)
+                {
+                    MessageBox.Show("El elemento ya no existe.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error inesperado: {ex.Message}");
+                }
+            }
 
-            }
-            catch(NullReferenceException)
-            {
-                MessageBox.Show("El elemento ya no existe.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error inesperado: {ex.Message}");
-            }
 
         }
 
@@ -739,6 +834,9 @@ namespace WpfApp1.Views.Admin
 
         private void MostrarImagen(string rutaImagen)
         {
+            // borramos anterior imagen;
+            imagenInput.Source = null;
+            imgCaratula.Source = null;
             try
             {
                 // Crea un objeto BitmapImage desde la ruta de la imagen
@@ -746,6 +844,8 @@ namespace WpfApp1.Views.Admin
 
                 // Asigna la imagen al control Image
                 imagenInput.Source = bitmapImage;
+                imagenInput.Width = 120;
+                imagenInput.Height = 120;
             }
             catch (Exception ex)
             {
