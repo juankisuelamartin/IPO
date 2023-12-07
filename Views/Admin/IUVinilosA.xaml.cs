@@ -4,10 +4,12 @@ using Org.BouncyCastle.Asn1.BC;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -61,12 +63,6 @@ namespace WpfApp1.Views.Admin
             }
         }
 
-
-        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
-        }
-
         public IUVinilosA()
         {
             InitializeComponent();
@@ -76,10 +72,20 @@ namespace WpfApp1.Views.Admin
             mainMethods = new MainMethods();
             CargarContenidoLista();
             miAniadirViniloB_Click(null, null);
+            this.Loaded += MainWindow_Loaded;
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
         }
 
 
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            mainMethods.Window_Loaded(this);
+        }
+
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
+        }
 
 
 
@@ -91,42 +97,43 @@ namespace WpfApp1.Views.Admin
         }
         private void Button_Gestion(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Window_Closing(this);
         }
 
         private void Button_Ofertas(object sender, RoutedEventArgs e)
         {
+            mainMethods.Window_Closing(this);
 
         }
 
         private void Button_Historial(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Window_Closing(this);
         }
 
         private void Button_Incidencias(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Window_Closing(this);
         }
 
         private void VerMasNovedades_Click(object sender, MouseButtonEventArgs e)
         {
-
+            mainMethods.Window_Closing(this);
         }
 
         private void VerMasOfertas_Click(object sender, MouseButtonEventArgs e)
         {
-
+            mainMethods.Window_Closing(this);
         }
 
         private void VerMasFavoritos_Click(object sender, MouseButtonEventArgs e)
         {
-
+            mainMethods.Window_Closing(this);
         }
 
         private void Button_Perfil(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Window_Closing(this);
         }
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
@@ -136,7 +143,7 @@ namespace WpfApp1.Views.Admin
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Window_Closing(this);
         }
 
         private void BtnGestion(object sender, RoutedEventArgs e)
@@ -165,6 +172,7 @@ namespace WpfApp1.Views.Admin
         private void BtnGestionVinilos_Click(object sender, RoutedEventArgs e)
         {
             IUVinilosA iUVinilosA = new IUVinilosA();
+            mainMethods.Window_Closing(this);
             iUVinilosA.NombreUsuario = this.NombreUsuario;
             iUVinilosA.Show();
             this.Close();
@@ -172,11 +180,13 @@ namespace WpfApp1.Views.Admin
 
         private void BtnGestionArtistas_Click(object sender, RoutedEventArgs e)
         {
+            mainMethods.Window_Closing(this);
             // Lógica para el botón Gestión Artistas
         }
 
         private void BtnGestionContacto_Click(object sender, RoutedEventArgs e)
         {
+            mainMethods.Window_Closing(this);
             // Lógica para el botón Gestión Contacto
         }
 
@@ -223,6 +233,7 @@ namespace WpfApp1.Views.Admin
 
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
+
             mainMethods.IUSUARIO_Loaded(dbManager, NombreUsuario, lblUltimaConex, ContentProperty, lblSaludo, this);
         }
 
@@ -260,45 +271,85 @@ namespace WpfApp1.Views.Admin
             
         }
 
-        /*--
-         *         private void actualizarVinilo_Click(object sender, RoutedEventArgs e)
+        private void InsertarCancionesBBDD(List<string> canciones, int Idvinilo, DatabaseManager dbmanager)
         {
-            // Obtén los valores de los controles de entrada
-            string titulo = tituloDetallesInput.Text;
-            string artistas = artistasDetallesInput.Text;
-            string precio = precioInput.Text;
-            string formato = formatoInput.Text;
-            string anio = anioInput.Text;
-            string genero = generoInput.Text;
-            string pais = paisInput.Text;
-            string sello = selloInput.Text;
-
-            if (actualizarVinilo.Content.ToString() == "Insertar Vinilo")
+            try
             {
-                InsertarViniloEnBBDD(titulo, artistas, precio, formato, anio, genero, pais, sello);
+                // Inserta las nuevas canciones asociadas a este vinilo con el mismo Idcancion
+                string insertQuery = "INSERT INTO cancionesVinilo (Idvinilo, Cancion) VALUES (@Idvinilo, @Titulo)";
 
-                // Verifica si se ha seleccionado una nueva imagen
-                if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
+                int Idcancion = 1; // Asigna un valor constante para Idcancion
+
+                foreach (var cancion in canciones)
                 {
-                    // Convierte la imagen a un formato que puedas almacenar en la base de datos
-                    byte[] imagenBytes = ConvertirImagenAByteArray(imagenInput.Source as BitmapImage);
+                    using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, dbManager.Connection))
+                    {
+                        insertCmd.Parameters.AddWithValue("@Idvinilo", Idvinilo);
+                        insertCmd.Parameters.AddWithValue("@Titulo", cancion);
 
-                    // Actualiza la imagen en la base de datos
-                    InsertarImagenBBDD(imagenBytes);
+                        insertCmd.ExecuteNonQuery();
+                    }
+
+                    // Incrementa el valor de Idcancion para la siguiente canción
+                    Idcancion++;
                 }
-                // Actualiza también las canciones
-                InsertarCancionesBBDD(listaCanciones);
-
-                //ActualizarListaVinilos();
-                InsertarVinilosBBDD(viniloSeleccionado);
             }
-        */
-
-        private int InsertarViniloEnBBDD(string titulo, string artistas, string precio, string formato, string anio, string genero, string pais, string sello)
-        {
-            MessageBox.Show("Prueba");
-            return 1;
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar las canciones: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
         }
+
+
+        private void InsertarViniloEnBBDD(Vinilo vinilo, int lastIdvinilo)
+        {
+            try
+            {
+                dbManager.Connection.Open();
+                using (MySqlTransaction transaction = dbManager.Connection.BeginTransaction())
+                {
+
+                    // Inserta el nuevo vinilo
+                    string query = "INSERT INTO vinilos (Idvinilo, Titulo, Artista, Formato, FechaSalida, Genero, Pais, Sello) " +
+                    "VALUES (@lastIdvinilo, @Titulo, @Artista, @Formato, @FechaSalida, @Genero, @Pais, @Sello)";
+                    MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
+                    cmd.Transaction = transaction;
+                    cmd.Parameters.AddWithValue("@lastIdvinilo", lastIdvinilo);
+                    cmd.Parameters.AddWithValue("@Titulo", vinilo.Titulo);
+                    cmd.Parameters.AddWithValue("@Artista", vinilo.Artista);
+                    cmd.Parameters.AddWithValue("@Formato", vinilo.Formato);
+                    cmd.Parameters.AddWithValue("@FechaSalida", vinilo.FechaSalida);
+                    cmd.Parameters.AddWithValue("@Genero", vinilo.Genero);
+                    cmd.Parameters.AddWithValue("@Pais", vinilo.Pais);
+                    cmd.Parameters.AddWithValue("@Sello", vinilo.Sello);
+                    cmd.ExecuteNonQuery();
+
+                    // Inserta el precio en infoVinilosCompra
+                    string query2 = "INSERT INTO infoVinilosCompra (Idvinilo, Precio, Cantidad) VALUES (@lastIdvinilo, @Precio, 1);";
+                    MySqlCommand cmd2 = new MySqlCommand(query2, dbManager.Connection);
+                    cmd2.Transaction = transaction;
+                    cmd2.Parameters.AddWithValue("@lastIdvinilo", lastIdvinilo);
+                    cmd2.Parameters.AddWithValue("@Precio", vinilo.Precio);
+                    cmd2.ExecuteNonQuery();
+
+                    transaction.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al insertar vinilo: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
+
+
 
         private void miEliminarViniloB_Click(object sender, RoutedEventArgs e)
         {
@@ -331,6 +382,7 @@ namespace WpfApp1.Views.Admin
                         lstVinilos.Items.Remove(viniloSeleccionado);
 
                         MessageBox.Show("Vinilo eliminado correctamente de la base de datos.");
+                        miAniadirViniloB_Click(null, null);
 
                     }
                     catch (Exception ex)
@@ -590,25 +642,73 @@ namespace WpfApp1.Views.Admin
             string genero = generoInput.Text;
             string pais = paisInput.Text;
             string sello = selloInput.Text;
+            int viniloId;
 
             if (actualizarVinilo.Content.ToString() == "Insertar Vinilo")
             {
-                InsertarViniloEnBBDD(titulo, artistas, precio, formato, anio, genero, pais, sello);
-
-                // Verifica si se ha seleccionado una nueva imagen
-                if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
+                // Verifica que los campos no estén vacíos
+                if (string.IsNullOrWhiteSpace(titulo) || string.IsNullOrWhiteSpace(artistas) || string.IsNullOrWhiteSpace(precio) ||
+                    string.IsNullOrWhiteSpace(formato) || string.IsNullOrWhiteSpace(anio) || string.IsNullOrWhiteSpace(genero) ||
+                    string.IsNullOrWhiteSpace(pais) || string.IsNullOrWhiteSpace(sello))
                 {
-                    // Convierte la imagen a un formato que puedas almacenar en la base de datos
-                    byte[] imagenBytes = ConvertirImagenAByteArray(imagenInput.Source as BitmapImage);
-
-                    // Actualiza la imagen en la base de datos
-                    InsertarImagenBBDD(imagenBytes);
+                    MessageBox.Show("Por favor, asegúrate de que los campos esenciales esten llenos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
-                // Actualiza también las canciones
-                InsertarCancionesBBDD(listaCanciones);
 
-                //ActualizarListaVinilos();
-                InsertarVinilosBBDD(viniloSeleccionado);
+                // Crea un nuevo objeto Vinilo con los valores obtenidos
+                Vinilo viniloinsertar = new Vinilo
+                {
+                    Titulo = titulo,
+                    Artista = artistas,
+                    Precio = float.Parse(precio),
+                    Formato = formato,
+                    FechaSalida = anio,
+                    Genero = genero,
+                    Pais = pais,
+                    Sello = sello
+                };
+                try
+                {
+                    dbManager.Connection.Open();
+                    using (MySqlTransaction transaction = dbManager.Connection.BeginTransaction())
+                    {
+                        string query3 = "SELECT MAX(Idvinilo) FROM vinilos;";
+                        MySqlCommand cmd3 = new MySqlCommand(query3, dbManager.Connection);
+                        cmd3.Transaction = transaction;
+                        viniloId = 1 + Convert.ToInt32(cmd3.ExecuteScalar());
+                        dbManager.Connection.Close();
+                        List<string> listaCanciones = listCanciones.Items.Cast<ListBoxItem>().Select(item => item.Content.ToString()).ToList();
+                        InsertarViniloEnBBDD(viniloinsertar, viniloId);
+                        // Insertar también las canciones
+                        dbManager.Connection.Open();
+                        InsertarCancionesBBDD(listaCanciones, viniloId, dbManager);
+                        
+                        // Verifica si se ha seleccionado una nueva imagen
+                        if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
+                        {
+                            // Convierte la imagen a un formato que puedas almacenar en la base de datos
+                            byte[] imagenBytes = ConvertirImagenAByteArray(imagenInput.Source as BitmapImage);
+
+                            // Actualiza la imagen en la base de datos
+                            ActualizarImagenBBDD(imagenBytes, viniloId);
+                        }
+                        
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al insertar vinilo: " + ex.Message);
+                }
+                finally
+                {
+                    dbManager.Connection.Close();
+                    MessageBox.Show("Insertado con exito");
+                    CargarContenidoLista();
+                    miAniadirViniloB_Click(null, null);
+                }
+                
+
             }
             else
             {
@@ -628,7 +728,7 @@ namespace WpfApp1.Views.Admin
                     }
                     else
                     {
-                        int viniloId = viniloAntiguo.Idvinilo;
+                        viniloId = viniloAntiguo.Idvinilo;
 
                         // Obtén el vinilo seleccionado de la lista
                         Vinilo viniloSeleccionado = (Vinilo)lstVinilos.Items[indiceSeleccionado];
@@ -644,6 +744,11 @@ namespace WpfApp1.Views.Admin
                         viniloSeleccionado.Sello = sello;
                         viniloSeleccionado.Canciones = listaCanciones;
 
+                        // Actualiza también las canciones
+                        ActualizarCancionesBBDD(listaCanciones, viniloId);
+
+                        //ActualizarListaVinilos();
+                        ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
                         // Verifica si se ha seleccionado una nueva imagen
                         if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
                         {
@@ -653,13 +758,6 @@ namespace WpfApp1.Views.Admin
                             // Actualiza la imagen en la base de datos
                             ActualizarImagenBBDD(imagenBytes, viniloId);
                         }
-
-
-                        // Actualiza también las canciones
-                        ActualizarCancionesBBDD(listaCanciones, viniloId);
-
-                        //ActualizarListaVinilos();
-                        ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
                     }
 
                 }
@@ -672,7 +770,6 @@ namespace WpfApp1.Views.Admin
                     MessageBox.Show($"Error inesperado: {ex.Message}");
                 }
             }
-
 
         }
 

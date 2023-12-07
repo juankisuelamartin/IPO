@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Helpers;
+using WpfApp1.resources.StringResources;
 using WpfApp1.Views.Admin;
 
 namespace WpfApp1.Views
@@ -27,6 +28,7 @@ namespace WpfApp1.Views
         private bool rotated = true; //Variable control menu desplegable
         private string nombreUsuario; // Agrega esta propiedad
         private readonly LanguageManager languageManager; // Agrega esta propiedad
+        private readonly MainMethods mainMethods;
         private readonly DatabaseManager dbManager;
 
         public string NombreUsuario
@@ -55,23 +57,28 @@ namespace WpfApp1.Views
         }
 
 
-        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
-        }
-
         public IUPrincipalA()
         {
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
             languageManager = new LanguageManager();
+            mainMethods = new MainMethods();
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
             lblverMasNov.MouseUp += VerMasNovedades_Click;
             lblverMasOft.MouseUp += VerMasOfertas_Click;
             lblverMasFav.MouseUp += VerMasFavoritos_Click;
+            this.Loaded += MainWindow_Loaded;
         }
 
+        private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            mainMethods.Window_Loaded(this);
+        }
 
 
         private void Button_Home(object sender, RoutedEventArgs e)
@@ -120,11 +127,7 @@ namespace WpfApp1.Views
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.KeepSession = false;
-            Properties.Settings.Default.Save();
-            MainWindow mainwindow = new MainWindow();
-            mainwindow.Show();
-            this.Close();
+            mainMethods.Button_cerrarsesion(this);
         }
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)

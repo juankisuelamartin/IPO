@@ -52,9 +52,16 @@ namespace WpfApp1.Views
         public IUFavoritos()
         {
             InitializeComponent();
+            Loaded += IUSUARIO_Loaded;
             dbManager = new DatabaseManager();
             languageManager = new LanguageManager(); // Inicializa la instancia de LanguageManager
             mainMethods = new MainMethods();
+            this.Loaded += MainWindow_Loaded;
+
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            mainMethods.Window_Loaded(this);
         }
 
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

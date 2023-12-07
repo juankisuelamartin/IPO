@@ -22,6 +22,7 @@ namespace WpfApp1.resources.StringResources
             Properties.Settings.Default.KeepSession = false;
             Properties.Settings.Default.Save();
             MainWindow mainwindow = new MainWindow();
+            Window_Closing(currentWindow);
             mainwindow.Show();
             currentWindow.Close();
         }
@@ -29,6 +30,7 @@ namespace WpfApp1.resources.StringResources
         {
             IUPrincipalU iuPrincipal = new IUPrincipalU();
             iuPrincipal.NombreUsuario = NombreUsuario;
+            Window_Closing(currentWindow);
             iuPrincipal.Show();
             currentWindow.Close();
         }
@@ -36,6 +38,7 @@ namespace WpfApp1.resources.StringResources
         {
             IUPrincipalA iuPrincipalA = new IUPrincipalA();
             iuPrincipalA.NombreUsuario = NombreUsuario;
+            Window_Closing(currentWindow);
             iuPrincipalA.Show();
             currentWindow.Close();
         }
@@ -43,10 +46,27 @@ namespace WpfApp1.resources.StringResources
         {
             IUFavoritos iuFavoritos = new IUFavoritos();
             iuFavoritos.NombreUsuario = NombreUsuario;
+            Window_Closing(currentWindow);
             iuFavoritos.Show();
             currentWindow.Close();
         }
+        public Window Window_Loaded(Window window)
+        {
+            window.Top = Properties.Settings.Default.WindowTop;
+            window.Left = Properties.Settings.Default.WindowLeft;
+            window.Height = Properties.Settings.Default.WindowHeight;
+            window.Width = Properties.Settings.Default.WindowWidth;
 
+            return window;
+        }
+        public void Window_Closing(Window window)
+        {
+            Properties.Settings.Default.WindowTop = window.Top;
+            Properties.Settings.Default.WindowLeft = window.Left;
+            Properties.Settings.Default.WindowHeight = window.Height;
+            Properties.Settings.Default.WindowWidth = window.Width;
+            Properties.Settings.Default.Save();
+        }
         public void ImgPerfil_MouseUp(Border popupMarco, bool rotated, Image desplegable, Window currentWindow)
         {
             // Si el Popup está abierto, ciérralo; de lo contrario, ábrelo

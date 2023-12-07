@@ -54,6 +54,7 @@ namespace WpfApp1.Views
 
         public IUPrincipalU()
         {
+            
             InitializeComponent();
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
@@ -64,13 +65,18 @@ namespace WpfApp1.Views
             lblverMasNov.MouseUp += VerMasNovedades_Click;
             lblverMasOft.MouseUp += VerMasOfertas_Click;
             lblverMasFav.MouseUp += VerMasFavoritos_Click;
+            this.Loaded += MainWindow_Loaded;
         }
 
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
         }
-    
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            mainMethods.Window_Loaded(this);
+        }
+
 
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
