@@ -219,39 +219,7 @@ namespace WpfApp1.Views
 
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
-            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
-
-            string queryUltimaConexion = "SELECT ultima_conexion FROM usuarios WHERE usuario=@usuario";
-            MySqlCommand cmdUltimaConexion = new MySqlCommand(queryUltimaConexion, dbManager.Connection);
-            cmdUltimaConexion.Parameters.AddWithValue("@usuario", nombreUsuario);
-
-            dbManager.Connection.Open();
-            var ultimaConexion = cmdUltimaConexion.ExecuteScalar();
-            dbManager.Connection.Close();
-
-            if (ultimaConexion != DBNull.Value)
-            {
-                DateTime ultimaConexionLocal = TimeZoneInfo.ConvertTimeFromUtc((DateTime)ultimaConexion, localTimeZone);
-                lblUltimaConex.Content = "Última conexión: " + ultimaConexionLocal.ToString("yyyy-MM-dd HH:mm:ss");
-
-                // Determinar si es buenos días, buenas tardes o buenas noches
-                if (ultimaConexionLocal.Hour >= 6 && ultimaConexionLocal.Hour < 13)
-                {
-                    lblSaludo.Content = "Buenos días: " + nombreUsuario;
-                }
-                else if (ultimaConexionLocal.Hour >= 13 && ultimaConexionLocal.Hour < 21)
-                {
-                    lblSaludo.Content = "Buenas tardes: " + nombreUsuario;
-                }
-                else
-                {
-                    lblSaludo.Content = "Buenas noches: " + nombreUsuario;
-                }
-            }
-            else
-            {
-                lblUltimaConex.Content = "No hay información de última conexión disponible.";
-            }
+            mainMethods.IUSUARIO_Loaded(dbManager, NombreUsuario, lblUltimaConex, ContentProperty, lblSaludo, this);
 
         }
 
