@@ -517,10 +517,11 @@ namespace WpfApp1.Views.Admin
 
             try
             {
-                string query = "SELECT v.*, ivc.Precio, cv.Cancion " +
+                string query = "SELECT v.*, ivc.Precio, GROUP_CONCAT(cv.Cancion SEPARATOR ', ') AS Canciones " +
                                "FROM vinilos v " +
                                "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
-                               "LEFT JOIN cancionesVinilo cv ON v.Idvinilo = cv.Idvinilo";
+                               "LEFT JOIN cancionesVinilo cv ON v.Idvinilo = cv.Idvinilo " +
+                               "GROUP BY v.Idvinilo";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
                 {
@@ -548,10 +549,17 @@ namespace WpfApp1.Views.Admin
                             };
 
                             // Agregar canción al vinilo actual si hay una
-                            string cancion = reader["Cancion"].ToString();
+                            string cancion = reader["Canciones"].ToString();
                             if (!string.IsNullOrEmpty(cancion))
                             {
-                                vinilo.Canciones.Add(cancion);
+                                // Dividir la cadena en canciones usando la coma como separador
+                                string[] cancionesArray = cancion.Split(',');
+
+                                // Agregar cada canción a la lista del vinilo
+                                foreach (string cancionIndividual in cancionesArray)
+                                {
+                                    vinilo.Canciones.Add(cancionIndividual.Trim());  // Trim para eliminar posibles espacios en blanco alrededor de cada canción
+                                }
                             }
 
                             listaVinilos.Add(vinilo);
@@ -684,7 +692,7 @@ namespace WpfApp1.Views.Admin
                 }
 
                 // Inserta las nuevas canciones asociadas a este vinilo con el mismo Idcancion
-                string insertQuery = "INSERT INTO cancionesVinilo (Idvinilo, Idcancion, Cancion) VALUES (@Idvinilo, @Idcancion, @Titulo)";
+                string insertQuery = "INSERT INTO cancionesVinilo (Idvinilo, Cancion) VALUES (@Idvinilo, @Titulo)";
 
                 int Idcancion = 1; // Asigna un valor constante para Idcancion
 
@@ -693,7 +701,6 @@ namespace WpfApp1.Views.Admin
                     using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, dbManager.Connection))
                     {
                         insertCmd.Parameters.AddWithValue("@Idvinilo", Idvinilo);
-                        insertCmd.Parameters.AddWithValue("@Idcancion", Idcancion);
                         insertCmd.Parameters.AddWithValue("@Titulo", cancion);
 
                         insertCmd.ExecuteNonQuery();
@@ -713,7 +720,20 @@ namespace WpfApp1.Views.Admin
             }
         }
 
+        private void miEliminarCancionB_Click(object sender, RoutedEventArgs e)
+        {
+            int indiceSeleccionado = listCanciones.SelectedIndex;
 
+
+            if (indiceSeleccionado >= 0)
+            {
+                // Remueve el elemento de la colección Items del ListBox
+                listCanciones.Items.RemoveAt(indiceSeleccionado);
+            }
+
+
+        }
+       
 
 
         private void ActualizarImagenBBDD(byte[] imagenBytes, int Id)
