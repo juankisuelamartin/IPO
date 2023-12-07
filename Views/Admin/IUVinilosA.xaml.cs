@@ -17,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Helpers;
 using WpfApp1.resources.Dominio;
+using WpfApp1.resources.StringResources;
 
 namespace WpfApp1.Views.Admin
 {
@@ -30,6 +31,7 @@ namespace WpfApp1.Views.Admin
         private string nombreUsuario; // Agrega esta propiedad
         private readonly LanguageManager languageManager; // Agrega esta propiedad
         private readonly DatabaseManager dbManager;
+        private readonly MainMethods mainMethods;
 
         public string NombreUsuario
 
@@ -68,6 +70,7 @@ namespace WpfApp1.Views.Admin
             Loaded += IUSUARIO_Loaded; // Suscribir al evento Loaded
             dbManager = new DatabaseManager();
             languageManager = new LanguageManager();
+            mainMethods = new MainMethods();
             CargarContenidoLista();
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
         }
@@ -79,10 +82,7 @@ namespace WpfApp1.Views.Admin
 
         private void Button_Home(object sender, RoutedEventArgs e)
         {
-            IUPrincipalA iUPrincipalA = new IUPrincipalA();
-            iUPrincipalA.NombreUsuario = this.NombreUsuario;
-            iUPrincipalA.Show();
-            this.Close();
+            mainMethods.Button_HomeAdmin(NombreUsuario,this);
 
         }
         private void Button_Gestion(object sender, RoutedEventArgs e)
@@ -127,11 +127,7 @@ namespace WpfApp1.Views.Admin
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.KeepSession = false;
-            Properties.Settings.Default.Save();
-            MainWindow mainwindow = new MainWindow();
-            mainwindow.Show();
-            this.Close();
+            mainMethods.Button_cerrarsesion(this);
         }
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)
@@ -223,40 +219,7 @@ namespace WpfApp1.Views.Admin
 
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
-            TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
-
-            string queryUltimaConexion = "SELECT ultima_conexion FROM usuarios WHERE usuario=@usuario";
-            MySqlCommand cmdUltimaConexion = new MySqlCommand(queryUltimaConexion, dbManager.Connection);
-            cmdUltimaConexion.Parameters.AddWithValue("@usuario", nombreUsuario);
-
-            dbManager.Connection.Open();
-            var ultimaConexion = cmdUltimaConexion.ExecuteScalar();
-            dbManager.Connection.Close();
-
-            if (ultimaConexion != DBNull.Value)
-            {
-                DateTime ultimaConexionLocal = TimeZoneInfo.ConvertTimeFromUtc((DateTime)ultimaConexion, localTimeZone);
-                lblUltimaConex.Content = "Última conexión: " + ultimaConexionLocal.ToString("yyyy-MM-dd HH:mm:ss");
-
-                // Determinar si es buenos días, buenas tardes o buenas noches
-                if (ultimaConexionLocal.Hour >= 6 && ultimaConexionLocal.Hour < 13)
-                {
-                    lblSaludo.Content = "Buenos días: " + nombreUsuario;
-                }
-                else if (ultimaConexionLocal.Hour >= 13 && ultimaConexionLocal.Hour < 21)
-                {
-                    lblSaludo.Content = "Buenas tardes: " + nombreUsuario;
-                }
-                else
-                {
-                    lblSaludo.Content = "Buenas noches: " + nombreUsuario;
-                }
-            }
-            else
-            {
-                lblUltimaConex.Content = "No hay información de última conexión disponible.";
-            }
-
+            mainMethods.IUSUARIO_Loaded(dbManager, NombreUsuario, lblUltimaConex, ContentProperty, lblSaludo, this);
         }
 
         private void miAniadirViniloB_Click(object sender, RoutedEventArgs e)
@@ -270,11 +233,59 @@ namespace WpfApp1.Views.Admin
 
         private void miEliminarViniloB_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: Borrar de bbdd
-            // Actualizaremos tanto el ListBox como el DataGrid para que las dos vistas// queden actualizadas
-            lstVinilos.Items.Refresh();
-            
+            Vinilo viniloSeleccionado = (Vinilo)lstVinilos.SelectedItem;
+
+            if (viniloSeleccionado != null)
+            {
+                // Mostrar un MessageBox para confirmar la eliminación
+                MessageBoxResult result = MessageBox.Show(
+                    "¿Seguro que quieres eliminar el vinilo?\nEsta acción no se puede revertir.",
+                    "Confirmación",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        // Eliminar el vinilo de la tabla 'vinilos'
+                        string deleteViniloQuery = "DELETE FROM vinilos WHERE Idvinilo = @Idvinilo";
+
+                        using (MySqlCommand deleteCmd = new MySqlCommand(deleteViniloQuery, dbManager.Connection))
+                        {
+                            deleteCmd.Parameters.AddWithValue("@Idvinilo", viniloSeleccionado.Idvinilo);
+                            dbManager.Connection.Open();
+                            deleteCmd.ExecuteNonQuery();
+                        }
+
+                        // Remover el vinilo de la lista local
+                        lstVinilos.Items.Remove(viniloSeleccionado);
+
+                        MessageBox.Show("Vinilo eliminado correctamente de la base de datos.");
+                        if (lstVinilos.Items.Count > 0)
+                        {
+                            lstVinilos.SelectedIndex = 0;
+                        }
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al eliminar el vinilo: " + ex.Message);
+                    }
+                    finally
+                    {
+                        dbManager.Connection.Close();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selecciona un vinilo para eliminar.");
+            }
         }
+
+
+
 
         private void CargarContenidoLista()
         {
@@ -594,35 +605,7 @@ namespace WpfApp1.Views.Admin
 
         private void MostrarFotoPerfil(string usuario)
         {
-
-            string query = "SELECT foto_perfil FROM usuarios WHERE usuario=@usuario";
-            MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection);
-            cmd.Parameters.AddWithValue("@usuario", usuario);
-
-            dbManager.Connection.Open();
-            var result = cmd.ExecuteScalar();
-            dbManager.Connection.Close();
-
-            if (result != DBNull.Value)
-            {
-                byte[] fotoPerfil = (byte[])result;
-                using (var ms = new MemoryStream(fotoPerfil))
-                {
-                    var image = new BitmapImage();
-                    image.BeginInit();
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.StreamSource = ms;
-                    image.EndInit();
-
-
-                    Ellipse ellipse = new Ellipse();
-                    ellipse.Width = 90; // ajusta el tamaño según tus necesidades
-                    ellipse.Height = 90;
-
-                    // Establecer el contenedor Ellipse como contenido de imgPerfil
-                    imgPerfil.Fill = new ImageBrush(image);
-                }
-            }
+            mainMethods.MostrarFotoPerfil(usuario, dbManager, imgPerfil, this);
 
         }
 

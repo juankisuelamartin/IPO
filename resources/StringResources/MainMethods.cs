@@ -32,6 +32,13 @@ namespace WpfApp1.resources.StringResources
             iuPrincipal.Show();
             currentWindow.Close();
         }
+        public void Button_HomeAdmin(String NombreUsuario, Window currentWindow)
+        {
+            IUPrincipalA iuPrincipalA = new IUPrincipalA();
+            iuPrincipalA.NombreUsuario = NombreUsuario;
+            iuPrincipalA.Show();
+            currentWindow.Close();
+        }
         public void Button_Favorites(String NombreUsuario, Window currentWindow)
         {
             IUFavoritos iuFavoritos = new IUFavoritos();
