@@ -65,12 +65,12 @@
                 <ListBox x:Name="lstVinilos" Margin="5" Height="Auto" AlternationCount="2" SelectedIndex="0" Width="200">
                     <ListBox.ContextMenu>
                         <ContextMenu>
-                            <MenuItem x:Name="miAniadirViniloB" Header="Añadir vinilo" Click="miAniadirViniloB_Click">
+                            <MenuItem x:Name="miAniadirViniloB" Header="{DynamicResource miAniadirViniloB}" Click="miAniadirViniloB_Click">
                                 <MenuItem.Icon>
                                     <Image Source="../../Assets/Images/add_c.png"/>
                                 </MenuItem.Icon>
                             </MenuItem>
-                            <MenuItem x:Name="miEliminarViniloB" Header="Eliminar vinilo" Click="miEliminarViniloB_Click">
+                            <MenuItem x:Name="miEliminarViniloB" Header="{DynamicResource miEliminarViniloB}" Click="miEliminarViniloB_Click">
                                 <MenuItem.Icon>
                                     <Image Source="../../Assets/Images/remove_c.png"/>
                                 </MenuItem.Icon>
@@ -125,9 +125,9 @@
 
                         <!-- Contenedor 2: Título, Artista y Precio -->
                         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
-                            <Label x:Name="lblTituloDetalles" FontWeight="Bold" Width="210" Margin="0,15,0,0">Título:</Label>
-                            <Label x:Name="lblArtistasDetalles" FontWeight="Bold" Width="259" Margin="0,15,0,0">Artistas/Grupo:</Label>
-                            <Label x:Name="lblPrecio" FontWeight="Bold" Width="211" Margin="10,5,0,0">Precio:</Label>
+                            <Label x:Name="lblTituloDetalles" Content="{DynamicResource lblTituloDetalles}" FontWeight="Bold" Width="210" Margin="0,15,0,0"/>
+                            <Label x:Name="lblArtistasDetalles" Content="{DynamicResource lblArtistasDetalles}" FontWeight="Bold" Width="259" Margin="0,15,0,0"/>
+                            <Label x:Name="lblPrecio" Content="{DynamicResource lblPrecio}" FontWeight="Bold" Width="211" Margin="10,5,0,0"/>
 
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="75,5,0,0">
@@ -155,10 +155,10 @@
 
                                 <!--Primera Columna-->
                                 <StackPanel Grid.Column="0" Grid.RowSpan="2">
-                                    <Label x:Name="lblFormato" FontWeight="Bold" Margin="0,10,0,0">Formato:</Label>
-                                    <Label x:Name="lblAnio" FontWeight="Bold" Margin="0,10,0,0">Año:</Label>
-                                    <Label x:Name="lblGenero" FontWeight="Bold"  Margin="0,10,0,0">Genero:</Label>
-                                    <Label x:Name="lblPais" FontWeight="Bold"  Margin="0,10,0,0">Pais:</Label>
+                                    <Label x:Name="lblFormato" Content="{DynamicResource lblFormato}" FontWeight="Bold" Margin="0,10,0,0"/>
+                                    <Label x:Name="lblAnio" Content="{DynamicResource lblAnio}" FontWeight="Bold" Margin="0,10,0,0"/>
+                                    <Label x:Name="lblGenero" Content="{DynamicResource lblGenero}" FontWeight="Bold"  Margin="0,10,0,0"/>
+                                    <Label x:Name="lblPais" Content="{DynamicResource lblPais}" FontWeight="Bold"  Margin="0,10,0,0"/>
 
 
                                 </StackPanel>
@@ -279,11 +279,8 @@
 
                                 <!--Segunda Columna-->
                                 <StackPanel Grid.Column="2" Grid.RowSpan="2" >
-                                    <Label x:Name="lblSello" FontWeight="Bold" Margin="40,10,0,0">Sello:</Label>
-                                    <Label x:Name="lblCanciones" FontWeight="Bold" Margin="25,10,0,0">Canciones:</Label>
-
-
-
+                                    <Label x:Name="lblSello" Content="{DynamicResource lblSello}"  FontWeight="Bold" Margin="40,10,0,0"/>
+                                    <Label x:Name="lblCanciones" Content="{DynamicResource lblCanciones}" FontWeight="Bold" Margin="25,10,0,0"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="3" Grid.RowSpan="2">
@@ -291,11 +288,11 @@
                                         <TextBox x:Name="selloInput" Width="220" Margin="25,15,0,0"></TextBox>
 
                                         <TextBox x:Name="cancionesInput" Width="130"  Margin="-65,15,0,10"/>
-                                        <Button x:Name="anadirListaCanciones" Content="Agregar a Lista" Click="listaCanciones_Click" Margin="160,-30,0,10"/>
+                                        <Button x:Name="anadirListaCanciones" Content="{DynamicResource actualizarVinilo}" Click="listaCanciones_Click" Margin="160,-30,0,10"/>
                                         <ListBox x:Name="listCanciones" Width="220" Height="70" Margin="25,0,0,0">
                                             <ListBox.ContextMenu>
                                                 <ContextMenu>
-                                                    <MenuItem x:Name="miEliminarCancionB" Header="Eliminar Cancion" Click="miEliminarCancionB_Click">
+                                                    <MenuItem x:Name="miEliminarCancionB" Header="{DynamicResource miEliminarCancionB}" Click="miEliminarCancionB_Click">
                                                         <MenuItem.Icon>
                                                             <Image Source="../../Assets/Images/remove_c.png"/>
                                                         </MenuItem.Icon>
@@ -307,7 +304,7 @@
 
                                 </StackPanel>
                                 <StackPanel x:Name="Preview" HorizontalAlignment="Left" Margin="-40,160,0,125" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.488,0.572" Grid.Column="2">
-                                    <Button Content="Seleccionar Fragmento de Audio" HorizontalAlignment="Left" Width="180" Click="SelectAudioFile_Click" Margin="0,10,0,0"/>
+                                    <Button Content="{DynamicResource btnAudio}" HorizontalAlignment="Left" Width="180" Click="SelectAudioFile_Click" Margin="0,10,0,0"/>
                                     
                                     <StackPanel x:Name="Reproductor" Orientation="Horizontal" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="190,-25,0,0">
                                         <Button x:Name="Pause" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Pause_Click">
@@ -320,7 +317,7 @@
                                             <Image Source="../../Assets/Images/reload.png"  />
                                         </Button>
                                     </StackPanel>
-                                    <Button x:Name="actualizarVinilo" Content="Actualizar Vinilo" FontWeight="Bold" Margin="0,20,0,10"  Click="actualizarVinilo_Click"></Button>
+                                    <Button x:Name="actualizarVinilo" Content="{DynamicResource actualizarVinilo}" FontWeight="Bold" Margin="0,20,0,10"  Click="actualizarVinilo_Click"></Button>
                                     <MediaElement x:Name="audioPlayer" Height="30" Width="200" Visibility="Collapsed" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
                                 </StackPanel>
                             </Grid>
