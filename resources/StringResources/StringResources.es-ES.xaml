@@ -46,6 +46,24 @@
     <system:String x:Key="btnVinilos">VINILOS</system:String>
     <system:String x:Key="btnArtistas">ARTISTAS</system:String>
     <system:String x:Key="btnContacto">CONTACTO</system:String>
+    
+    <!-- IUViniloslA-->
+    <system:String x:Key="miAniadirViniloB">Añadir vinilo</system:String>
+    <system:String x:Key="miEliminarViniloB">Eliminar vinilo</system:String>
+    <system:String x:Key="lblTituloDetalles">Título:</system:String>
+    <system:String x:Key="lblArtistasDetalles">Artistas/Grupo:</system:String>
+    <system:String x:Key="lblPrecio">Precio:</system:String>
+    <system:String x:Key="lblFormato">Formato:</system:String>
+    
+    <system:String x:Key="lblAnio">Año:</system:String>
+    <system:String x:Key="lblGenero">Género:</system:String>
+    <system:String x:Key="lblPais">País:</system:String>
+    <system:String x:Key="lblSello">Sello:</system:String>
+    <system:String x:Key="lblCanciones">Canciones:</system:String>
+    <system:String x:Key="miEliminarCancionB">Eliminar Canción:</system:String>
+    <system:String x:Key="btnAudio">Seleccionar fragmento de audio:</system:String>
+    <system:String x:Key="actualizarVinilo">Actualizar Vinilo:</system:String>
+    <system:String x:Key="agregarLista">Agregar a la lista:</system:String>
 
     <!--IUprincipal-->
     <system:String x:Key="lblNovedades">Novedades</system:String>

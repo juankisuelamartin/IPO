@@ -49,6 +49,23 @@
     <system:String x:Key="btnArtistas">ARTISTS</system:String>
     <system:String x:Key="btnContacto">CONTACT</system:String>
 
+    <!-- IUViniloslA-->
+    <system:String x:Key="miAniadirViniloB">Add vinyl</system:String>
+    <system:String x:Key="miEliminarViniloB">Remove vinyl</system:String>
+    <system:String x:Key="lblTituloDetalles">Title:</system:String>
+    <system:String x:Key="lblArtistasDetalles">Artists/Group:</system:String>
+    <system:String x:Key="lblPrecio">Price:</system:String>
+    <system:String x:Key="lblFormato">Format:</system:String>
+
+    <system:String x:Key="lblAnio">Year:</system:String>
+    <system:String x:Key="lblGenero">Genre:</system:String>
+    <system:String x:Key="lblPais">Country:</system:String>
+    <system:String x:Key="lblSello">Seal:</system:String>
+    <system:String x:Key="lblCanciones">Songs:</system:String>
+    <system:String x:Key="miEliminarCancionB">Remove song:</system:String>
+    <system:String x:Key="btnAudio">Select audio fragment:</system:String>
+    <system:String x:Key="actualizarVinilo">Update Vinyl:</system:String>
+    <system:String x:Key="agregarLista">Add to the list:</system:String>
 
     <!--IUprincipal-->
     <system:String x:Key="lblNovedades">News</system:String>
