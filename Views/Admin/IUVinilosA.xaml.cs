@@ -388,6 +388,7 @@ namespace WpfApp1.Views.Admin
 
                         // Mostrar el control de reproducción de audio
                         audioPlayer.Visibility = Visibility.Visible;
+                        Reproductor.Visibility = Visibility.Visible;
                     }
                     else
                     {
@@ -514,9 +515,17 @@ namespace WpfApp1.Views.Admin
             viniloSeleccionado.Sello = sello;
             viniloSeleccionado.Canciones = listaCanciones;
 
+            // Verifica si se ha seleccionado una nueva imagen
+            if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
+            {
+                // Convierte la imagen a un formato que puedas almacenar en la base de datos
+                byte[] imagenBytes = ConvertirImagenAByteArray(imagenInput.Source as BitmapImage);
+
+                // Actualiza la imagen en la base de datos
+                ActualizarImagenBBDD(imagenBytes, viniloId);
+            }
 
 
-            
 
             // Aquí deberías tener código para actualizar los datos en la base de datos
             // Esto puede variar según la tecnología que estés utilizando para interactuar con la base de datos (Entity Framework, ADO.NET, etc.)
@@ -529,6 +538,47 @@ namespace WpfApp1.Views.Admin
             ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
 
         }
+
+        private void ActualizarImagenBBDD(byte[] imagenBytes, int Id)
+        {
+            try
+            {
+                // Crea el comando SQL para la actualización de la imagen
+                string query = "UPDATE vinilos SET Portada = @Imagen WHERE Idvinilo = @Id";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    // Asigna los parámetros
+                    cmd.Parameters.AddWithValue("@Imagen", imagenBytes);
+                    cmd.Parameters.AddWithValue("@Id", Id);
+
+                    dbManager.Connection.Open();
+
+                    // Ejecuta la actualización
+                    cmd.ExecuteNonQuery();
+
+                    // Cierra la conexión
+                    dbManager.Connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar la imagen: " + ex.Message);
+            }
+        }
+
+        private byte[] ConvertirImagenAByteArray(BitmapImage bitmapImage)
+        {
+            using (MemoryStream stream = new MemoryStream())
+            {
+                BitmapEncoder encoder = new JpegBitmapEncoder(); // Puedes cambiarlo según el formato de imagen que estés utilizando
+                encoder.Frames.Add(BitmapFrame.Create(bitmapImage));
+                encoder.Save(stream);
+
+                return stream.ToArray();
+            }
+        }
+
 
         private void ActualizarVinilosBBDD(Vinilo vinilo, int Id)
         {
@@ -590,7 +640,36 @@ namespace WpfApp1.Views.Admin
         }
 
 
+        private void SeleccionarImagen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos de imagen|*.jpg;*.jpeg;*.png;*.gif;*.bmp|Todos los archivos|*.*";
 
+            if (openFileDialog.ShowDialog() == true)
+            {
+                // Obtiene la ruta del archivo seleccionado
+                string rutaImagen = openFileDialog.FileName;
+
+                // Muestra la imagen en un control Image
+                MostrarImagen(rutaImagen);
+            }
+        }
+
+        private void MostrarImagen(string rutaImagen)
+        {
+            try
+            {
+                // Crea un objeto BitmapImage desde la ruta de la imagen
+                BitmapImage bitmapImage = new BitmapImage(new Uri(rutaImagen));
+
+                // Asigna la imagen al control Image
+                imagenInput.Source = bitmapImage;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar la imagen: " + ex.Message);
+            }
+        }
 
         private void MostrarFotoPerfil(string usuario)
         {

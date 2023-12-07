@@ -118,6 +118,8 @@
                                 Height="120" Width="120"
                                 HorizontalAlignment="Left"
                                 Stretch="Fill"/>
+                            <Image x:Name="imagenInput" Width="120" Height="120" Margin="-427,-120,0,0"></Image>
+                            <Button x:Name="caratulaInput" Height="120" Background="Transparent" Width="120" Margin="-427,-120,0,0" Click="SeleccionarImagen_Click"/>
                         </StackPanel>
 
 
@@ -162,11 +164,117 @@
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="1" Width="Auto" Grid.RowSpan="2">
-                                    <ComboBox x:Name="formatoInput" FontWeight="Bold" Width="85" Margin="0,13,0,0"></ComboBox>
+                                    <ComboBox x:Name="formatoInput" FontWeight="Bold" Width="85" Margin="0,13,0,0">
+                                        <ComboBoxItem>LP</ComboBoxItem>
+                                        <ComboBoxItem>EP</ComboBoxItem>
+                                        <ComboBoxItem>Single</ComboBoxItem>
+                                        <ComboBoxItem>Picture Disc</ComboBoxItem>
+                                        <ComboBoxItem>Box Set</ComboBoxItem>
+                                        <ComboBoxItem>7-inch</ComboBoxItem>
+                                        <ComboBoxItem>10-inch</ComboBoxItem>
+                                        <ComboBoxItem>12-inch</ComboBoxItem>
+                                        <ComboBoxItem>Colored Vinyl</ComboBoxItem>
+                                        <ComboBoxItem>Picture Vinyl</ComboBoxItem>
+                                        <ComboBoxItem>Gatefold</ComboBoxItem>
+                                        <ComboBoxItem>Etched Vinyl</ComboBoxItem>
+                                        <ComboBoxItem>Shaped Disc</ComboBoxItem>
+                                        <ComboBoxItem>Split</ComboBoxItem>
+                                        <ComboBoxItem>Quadraphonic</ComboBoxItem>
+                                        <ComboBoxItem>45 RPM</ComboBoxItem>
+                                        <ComboBoxItem>33 RPM</ComboBoxItem>
+                                        <ComboBoxItem>78 RPM</ComboBoxItem>
+                                    </ComboBox>
                                     <TextBox x:Name="anioInput" Width="85" Margin="0,15,0,0"></TextBox>
-                                    <ComboBox x:Name="generoInput" FontWeight="Bold" Width="85" Margin="0,15,0,0"></ComboBox>
-                                    <ComboBox x:Name="paisInput" FontWeight="Bold" Width="85" Margin="0,15,0,0"></ComboBox>
+                                    <ComboBox x:Name="generoInput" FontWeight="Bold" Width="85" Margin="0,15,0,0">
+                                        <ComboBoxItem>"Rock"</ComboBoxItem>
+                                        <ComboBoxItem>Pop</ComboBoxItem>
+                                        <ComboBoxItem>Hip-Hop / Rap</ComboBoxItem>
+                                        <ComboBoxItem>Country</ComboBoxItem>
+                                        <ComboBoxItem>Electronic</ComboBoxItem>
+                                        <ComboBoxItem>Jazz</ComboBoxItem>
+                                        <ComboBoxItem>Blues</ComboBoxItem>
+                                        <ComboBoxItem>Reggae</ComboBoxItem>
+                                        <ComboBoxItem>Metal</ComboBoxItem>
+                                        <ComboBoxItem>Classical</ComboBoxItem>
+                                        <ComboBoxItem>Folk</ComboBoxItem>
+                                        <ComboBoxItem>World</ComboBoxItem>
+                                        <ComboBoxItem>Indie</ComboBoxItem>
+                                        <ComboBoxItem>Dance</ComboBoxItem>
+                                        <ComboBoxItem>Gospel</ComboBoxItem>
+                                        <ComboBoxItem>Punk</ComboBoxItem>
+                                        <ComboBoxItem>Alternative</ComboBoxItem>
+                                        <ComboBoxItem>K-Pop</ComboBoxItem>
+                                        <ComboBoxItem>J-Pop</ComboBoxItem>
+                                        <ComboBoxItem>Disco</ComboBoxItem>
+                                        <ComboBoxItem>Funk</ComboBoxItem>
+                                        <ComboBoxItem>Ska</ComboBoxItem>
+                                        <ComboBoxItem>New Wave</ComboBoxItem>
+                                        <ComboBoxItem>Grunge</ComboBoxItem>
+                                        <ComboBoxItem>Psychedelic</ComboBoxItem>
+                                        <ComboBoxItem>Experimental</ComboBoxItem>
+                                        <ComboBoxItem>Acoustic</ComboBoxItem>
+                                        <ComboBoxItem>Instrumental</ComboBoxItem>
+                                        <ComboBoxItem>Chillout</ComboBoxItem>
+                                        <ComboBoxItem>Ambient</ComboBoxItem>
+                                        <ComboBoxItem>Latin</ComboBoxItem>
+                                        <ComboBoxItem>Salsa</ComboBoxItem>
+                                        <ComboBoxItem>Merengue</ComboBoxItem>
+                                        <ComboBoxItem>Cumbia</ComboBoxItem>
+                                        <ComboBoxItem>Tango</ComboBoxItem>
+                                        <ComboBoxItem>Flamenco</ComboBoxItem>
+                                        <ComboBoxItem>Samba</ComboBoxItem>
+                                        <ComboBoxItem>Bossa Nova</ComboBoxItem>
+                                        <ComboBoxItem>Afrobeat</ComboBoxItem>
+                                        <ComboBoxItem>Caribbean</ComboBoxItem>
+                                        <ComboBoxItem>Bluegrass</ComboBoxItem>
+                                        <ComboBoxItem>Swing</ComboBoxItem>
+                                        <ComboBoxItem>Rockabilly</ComboBoxItem>
+                                        <ComboBoxItem>Surf Rock</ComboBoxItem>
+                                        <ComboBoxItem>Motown</ComboBoxItem>
+                                        <ComboBoxItem>Funk Rock</ComboBoxItem>
+                                        <ComboBoxItem>Gothic</ComboBoxItem>
+                                        <ComboBoxItem>Industrial</ComboBoxItem>
+                                        <ComboBoxItem>Trance</ComboBoxItem>
+                                        <ComboBoxItem>Techno</ComboBoxItem>
+                                        <ComboBoxItem>Dubstep</ComboBoxItem>
+                                        <ComboBoxItem>House</ComboBoxItem>
+                                        <ComboBoxItem>Breakbeat</ComboBoxItem>
+                                        <ComboBoxItem>Hardcore</ComboBoxItem>
+                                        <ComboBoxItem>DnB (Drum and Bass)</ComboBoxItem>
+                                    </ComboBox>
 
+                                    <ComboBox x:Name="paisInput" FontWeight="Bold" Width="85" Margin="0,15,0,0">
+                                        <ComboBoxItem>Estados Unidos</ComboBoxItem>
+                                        <ComboBoxItem>Canadá</ComboBoxItem>
+                                        <ComboBoxItem>México</ComboBoxItem>
+                                        <ComboBoxItem>Argentina</ComboBoxItem>
+                                        <ComboBoxItem>Brasil</ComboBoxItem>
+                                        <ComboBoxItem>Reino Unido</ComboBoxItem>
+                                        <ComboBoxItem>Alemania</ComboBoxItem>
+                                        <ComboBoxItem>Francia</ComboBoxItem>
+                                        <ComboBoxItem>Italia</ComboBoxItem>
+                                        <ComboBoxItem>España</ComboBoxItem>
+                                        <ComboBoxItem>China</ComboBoxItem>
+                                        <ComboBoxItem>Japón</ComboBoxItem>
+                                        <ComboBoxItem>India</ComboBoxItem>
+                                        <ComboBoxItem>Australia</ComboBoxItem>
+                                        <ComboBoxItem>Sudáfrica</ComboBoxItem>
+                                        <ComboBoxItem>Nueva Zelanda</ComboBoxItem>
+                                        <ComboBoxItem>Portugal</ComboBoxItem>
+                                        <ComboBoxItem>Holanda</ComboBoxItem>
+                                        <ComboBoxItem>Bélgica</ComboBoxItem>
+                                        <ComboBoxItem>Suecia</ComboBoxItem>
+                                        <ComboBoxItem>Noruega</ComboBoxItem>
+                                        <ComboBoxItem>Dinamarca</ComboBoxItem>
+                                        <ComboBoxItem>Finlandia</ComboBoxItem>
+                                        <ComboBoxItem>Rusia</ComboBoxItem>
+                                        <ComboBoxItem>Corea del Sur</ComboBoxItem>
+                                        <ComboBoxItem>Arabia Saudita</ComboBoxItem>
+                                        <ComboBoxItem>Emiratos Árabes Unidos</ComboBoxItem>
+                                        <ComboBoxItem>Canadá</ComboBoxItem>
+
+                                    </ComboBox>
+                                    
                                 </StackPanel>
 
                                 <!--Segunda Columna-->
@@ -192,7 +300,7 @@
                                 <StackPanel x:Name="Preview" HorizontalAlignment="Left" Margin="-40,160,0,125" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.488,0.572" Grid.Column="2">
                                     <Button Content="Seleccionar Fragmento de Audio" HorizontalAlignment="Left" Width="180" Click="SelectAudioFile_Click" Margin="0,10,0,0"/>
                                     
-                                    <StackPanel x:Name="Reproductor" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="190,-25,0,0">
+                                    <StackPanel x:Name="Reproductor" Orientation="Horizontal" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="190,-25,0,0">
                                         <Button x:Name="Pause" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Pause_Click">
                                             <Image Source="../../Assets/Images/pause.png"    />
                                         </Button>
@@ -245,7 +353,7 @@
 
 
 
-        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="130" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="48,0,0,0" Width="144" >
+        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="130" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="144" >
             <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
 
 
@@ -288,9 +396,9 @@
 
 
 
-
         <!-- Popup Gestiones: Vinilos, Artistas y Contacto -->
-        <Popup x:Name="popupGestiones" StaysOpen="False" PlacementTarget="{Binding ElementName=btnGestión}" Placement="Bottom" IsOpen="False" HorizontalOffset="0" VerticalOffset="0" Margin="20,0,20,0">
+        <!-- Popup Gestiones: Vinilos, Artistas y Contacto -->
+        <Popup x:Name="popupGestiones" StaysOpen="False" PlacementTarget="{Binding ElementName=btnGestión}" Placement="Bottom" IsOpen="False" Width="{Binding ElementName=btnGestión, Path=ActualWidth}" HorizontalOffset="0" VerticalOffset="0">
             <Border Background="#FFE4E4E4"  CornerRadius="2" BorderThickness="0" BorderBrush="Transparent">
                 <StackPanel Orientation="Vertical" Margin="5" Background="Transparent" >
                     <!-- Contenido del Popup -->
@@ -300,6 +408,7 @@
                 </StackPanel>
             </Border>
         </Popup>
+
 
 
 
