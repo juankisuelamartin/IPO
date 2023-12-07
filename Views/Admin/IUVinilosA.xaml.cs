@@ -262,10 +262,6 @@ namespace WpfApp1.Views.Admin
                         lstVinilos.Items.Remove(viniloSeleccionado);
 
                         MessageBox.Show("Vinilo eliminado correctamente de la base de datos.");
-                        if (lstVinilos.Items.Count > 0)
-                        {
-                            lstVinilos.SelectedIndex = 0;
-                        }
 
                     }
                     catch (Exception ex)
@@ -504,40 +500,60 @@ namespace WpfApp1.Views.Admin
             {
                 listaCanciones.Add(item.ToString());
             }
+            try
+            {
+
 
             // Verifica que tengas un identificador único del vinilo (puedes usar el índice seleccionado o algún otro identificador único)
             int indiceSeleccionado = lstVinilos.SelectedIndex;
 
             Vinilo viniloAntiguo = (Vinilo)lstVinilos.SelectedItem;
-            int viniloId = viniloAntiguo.Idvinilo;
+                if (viniloAntiguo == null)
+                {
+                    MessageBox.Show("El Vinilo ya no existe en el contexto actual.");
+                }
+                else
+                {
+                    int viniloId = viniloAntiguo.Idvinilo;
 
-            // Obtén el vinilo seleccionado de la lista
-            Vinilo viniloSeleccionado = (Vinilo)lstVinilos.Items[indiceSeleccionado];
+                    // Obtén el vinilo seleccionado de la lista
+                    Vinilo viniloSeleccionado = (Vinilo)lstVinilos.Items[indiceSeleccionado];
 
-            // Actualiza los datos del vinilo
-            viniloSeleccionado.Titulo = titulo;
-            viniloSeleccionado.Artista = artistas;
-            viniloSeleccionado.Precio = float.Parse(precio);
-            viniloSeleccionado.Formato = formato;
-            viniloSeleccionado.FechaSalida = anio;
-            viniloSeleccionado.Genero = genero;
-            viniloSeleccionado.Pais = pais;
-            viniloSeleccionado.Sello = sello;
-            viniloSeleccionado.Canciones = listaCanciones;
-
-
-
-            
-
-            // Aquí deberías tener código para actualizar los datos en la base de datos
-            // Esto puede variar según la tecnología que estés utilizando para interactuar con la base de datos (Entity Framework, ADO.NET, etc.)
-
-            // Limpia los controles de entrada después de la actualización
+                    // Actualiza los datos del vinilo
+                    viniloSeleccionado.Titulo = titulo;
+                    viniloSeleccionado.Artista = artistas;
+                    viniloSeleccionado.Precio = float.Parse(precio);
+                    viniloSeleccionado.Formato = formato;
+                    viniloSeleccionado.FechaSalida = anio;
+                    viniloSeleccionado.Genero = genero;
+                    viniloSeleccionado.Pais = pais;
+                    viniloSeleccionado.Sello = sello;
+                    viniloSeleccionado.Canciones = listaCanciones;
 
 
-            // Opcional: Actualiza la visualización de la lista
-            //ActualizarListaVinilos();
-            ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
+
+
+
+                    // Aquí deberías tener código para actualizar los datos en la base de datos
+                    // Esto puede variar según la tecnología que estés utilizando para interactuar con la base de datos (Entity Framework, ADO.NET, etc.)
+
+                    // Limpia los controles de entrada después de la actualización
+
+
+                    // Opcional: Actualiza la visualización de la lista
+                    //ActualizarListaVinilos();
+                    ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
+                }
+
+            }
+            catch(NullReferenceException)
+            {
+                MessageBox.Show("El elemento ya no existe.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado: {ex.Message}");
+            }
 
         }
 
