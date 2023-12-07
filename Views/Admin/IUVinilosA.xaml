@@ -293,6 +293,15 @@
                                         <TextBox x:Name="cancionesInput" Width="130"  Margin="-65,15,0,10"/>
                                         <Button x:Name="anadirListaCanciones" Content="Agregar a Lista" Click="listaCanciones_Click" Margin="160,-30,0,10"/>
                                         <ListBox x:Name="listCanciones" Width="220" Height="70" Margin="25,0,0,0">
+                                            <ListBox.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem x:Name="miEliminarCancionB" Header="Eliminar Cancion" Click="miEliminarCancionB_Click">
+                                                        <MenuItem.Icon>
+                                                            <Image Source="../../Assets/Images/remove_c.png"/>
+                                                        </MenuItem.Icon>
+                                                    </MenuItem>
+                                                </ContextMenu>
+                                            </ListBox.ContextMenu>
                                         </ListBox>
                                     </StackPanel>
 
