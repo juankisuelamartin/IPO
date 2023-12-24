@@ -150,6 +150,9 @@
       <DependentUpon>RegistroWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\Translator.cs" />
+    <Resource Include="resources\Styles\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Resource>
     <Page Include="Views\Admin\IUArtistasA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -205,12 +208,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="resources\StringResources\StringResources.en-US.xaml">
+    <Resource Include="resources\StringResources\StringResources.en-US.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="resources\StringResources\StringResources.es-ES.xaml">
+    </Resource>
+    <Resource Include="resources\StringResources\StringResources.es-ES.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -292,6 +295,10 @@
     <Resource Include="Assets\Images\pause.png" />
     <Resource Include="Assets\Images\Play.png" />
     <Resource Include="Assets\Images\reload.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\carritoPopup.png" />
+    <Resource Include="Assets\Images\logoCorazonPopup.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />

@@ -35,11 +35,9 @@
         
 
 
-        <UniformGrid Grid.Row="3" Grid.ColumnSpan="6" Rows="1" Columns="5" Margin="0,20,0,0" Grid.RowSpan="2">
+        <UniformGrid Grid.Row="3" Grid.ColumnSpan="6" Rows="1" Columns="3" Margin="0,20,0,0" Grid.RowSpan="2">
             <Button x:Name="btnHome" Content="HOME" Click="Button_Home" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
             <Button x:Name="btnTienda" Content="{DynamicResource btnTienda}" Click="Button_Tienda" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnCarrito" Content="{DynamicResource btnCarrito}" Click="Button_Carrito" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
-            <Button x:Name="btnFavoritos" Content="{DynamicResource btnFavoritos}" Click="Button_Favoritos" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
             <Button x:Name="btnBuscar" Content="{DynamicResource btnBuscar}" Click="Button_Buscar" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
 
         </UniformGrid>
@@ -78,18 +76,10 @@
         <Label x:Name="lblFavoritos" Grid.Row="5" Content="{DynamicResource FavoritesLabel}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" Margin="23,-0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="297" Grid.ColumnSpan="2"></Label>
 
         <!--Menu UsuarioDesplegable-->
-        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="130" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="144" >
+        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="160" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="144" >
             <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
 
 
-                <Button x:Name="btnHistorialCompras" Content="{DynamicResource HistorialcomprasLabel}" Click="Button_historialCompras" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderThickness="0"  BorderBrush="#FFE4E4E4" />
-                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
-                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
-                <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
-                    <Rectangle.Fill>
-                        <ImageBrush ImageSource="../../Assets/Images/historial.png"/>
-                    </Rectangle.Fill>
-                </Rectangle>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
                         <ImageBrush ImageSource="../../Assets/Images/profile-icon.png"/>
@@ -97,9 +87,34 @@
                 </Rectangle>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
+                        <ImageBrush ImageSource="../../Assets/Images/carritoPopup.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="../../Assets/Images/logoCorazonPopup.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="../../Assets/Images/historial.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+
+                <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
+                    <Rectangle.Fill>
                         <ImageBrush ImageSource="../../Assets/Images/cerrarsesion.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
+
+                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+                <Button x:Name="btnCarrito" Content="{DynamicResource btnCarrito}" Click="Button_Carrito" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderBrush="#FFE4E4E4" BorderThickness="0"/>
+                <Button x:Name="btnFavoritos" Content="{DynamicResource btnFavoritos}" Click="Button_Favoritos" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderBrush="#FFE4E4E4" BorderThickness="0"/>
+                <Button x:Name="btnHistorialCompras" Content="{DynamicResource HistorialcomprasLabel}" Click="Button_historialCompras" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderThickness="0"  BorderBrush="#FFE4E4E4" />
+                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+              
+
+                
             </WrapPanel>
         </Border>
 

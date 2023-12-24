@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -307,6 +308,7 @@ namespace WpfApp1.Views.Admin
 
         private void InsertarViniloEnBBDD(Vinilo vinilo, int lastIdvinilo)
         {
+
             try
             {
                 dbManager.Connection.Open();
@@ -500,6 +502,7 @@ namespace WpfApp1.Views.Admin
             cancion.Content = nuevoElemento;
             listCanciones.Items.Add(cancion);
 
+
             // Limpia el TextBox después de agregar el elemento
             cancionesInput.Clear();
         }
@@ -682,7 +685,13 @@ namespace WpfApp1.Views.Admin
                         // Insertar también las canciones
                         dbManager.Connection.Open();
                         InsertarCancionesBBDD(listaCanciones, viniloId, dbManager);
-                        
+                        dbManager.Connection.Close() ;
+
+                        if (!string.IsNullOrEmpty(audioPlayer.Source?.AbsolutePath))
+                        {
+                            // Lógica para guardar la ruta del archivo de audio en la base de datos
+                            GuardarRutaPreviewEnBD(audioPlayer.Source.AbsolutePath, viniloId);
+                        }
                         // Verifica si se ha seleccionado una nueva imagen
                         if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
                         {
@@ -749,6 +758,11 @@ namespace WpfApp1.Views.Admin
 
                         //ActualizarListaVinilos();
                         ActualizarVinilosBBDD(viniloSeleccionado, viniloId);
+                        if (!string.IsNullOrEmpty(audioPlayer.Source?.AbsolutePath))
+                        {
+                            // Lógica para guardar la ruta del archivo de audio en la base de datos
+                            GuardarRutaPreviewEnBD(audioPlayer.Source.AbsolutePath, viniloId);
+                        }
                         // Verifica si se ha seleccionado una nueva imagen
                         if (imagenInput.Source != null && imagenInput.Source is BitmapImage)
                         {
@@ -772,6 +786,38 @@ namespace WpfApp1.Views.Admin
             }
 
         }
+
+        private void GuardarRutaPreviewEnBD(string rutaArchivo, int Idvinilo)
+        {
+            try
+            {
+                // Convierte el archivo de audio a bytes
+                byte[] audioBytes = File.ReadAllBytes(rutaArchivo);
+
+                // Inserta los bytes del audio asociados a este vinilo
+                string insertQuery = "UPDATE vinilos SET Preview = @PreviewAudio WHERE Idvinilo = @Idvinilo";
+
+
+                using (MySqlCommand insertCmd = new MySqlCommand(insertQuery, dbManager.Connection))
+                {
+                    insertCmd.Parameters.AddWithValue("@Idvinilo", Idvinilo);
+                    insertCmd.Parameters.AddWithValue("@PreviewAudio", audioBytes);
+
+                    dbManager.Connection.Open();
+                    insertCmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar el audio en la base de datos: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
+
+
 
         private void ActualizarCancionesBBDD(List<string> canciones, int Idvinilo)
         {

@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views.Admin"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
         mc:Ignorable="d"
-        Title="IUVinilosA" Height="450" Width="800" MinHeight="450" MinWidth="800">
+        Title="IUVinilosA" Height="600" Width="910" MinHeight="600" MinWidth="910">
     <Window.Resources>
-        <Style x:Key="PopupStyle" TargetType="Popup">
-            <Setter Property="Placement" Value="Bottom"/>
-            <Setter Property="IsOpen" Value="False"/>
-            <Setter Property="AllowsTransparency" Value="True"/>
-            <Setter Property="PopupAnimation" Value="Slide"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../resources/Styles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
 
@@ -57,12 +57,11 @@
         <Viewbox Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0" Height="0" Width="0" Grid.Row="1"/>
 
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="5" Grid.RowSpan="3" Grid.ColumnSpan="6" Margin="0,0,0,2">
-            <DockPanel x:Name="pnlVinilos" LastChildFill="True" Margin="5"  Grid.Row="5" Grid.RowSpan="2" >
+        <DockPanel x:Name="pnlVinilos" LastChildFill="True"  Grid.RowSpan="5" Grid.Row="3"  Grid.ColumnSpan="6"  >
 
                 <!--Lista Vinilos-->
-
-                <ListBox x:Name="lstVinilos" Margin="5" Height="Auto" AlternationCount="2" SelectedIndex="0" Width="200">
+          
+                <ListBox x:Name="lstVinilos"  Grid.Row="5" Grid.RowSpan="7"  Margin="5,48,5,5" AlternationCount="2" SelectedIndex="0" Width="200">
                     <ListBox.ContextMenu>
                         <ContextMenu>
                             <MenuItem x:Name="miAniadirViniloB" Header="{DynamicResource miAniadirViniloB}" Click="miAniadirViniloB_Click">
@@ -108,37 +107,38 @@
 
                 </ListBox>
 
-                <!--Atributos Vinilos-->
-                <StackPanel x:Name="spDetallesVinilo" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Height="500" Width="Auto" MinWidth="557">
-                    <Grid x:Name="grdDetallesVinilo" Margin="5">
+            <!--Atributos Vinilos-->
+                <StackPanel x:Name="spDetallesVinilo" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Height="500" Margin="-5,14,0,0">
+                    <Grid x:Name="grdDetallesVinilo" Margin="5,65,5,10">
 
                         <!-- Contenedor 1: Imagen -->
-                        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,0,0,0">
+                        <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,00,0,0">
                             <Image x:Name="imgCaratula"
                                 Height="120" Width="120"
-                                HorizontalAlignment="Left"
+                                Margin="-465,0,0,0"
                                 Stretch="Fill"/>
-                            <Image x:Name="imagenInput" Width="120" Height="120" Margin="-427,-120,0,0"></Image>
-                            <Button x:Name="caratulaInput" Height="120" Background="Transparent" Width="120" Margin="-427,-120,0,0" Click="SeleccionarImagen_Click"/>
+                            <Image x:Name="imagenInput" Width="120" Height="120" Margin="-465,-120,0,0"></Image>
+                            <Button x:Name="caratulaInput" Style="{StaticResource ManoStyle}" Height="120" Background="Transparent" Width="120" Margin="-464,-120,0,0" Click="SeleccionarImagen_Click"/>
                         </StackPanel>
 
 
                         <!-- Contenedor 2: Título, Artista y Precio -->
-                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="10,0,0,0">
-                            <Label x:Name="lblTituloDetalles" Content="{DynamicResource lblTituloDetalles}" FontWeight="Bold" Width="210" Margin="0,15,0,0"/>
-                            <Label x:Name="lblArtistasDetalles" Content="{DynamicResource lblArtistasDetalles}" FontWeight="Bold" Width="259" Margin="0,15,0,0"/>
-                            <Label x:Name="lblPrecio" Content="{DynamicResource lblPrecio}" FontWeight="Bold" Width="211" Margin="10,5,0,0"/>
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="120,15,0,-5">
+                        <Label x:Name="lblTituloDetalles" Content="{DynamicResource lblTituloDetalles}" FontWeight="Bold" Width="210" ToolTip="{DynamicResource lblTituloDetalles}" Margin="0,0,0,0"/>
+                        <Label x:Name="lblArtistasDetalles" Content="{DynamicResource lblArtistasDetalles}" ToolTip="{DynamicResource artistaT}" FontWeight="Bold" Width="259" Margin="0,15,0,0"/>
+                        <Label x:Name="lblPrecio" Content="{DynamicResource lblPrecio}" FontWeight="Bold" ToolTip="{DynamicResource precioT}" Width="211" Margin="10,5,0,0" />
+
 
                         </StackPanel>
-                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="75,5,0,0">
-                            <TextBox x:Name="tituloDetallesInput" Width="225" Margin="120,15,0,0"></TextBox>
-                            <ComboBox x:Name="artistasDetallesInput" FontWeight="Bold"  Width="225" Margin="120,15,0,0"></ComboBox>
-                            <TextBox x:Name="precioInput" Width="225" Margin="120,15,0,0"></TextBox>
+                        <StackPanel Grid.Column="1" Orientation="Vertical" Margin="165,5,0,0">
+                            <TextBox x:Name="tituloDetallesInput" Width="235" Margin="120,15,0,0"></TextBox>
+                            <ComboBox x:Name="artistasDetallesInput" Style="{StaticResource ManoStyle}" FontWeight="Bold"  Width="235" Margin="120,20,0,0"></ComboBox>
+                            <TextBox x:Name="precioInput" Width="50" Margin="-65,12,0,0"></TextBox>
                         </StackPanel>
                     </Grid>
                     <!--Contenedor: Detalles Vinilos-->
-                    <Border Background="#FFE4E4E4" Width="Auto" Height="300" CornerRadius="10">
-                        <Grid x:Name="grdPrincipal" Height="240">
+                    <Border Background="#FFE4E4E4" Width="680" Height="270" CornerRadius="10">
+                        <Grid x:Name="grdPrincipal" Height="Auto" Margin="0,5,0,0">
 
                             <Grid x:Name="DetallesSecundarios" Height="400">
                                 <Grid.RowDefinitions>
@@ -154,17 +154,17 @@
                                 </Grid.ColumnDefinitions>
 
                                 <!--Primera Columna-->
-                                <StackPanel Grid.Column="0" Grid.RowSpan="2">
-                                    <Label x:Name="lblFormato" Content="{DynamicResource lblFormato}" FontWeight="Bold" Margin="0,10,0,0"/>
-                                    <Label x:Name="lblAnio" Content="{DynamicResource lblAnio}" FontWeight="Bold" Margin="0,10,0,0"/>
-                                    <Label x:Name="lblGenero" Content="{DynamicResource lblGenero}" FontWeight="Bold"  Margin="0,10,0,0"/>
-                                    <Label x:Name="lblPais" Content="{DynamicResource lblPais}" FontWeight="Bold"  Margin="0,10,0,0"/>
+                                <StackPanel Grid.Column="0" Grid.RowSpan="2" Margin="10,0,0,0">
+                                <Label x:Name="lblFormato" Content="{DynamicResource lblFormato}" ToolTip="{DynamicResource lblFormato}" FontWeight="Bold" Margin="0,10,0,0"/>
+
+                                <Label x:Name="lblGenero" Content="{DynamicResource lblGenero}" ToolTip="{DynamicResource lblGenero}" FontWeight="Bold"  Margin="0,10,0,0"/>
+                                <Label x:Name="lblPais" Content="{DynamicResource lblPais}" ToolTip="{DynamicResource lblPais}" FontWeight="Bold"  Margin="0,10,0,0"/>
 
 
                                 </StackPanel>
 
-                                <StackPanel Grid.Column="1" Width="Auto" Grid.RowSpan="2">
-                                    <ComboBox x:Name="formatoInput" FontWeight="Bold" Width="85" Margin="0,13,0,0">
+                                <StackPanel Grid.Column="1" Width="Auto" Grid.RowSpan="2" Margin="-20,0,0,0">
+                                    <ComboBox x:Name="formatoInput" Style="{StaticResource ManoStyle}" FontWeight="Bold" Width="108" Margin="-55,13,0,0">
                                         <ComboBoxItem>LP</ComboBoxItem>
                                         <ComboBoxItem>EP</ComboBoxItem>
                                         <ComboBoxItem>Single</ComboBoxItem>
@@ -184,8 +184,9 @@
                                         <ComboBoxItem>33 RPM</ComboBoxItem>
                                         <ComboBoxItem>78 RPM</ComboBoxItem>
                                     </ComboBox>
-                                    <TextBox x:Name="anioInput" Width="85" Margin="0,15,0,0"></TextBox>
-                                    <ComboBox x:Name="generoInput" FontWeight="Bold" Width="85" Margin="0,15,0,0">
+                                <Label x:Name="lblAnio" Content="{DynamicResource lblAnio}" ToolTip="{DynamicResource anoSalidaT}" FontWeight="Bold" Margin="140,-25,0,0"/>
+                                    <TextBox x:Name="anioInput" Width="40" Height="20" Margin="180,-25,0,0"></TextBox>
+                                    <ComboBox x:Name="generoInput" Style="{StaticResource ManoStyle}" FontWeight="Bold" Width="195" Margin="30,15,0,0">
                                         <ComboBoxItem>"Rock"</ComboBoxItem>
                                         <ComboBoxItem>Pop</ComboBoxItem>
                                         <ComboBoxItem>Hip-Hop / Rap</ComboBoxItem>
@@ -243,7 +244,7 @@
                                         <ComboBoxItem>DnB (Drum and Bass)</ComboBoxItem>
                                     </ComboBox>
 
-                                    <ComboBox x:Name="paisInput" FontWeight="Bold" Width="85" Margin="0,15,0,0">
+                                    <ComboBox x:Name="paisInput" FontWeight="Bold" Style="{StaticResource ManoStyle}" Width="195" Margin="30,15,0,0">
                                         <ComboBoxItem>Estados Unidos</ComboBoxItem>
                                         <ComboBoxItem>Canadá</ComboBoxItem>
                                         <ComboBoxItem>México</ComboBoxItem>
@@ -279,17 +280,17 @@
 
                                 <!--Segunda Columna-->
                                 <StackPanel Grid.Column="2" Grid.RowSpan="2" >
-                                    <Label x:Name="lblSello" Content="{DynamicResource lblSello}"  FontWeight="Bold" Margin="40,10,0,0"/>
-                                    <Label x:Name="lblCanciones" Content="{DynamicResource lblCanciones}" FontWeight="Bold" Margin="25,10,0,0"/>
+                                <Label x:Name="lblSello" Content="{DynamicResource lblSello}" ToolTip="{DynamicResource selloT}" FontWeight="Bold" Margin="50,10,0,0"/>
+                                <Label x:Name="lblCanciones" Content="{DynamicResource lblCanciones}" ToolTip="{DynamicResource cancionesT}" FontWeight="Bold" Margin="40,10,0,0"/>
                                 </StackPanel>
 
                                 <StackPanel Grid.Column="3" Grid.RowSpan="2">
                                     <StackPanel>
-                                        <TextBox x:Name="selloInput" Width="220" Margin="25,15,0,0"></TextBox>
+                                        <TextBox x:Name="selloInput" Width="240" Margin="19,15,0,0"></TextBox>
 
-                                        <TextBox x:Name="cancionesInput" Width="130"  Margin="-65,15,0,10"/>
-                                        <Button x:Name="anadirListaCanciones" Content="{DynamicResource actualizarVinilo}" Click="listaCanciones_Click" Margin="160,-30,0,10"/>
-                                        <ListBox x:Name="listCanciones" Width="220" Height="70" Margin="25,0,0,0">
+                                        <TextBox x:Name="cancionesInput" Width="130"  Margin="-90,15,0,10"/>
+                                        <Button x:Name="anadirListaCanciones" Content="{DynamicResource agregarLista}" Style="{StaticResource ManoStyle}" Click="listaCanciones_Click" FontFamily="Bold" Margin="160,-30,0,10"/>
+                                        <ListBox x:Name="listCanciones" Width="240" Height="70" Margin="20,0,0,0">
                                             <ListBox.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem x:Name="miEliminarCancionB" Header="{DynamicResource miEliminarCancionB}" Click="miEliminarCancionB_Click">
@@ -300,24 +301,26 @@
                                                 </ContextMenu>
                                             </ListBox.ContextMenu>
                                         </ListBox>
+
+
                                     </StackPanel>
 
                                 </StackPanel>
-                                <StackPanel x:Name="Preview" HorizontalAlignment="Left" Margin="-40,160,0,125" Grid.ColumnSpan="2" Grid.RowSpan="2" RenderTransformOrigin="0.488,0.572" Grid.Column="2">
-                                    <Button Content="{DynamicResource btnAudio}" HorizontalAlignment="Left" Width="180" Click="SelectAudioFile_Click" Margin="0,10,0,0"/>
+                                <StackPanel x:Name="Preview"  Margin="0,160,0,0" Grid.ColumnSpan="4" Grid.RowSpan="4" Grid.Column="0">
+                                <Button Content="{DynamicResource btnAudio}" Style="{StaticResource ManoStyle}" HorizontalAlignment="Left" Width="180" Click="SelectAudioFile_Click" ToolTip="{DynamicResource audioT}" Margin="85,-30,0,0"/>
                                     
-                                    <StackPanel x:Name="Reproductor" Orientation="Horizontal" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="190,-25,0,0">
-                                        <Button x:Name="Pause" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Pause_Click">
+                                    <StackPanel x:Name="Reproductor" Orientation="Horizontal" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-240,5,0,0">
+                                    <Button x:Name="Pause" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Pause_Click" Style="{StaticResource ManoStyle}" ToolTip="{DynamicResource pauseT}">
                                             <Image Source="../../Assets/Images/pause.png"    />
                                         </Button>
-                                        <Button x:Name="Play" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Play_Click">
+                                    <Button x:Name="Play" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Play_Click" Style="{StaticResource ManoStyle}" ToolTip="{DynamicResource playT}">
                                             <Image Source="../../Assets/Images/Play.png" />
                                         </Button>
-                                        <Button x:Name="Reload" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Reload_Click">
+                                    <Button x:Name="Reload" HorizontalAlignment="Left" BorderThickness="0" Width="30" Height="30" Click="Reload_Click" Style="{StaticResource ManoStyle}" ToolTip="{DynamicResource reloadT}">
                                             <Image Source="../../Assets/Images/reload.png"  />
                                         </Button>
                                     </StackPanel>
-                                    <Button x:Name="actualizarVinilo" Content="{DynamicResource actualizarVinilo}" FontWeight="Bold" Margin="0,20,0,10"  Click="actualizarVinilo_Click"></Button>
+                                <Button x:Name="actualizarVinilo" Style="{StaticResource ManoStyle}" Content="{DynamicResource actualizarVinilo}" ToolTip="{DynamicResource actualizarVinilo}" FontWeight="Bold" Margin="30,20,0,10" Height="30" Click="actualizarVinilo_Click"></Button>
                                     <MediaElement x:Name="audioPlayer" Height="30" Width="200" Visibility="Collapsed" LoadedBehavior="Manual" UnloadedBehavior="Stop"/>
                                 </StackPanel>
                             </Grid>
@@ -330,7 +333,7 @@
 
                 </StackPanel>
             </DockPanel>
-        </ScrollViewer>
+
 
         <Rectangle Grid.ColumnSpan="6" Grid.Row="8"  Stroke="Black" Fill="#FFB9B9B9" Margin="0,1,0,0"/>
         <Grid Grid.ColumnSpan="6" Grid.Row="8" VerticalAlignment="Center" Height="18">
@@ -385,12 +388,12 @@
         </Border>
 
         <StackPanel Grid.Row="1" Grid.RowSpan="3" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0" Height="71" Width="185">
-            <Ellipse x:Name="imgPerfil" Margin="0,6,10,6" MouseUp="imgPerfil_MouseUp" VerticalAlignment="Center" Stretch="Uniform"  RenderTransformOrigin="0.5,0.5" Width="60" Height="60">
+            <Ellipse x:Name="imgPerfil" Style="{StaticResource ManoStyleEllipse}" Margin="0,6,10,6" MouseUp="imgPerfil_MouseUp" VerticalAlignment="Center" Stretch="Uniform"  RenderTransformOrigin="0.5,0.5" Width="60" Height="60">
                 <Ellipse.Fill>
                     <ImageBrush ImageSource="../../Assets/Images/fotoperfildefault.png"/>
                 </Ellipse.Fill>
             </Ellipse>
-            <Image x:Name="desplegable" MouseUp="imgPerfil_MouseUp" Height="27" Width="55" VerticalAlignment="Center">
+            <Image x:Name="desplegable" MouseUp="imgPerfil_MouseUp" Style="{StaticResource ManoStyleImage}" Height="27" Width="55" VerticalAlignment="Center">
                 <Image.Source>
                     <BitmapImage UriSource="../../Assets/Images/Desplegable.png"/>
                 </Image.Source>

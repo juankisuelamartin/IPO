@@ -60,12 +60,23 @@
     <system:String x:Key="lblAnio">Year:</system:String>
     <system:String x:Key="lblGenero">Genre:</system:String>
     <system:String x:Key="lblPais">Country:</system:String>
-    <system:String x:Key="lblSello">Seal:</system:String>
+    <system:String x:Key="lblSello">Label:</system:String>
     <system:String x:Key="lblCanciones">Songs:</system:String>
     <system:String x:Key="miEliminarCancionB">Remove song:</system:String>
     <system:String x:Key="btnAudio">Select audio fragment:</system:String>
     <system:String x:Key="actualizarVinilo">Update Vinyl:</system:String>
-    <system:String x:Key="agregarLista">Add to the list:</system:String>
+    <system:String x:Key="agregarLista">Add to the list</system:String>
+
+    <system:String x:Key="artistaT">Artist or Band</system:String>
+    <system:String x:Key="precioT">Price (€)</system:String>
+    <system:String x:Key="anoSalidaT">Release Year</system:String>
+    <system:String x:Key="selloT">Record Label</system:String>
+    <system:String x:Key="cancionesT">Album Songs</system:String>
+    <system:String x:Key="audioT">Audio Preview</system:String>
+    <system:String x:Key="pauseT">Pause</system:String>
+    <system:String x:Key="playT">Resume</system:String>
+    <system:String x:Key="reloadT">Restart</system:String>
+
 
     <!--IUprincipal-->
     <system:String x:Key="lblNovedades">News</system:String>
