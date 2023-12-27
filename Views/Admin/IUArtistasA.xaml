@@ -138,11 +138,11 @@
                         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="165,5,0,0">
                             <TextBox x:Name="artistaDetallesInput" Width="235" Margin="135,27,0,0"></TextBox>
                             <Label x:Name="si" Content="{DynamicResource si}" FontWeight="Bold" Width="259" Margin="150,12,0,0"/>
-                            <RadioButton x:Name="isGroupInputSi" Width="50" Style="{StaticResource ManoStyle}" Margin="-15,-20,0,0"></RadioButton>
+                            <RadioButton x:Name="isGroupInputSi" Click="Group_Checked" Width="50" Style="{StaticResource ManoStyle}" Margin="-15,-20,0,0"></RadioButton>
                             <Label x:Name="no" Content="{DynamicResource no}" FontWeight="Bold" Width="259" Margin="250,-26,0,0"/>
-                            <RadioButton x:Name="isGroupInputNo" IsChecked="True" Style="{StaticResource ManoStyle}" Width="50" Margin="95,-20,0,0" ></RadioButton>
+                            <RadioButton x:Name="isGroupInputNo" Click="NoGroup_Checked" IsChecked="True" Style="{StaticResource ManoStyle}" Width="50" Margin="95,-20,0,0" ></RadioButton>
 
-                            <TextBox x:Name="nombreRealInput" FontWeight="Bold"  Width="235" Margin="135,15,0,0"></TextBox>
+                            <TextBox x:Name="nombreRealInput" FontWeight="Bold"  Width="235" Margin="135,15,0,0" IsEnabled="True"></TextBox>
 
                         </StackPanel>
                     </Grid>
@@ -266,9 +266,9 @@
                                     <StackPanel>
 
 
-                                        <TextBox x:Name="componentesInput" Width="130"  Margin="-110,15,0,10"/>
+                                        <TextBox x:Name="componentesInput" Width="130" IsEnabled="False" Margin="-110,15,0,10"/>
                                         <Button x:Name="anadirListaComponentes" Content="{DynamicResource agregarLista}" Style="{StaticResource ManoStyle}" Click="listaComponentes_Click" FontFamily="Bold" Margin="145,-30,10,10"/>
-                                        <ListBox x:Name="listComponentes" Width="240" Height="70" Margin="0,0,0,0">
+                                        <ListBox x:Name="listComponentes" IsEnabled="False" Width="240" Height="70" Margin="0,0,0,0">
                                             <ListBox.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem x:Name="miEliminarComponenteB" Header="{DynamicResource miEliminarComponenteB}" Click="miEliminarCancionB_Click">

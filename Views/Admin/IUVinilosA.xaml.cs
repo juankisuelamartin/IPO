@@ -71,6 +71,7 @@ namespace WpfApp1.Views.Admin
             dbManager = new DatabaseManager();
             languageManager = new LanguageManager();
             mainMethods = new MainMethods();
+            CargarArtistasEnComboBox();
             CargarContenidoLista();
             miAniadirViniloB_Click(null, null);
             this.Loaded += MainWindow_Loaded;
@@ -425,6 +426,53 @@ namespace WpfApp1.Views.Admin
             MostrarDetallesVinilo(viniloSeleccionado);
         }
 
+        public List<string> ObtenerListaArtistas()
+        {
+            List<string> artistas = new List<string>();
+
+            try
+            {
+                string query = "SELECT Artista FROM artistas";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    dbManager.Connection.Open();
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string nombreArtista = reader.GetString("Artista");
+                            artistas.Add(nombreArtista);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener la lista de artistas: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+
+            return artistas;
+        }
+
+        private void CargarArtistasEnComboBox()
+        {
+            List<string> artistas = ObtenerListaArtistas();
+
+            // Limpia los elementos existentes en el ComboBox
+            artistasDetallesInput.Items.Clear();
+
+            // Agrega los artistas recuperados al ComboBox
+            foreach (string artista in artistas)
+            {
+                artistasDetallesInput.Items.Add(artista);
+            }
+        }
+
         private void MostrarDetallesVinilo(Vinilo vinilo)
         {
             // Muestra los detalles del vinilo en la interfaz de usuario
@@ -582,18 +630,10 @@ namespace WpfApp1.Views.Admin
                                 Fecha = Convert.ToInt32(reader["FechaSalida"]),
                                 // El campo de la portada es un byte[] (mediumblob)
                                 Precio = Convert.ToSingle(reader["Precio"]),
-                                Canciones = new List<string>()
+                                Canciones = new List<string>(),
+                                Portada = (byte[])reader["Portada"]
                             };
 
-                            if (reader["Portada"] != DBNull.Value && reader["Portada"] != null)
-                            {
-                                vinilo.Portada = (byte[])reader["Portada"];
-                            }
-                            else
-                            {
-                                // Si no hay imagen en la base de datos, asigna la imagen por defecto
-                                vinilo.Portada = ObtenerBytesDesdeImagenPorDefecto();
-                            }
                             // Agregar canción al vinilo actual si hay una
                             string cancion = reader["Canciones"].ToString();
                             if (!string.IsNullOrEmpty(cancion))

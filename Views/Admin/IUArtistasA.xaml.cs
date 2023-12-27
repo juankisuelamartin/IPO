@@ -215,6 +215,21 @@ namespace WpfApp1.Views.Admin
 
         }
 
+        private void Group_Checked(object sender, RoutedEventArgs e)
+        {
+            nombreRealInput.IsEnabled = false;
+            componentesInput.IsEnabled = true;
+            listComponentes.IsEnabled = true;
+        }
+
+        private void NoGroup_Checked(object sender, RoutedEventArgs e)
+        {
+            nombreRealInput.IsEnabled = true;
+            componentesInput.IsEnabled = false;
+            listComponentes.IsEnabled = false;
+        }
+
+
         private void IUSUARIO_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -225,7 +240,7 @@ namespace WpfApp1.Views.Admin
         {
 
             lstArtistas.SelectedItem = null;
-            actualizarVinilo.Content = "Insertar Vinilo";
+            actualizarVinilo.Content = "Insertar Artista";
             // Obtén los valores de los controles de entrada
             string artista = artistaDetallesInput.Text;
             string nombrereal = nombreRealInput.Text;
@@ -281,6 +296,9 @@ namespace WpfApp1.Views.Admin
             MostrarImagen(rutaRelativa);
             listComponentes.Items.Clear();
 
+            nombreRealInput.IsEnabled = true;
+            componentesInput.IsEnabled = false;
+            listComponentes.IsEnabled = false;
 
 
         }
@@ -392,14 +410,21 @@ namespace WpfApp1.Views.Admin
                 Console.WriteLine(artista.IsGroup);
                 if(artista.IsGroup == true)
                 {
-
+                    nombreRealInput.IsEnabled = false;
+                    componentesInput.IsEnabled = true;
+                    listComponentes.IsEnabled = true;
                     isGroupInputSi.IsChecked = true;
                 }
                 else
                 {
-
+                    nombreRealInput.IsEnabled = true;
+                    componentesInput.IsEnabled = false;
+                    listComponentes.IsEnabled = false;
                     isGroupInputNo.IsChecked = true;
                 }
+
+
+
                 nombreRealInput.Text = artista.NombreReal;
                 Console.WriteLine(artista.Genero);
                 ComboBoxItem genero = new ComboBoxItem();
@@ -641,6 +666,7 @@ namespace WpfApp1.Views.Admin
             string x = xInput.Text;
             string facebook = facebookInput.Text;
             string youtube = youtubeInput.Text;
+
             if(isGroupInputNo.IsChecked == true)
             {
                 isGroup = false;
@@ -670,14 +696,27 @@ namespace WpfApp1.Views.Admin
             string descripcion = descripcionInput.Text;
 
 
-            if (actualizarVinilo.Content.ToString() == "Insertar Vinilo")
+            if (actualizarVinilo.Content.ToString() == "Insertar Artista")
             {
+
                 // Verifica que los campos no estén vacíos
-                if (string.IsNullOrWhiteSpace(nombreArtistico) || string.IsNullOrWhiteSpace(nombreReal) ||
-                    string.IsNullOrWhiteSpace(genero) || string.IsNullOrWhiteSpace(descripcion))
+                if (isGroupInputNo.IsChecked==true)
                 {
-                    MessageBox.Show("Por favor, asegúrate de que los campos esenciales esten llenos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    return;
+                    if (string.IsNullOrWhiteSpace(nombreArtistico) || string.IsNullOrWhiteSpace(nombreReal) ||
+                        string.IsNullOrWhiteSpace(genero) || string.IsNullOrWhiteSpace(descripcion))
+                    {
+                        MessageBox.Show("Por favor, asegúrate de que los campos esenciales esten llenos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrWhiteSpace(nombreArtistico) || 
+                        string.IsNullOrWhiteSpace(genero) || string.IsNullOrWhiteSpace(descripcion))
+                    {
+                        MessageBox.Show("Por favor, asegúrate de que los campos esenciales esten llenos.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
                 }
 
                 // Crea un nuevo objeto Vinilo con los valores obtenidos
@@ -796,7 +835,12 @@ namespace WpfApp1.Views.Admin
                 }
                 catch (Exception ex)
                 {
+                    
                     MessageBox.Show($"Error inesperado: {ex.Message}");
+                }
+                finally
+                {
+                    CargarContenidoLista();
                 }
             }
 
