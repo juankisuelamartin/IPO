@@ -90,38 +90,32 @@ namespace WpfApp1.Views
 
         }
 
-        private void Button_Ofertas(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void Button_Historial(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.ButtonHistorial(NombreUsuario, this);
         }
-
+        private void Button_Ofertas(object sender, RoutedEventArgs e)
+        {
+            mainMethods.ButtonOfertas(NombreUsuario, this);
+        }
         private void Button_Incidencias(object sender, RoutedEventArgs e)
         {
+            mainMethods.ButtonIncidencias(NombreUsuario, this);
+        }
+        private void BtnGestionVinilos_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.ButtonGestionVinilos(NombreUsuario, this);
+        }
+
+        private void BtnGestionArtistas_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.ButtonGestionArtistas(NombreUsuario, this);
 
         }
 
-        private void VerMasNovedades_Click(object sender, MouseButtonEventArgs e)
+        private void BtnGestionContacto_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void VerMasOfertas_Click(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void VerMasFavoritos_Click(object sender, MouseButtonEventArgs e)
-        {
-           
-        }
-
-        private void Button_Perfil(object sender, RoutedEventArgs e)
-        {
+            mainMethods.ButtonGestionContacto(NombreUsuario, this);
 
         }
 
@@ -130,11 +124,26 @@ namespace WpfApp1.Views
             mainMethods.Button_cerrarsesion(this);
         }
 
-        private void Button_historialCompras(object sender, RoutedEventArgs e)
-        {
 
+        private void VerMasOfertas_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.Button_cerrarsesion(this);
         }
 
+        private void VerMasNovedades_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.Button_cerrarsesion(this);
+        }
+
+        private void VerMasFavoritos_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.Button_cerrarsesion(this);
+        }
+
+        private void Button_Perfil(object sender, RoutedEventArgs e)
+        {
+            mainMethods.Button_cerrarsesion(this);
+        }
         private void BtnGestion(object sender, RoutedEventArgs e)
         {
             // Si el Popup está abierto, ciérralo; de lo contrario, ábrelo
@@ -158,23 +167,7 @@ namespace WpfApp1.Views
 
 
 
-        private void BtnGestionVinilos_Click(object sender, RoutedEventArgs e)
-        {
-            IUVinilosA iUVinilosA = new IUVinilosA();
-            iUVinilosA.NombreUsuario = this.NombreUsuario;
-            iUVinilosA.Show();
-            this.Close();
-        }
-
-        private void BtnGestionArtistas_Click(object sender, RoutedEventArgs e)
-        {
-            // Lógica para el botón Gestión Artistas
-        }
-
-        private void BtnGestionContacto_Click(object sender, RoutedEventArgs e)
-        {
-            // Lógica para el botón Gestión Contacto
-        }
+      
 
         private void imgPerfil_MouseUp(object sender, MouseButtonEventArgs e)
         {

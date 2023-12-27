@@ -124,16 +124,17 @@
 
                         <!-- Contenedor 2: Título, Artista y Precio -->
                         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="120,15,0,-5">
+                        <Label x:Name="lblGestionV" Content="{DynamicResource lblTituloDetalles}" Grid.RowSpan="5" Grid.Row="3"  Grid.ColumnSpan="6" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Margin="350,-20,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="32" Width="570" />
                         <Label x:Name="lblTituloDetalles" Content="{DynamicResource lblTituloDetalles}" FontWeight="Bold" Width="210" ToolTip="{DynamicResource lblTituloDetalles}" Margin="0,0,0,0"/>
-                        <Label x:Name="lblArtistasDetalles" Content="{DynamicResource lblArtistasDetalles}" ToolTip="{DynamicResource artistaT}" FontWeight="Bold" Width="259" Margin="0,15,0,0"/>
+                        <Label x:Name="lblArtistasDetalles" Content="{DynamicResource lblArtistasDetalles}" ToolTip="{DynamicResource artistaT}" FontWeight="Bold" Width="259" Margin="0,10,0,0"/>
                         <Label x:Name="lblPrecio" Content="{DynamicResource lblPrecio}" FontWeight="Bold" ToolTip="{DynamicResource precioT}" Width="211" Margin="10,5,0,0" />
 
 
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Vertical" Margin="165,5,0,0">
-                            <TextBox x:Name="tituloDetallesInput" Width="235" Margin="120,15,0,0"></TextBox>
-                            <ComboBox x:Name="artistasDetallesInput" Style="{StaticResource ManoStyle}" FontWeight="Bold"  Width="235" Margin="120,20,0,0"></ComboBox>
-                            <TextBox x:Name="precioInput" Width="50" Margin="-65,12,0,0"></TextBox>
+                            <TextBox x:Name="tituloDetallesInput" Width="235" Margin="135,27,0,0"></TextBox>
+                            <ComboBox x:Name="artistasDetallesInput" Style="{StaticResource ManoStyle}" FontWeight="Bold"  Width="235" Margin="135,15,0,0"></ComboBox>
+                            <TextBox x:Name="precioInput" Width="50" Margin="-50,12,0,0"></TextBox>
                         </StackPanel>
                     </Grid>
                     <!--Contenedor: Detalles Vinilos-->
@@ -362,18 +363,11 @@
 
 
 
-        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="130" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="144" >
-            <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
+        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="110" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="134" >
+            <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="-10,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="Auto">
 
 
-                <Button x:Name="btnHistorialCompras" Content="{DynamicResource HistorialcomprasLabel}" Click="Button_historialCompras" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderThickness="0"  BorderBrush="#FFE4E4E4" />
-                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
-                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
-                <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
-                    <Rectangle.Fill>
-                        <ImageBrush ImageSource="../../Assets/Images/historial.png"/>
-                    </Rectangle.Fill>
-                </Rectangle>
+
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
                         <ImageBrush ImageSource="../../Assets/Images/profile-icon.png"/>
@@ -384,6 +378,9 @@
                         <ImageBrush ImageSource="../../Assets/Images/cerrarsesion.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
+                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+
             </WrapPanel>
         </Border>
 
@@ -405,7 +402,6 @@
 
 
 
-        <!-- Popup Gestiones: Vinilos, Artistas y Contacto -->
         <!-- Popup Gestiones: Vinilos, Artistas y Contacto -->
         <Popup x:Name="popupGestiones" StaysOpen="False" PlacementTarget="{Binding ElementName=btnGestión}" Placement="Bottom" IsOpen="False" Width="{Binding ElementName=btnGestión, Path=ActualWidth}" HorizontalOffset="0" VerticalOffset="0">
             <Border Background="#FFE4E4E4"  CornerRadius="2" BorderThickness="0" BorderBrush="Transparent">

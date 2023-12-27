@@ -93,28 +93,7 @@ namespace WpfApp1.Views.Admin
 
         private void Button_Home(object sender, RoutedEventArgs e)
         {
-            mainMethods.Button_HomeAdmin(NombreUsuario,this);
-
-        }
-        private void Button_Gestion(object sender, RoutedEventArgs e)
-        {
-            mainMethods.Window_Closing(this);
-        }
-
-        private void Button_Ofertas(object sender, RoutedEventArgs e)
-        {
-            mainMethods.Window_Closing(this);
-
-        }
-
-        private void Button_Historial(object sender, RoutedEventArgs e)
-        {
-            mainMethods.Window_Closing(this);
-        }
-
-        private void Button_Incidencias(object sender, RoutedEventArgs e)
-        {
-            mainMethods.Window_Closing(this);
+            mainMethods.Button_HomeAdmin(NombreUsuario, this);
         }
 
         private void VerMasNovedades_Click(object sender, MouseButtonEventArgs e)
@@ -122,7 +101,7 @@ namespace WpfApp1.Views.Admin
             mainMethods.Window_Closing(this);
         }
 
-        private void VerMasOfertas_Click(object sender, MouseButtonEventArgs e)
+        private void VerMasOfertas(object sender, MouseButtonEventArgs e)
         {
             mainMethods.Window_Closing(this);
         }
@@ -142,9 +121,33 @@ namespace WpfApp1.Views.Admin
             mainMethods.Button_cerrarsesion(this);
         }
 
-        private void Button_historialCompras(object sender, RoutedEventArgs e)
+        private void Button_Historial(object sender, RoutedEventArgs e)
         {
-            mainMethods.Window_Closing(this);
+            mainMethods.ButtonHistorial(NombreUsuario,this);
+        }
+        private void Button_Ofertas(object sender, RoutedEventArgs e)
+        {
+            mainMethods.ButtonOfertas(NombreUsuario, this);
+        }
+        private void Button_Incidencias(object sender, RoutedEventArgs e)
+        {
+            mainMethods.ButtonIncidencias(NombreUsuario, this);
+        }
+        private void BtnGestionVinilos_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.ButtonGestionVinilos(NombreUsuario, this);
+        }
+
+        private void BtnGestionArtistas_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.ButtonGestionArtistas(NombreUsuario, this);
+ 
+        }
+
+        private void BtnGestionContacto_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.ButtonGestionContacto(NombreUsuario, this);
+
         }
 
         private void BtnGestion(object sender, RoutedEventArgs e)
@@ -170,27 +173,7 @@ namespace WpfApp1.Views.Admin
 
 
 
-        private void BtnGestionVinilos_Click(object sender, RoutedEventArgs e)
-        {
-            IUVinilosA iUVinilosA = new IUVinilosA();
-            mainMethods.Window_Closing(this);
-            iUVinilosA.NombreUsuario = this.NombreUsuario;
-            iUVinilosA.Show();
-            this.Close();
-        }
-
-        private void BtnGestionArtistas_Click(object sender, RoutedEventArgs e)
-        {
-            mainMethods.Window_Closing(this);
-            // Lógica para el botón Gestión Artistas
-        }
-
-        private void BtnGestionContacto_Click(object sender, RoutedEventArgs e)
-        {
-            mainMethods.Window_Closing(this);
-            // Lógica para el botón Gestión Contacto
-        }
-
+       
         private void imgPerfil_MouseUp(object sender, MouseButtonEventArgs e)
         {
             // Si el Popup está abierto, ciérralo; de lo contrario, ábrelo
@@ -598,11 +581,19 @@ namespace WpfApp1.Views.Admin
                                 Formato = reader["Formato"].ToString(),
                                 Fecha = Convert.ToInt32(reader["FechaSalida"]),
                                 // El campo de la portada es un byte[] (mediumblob)
-                                Portada = (byte[])reader["Portada"],
                                 Precio = Convert.ToSingle(reader["Precio"]),
                                 Canciones = new List<string>()
                             };
 
+                            if (reader["Portada"] != DBNull.Value && reader["Portada"] != null)
+                            {
+                                vinilo.Portada = (byte[])reader["Portada"];
+                            }
+                            else
+                            {
+                                // Si no hay imagen en la base de datos, asigna la imagen por defecto
+                                vinilo.Portada = ObtenerBytesDesdeImagenPorDefecto();
+                            }
                             // Agregar canción al vinilo actual si hay una
                             string cancion = reader["Canciones"].ToString();
                             if (!string.IsNullOrEmpty(cancion))
@@ -632,6 +623,22 @@ namespace WpfApp1.Views.Admin
             }
 
             return listaVinilos;
+        }
+
+        private byte[] ObtenerBytesDesdeImagenPorDefecto()
+        {
+            // Aquí deberías cargar tu imagen por defecto y convertirla a un array de bytes
+            // A modo de ejemplo, si la imagen por defecto está en un archivo, podrías hacer algo así:
+
+            string rutaImagenPorDefecto = "../../Assets/Images/ViniloX.png";
+
+            if (File.Exists(rutaImagenPorDefecto))
+            {
+                return File.ReadAllBytes(rutaImagenPorDefecto);
+            }
+
+            // Si la imagen por defecto no está disponible, puedes devolver un array de bytes vacío o manejarlo de otra manera
+            return new byte[0];
         }
 
         private void actualizarVinilo_Click(object sender, RoutedEventArgs e)

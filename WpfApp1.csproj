@@ -119,6 +119,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DatabaseManager.cs" />
+    <Compile Include="resources\Dominio\Artista.cs" />
     <Compile Include="resources\Dominio\Vinilo.cs" />
     <Compile Include="resources\StringResources\LanguageManager.cs" />
     <Compile Include="resources\StringResources\MainMethods.cs" />
@@ -299,6 +300,9 @@
   <ItemGroup>
     <Resource Include="Assets\Images\carritoPopup.png" />
     <Resource Include="Assets\Images\logoCorazonPopup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\PerfilArtista.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />

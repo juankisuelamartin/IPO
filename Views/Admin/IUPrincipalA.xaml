@@ -139,18 +139,9 @@
 
 
 
-        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="130" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="144" >
-            <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
+        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="110" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="134" >
+            <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="-10,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="Auto">
 
-
-                <Button x:Name="btnHistorialCompras" Content="{DynamicResource HistorialcomprasLabel}" Click="Button_historialCompras" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold" BorderThickness="0"  BorderBrush="#FFE4E4E4" />
-                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
-                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
-                <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
-                    <Rectangle.Fill>
-                        <ImageBrush ImageSource="../../Assets/Images/historial.png"/>
-                    </Rectangle.Fill>
-                </Rectangle>
                 <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
                     <Rectangle.Fill>
                         <ImageBrush ImageSource="../../Assets/Images/profile-icon.png"/>
@@ -161,6 +152,10 @@
                         <ImageBrush ImageSource="../../Assets/Images/cerrarsesion.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
+
+                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+               
             </WrapPanel>
         </Border>
 

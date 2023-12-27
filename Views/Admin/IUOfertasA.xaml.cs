@@ -19,6 +19,7 @@ namespace WpfApp1.Views.Admin
     /// </summary>
     public partial class IUOfertasA : Window
     {
+        
         public IUOfertasA()
         {
             InitializeComponent();
