@@ -240,3 +240,9 @@ C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\MaterialDesignThemes.Wpf.pdb
 C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\MaterialDesignThemes.Wpf.xml
 C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\Microsoft.Xaml.Behaviors.pdb
 C:\Users\sergi\Documents\GitHub\IPO\bin\Debug\Microsoft.Xaml.Behaviors.xml
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUPrincipalU - Copia.g.cs
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUPrincipalU - Copia.baml
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUViniloU.g.cs
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUViniloU.baml
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUTiendaMenuU.g.cs
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUTiendaMenuU.baml

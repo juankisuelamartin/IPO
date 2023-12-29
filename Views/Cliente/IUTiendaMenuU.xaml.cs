@@ -19,11 +19,12 @@ using System.Windows.Shapes;
 using WpfApp1.Helpers;
 using WpfApp1.resources.StringResources;
 
-namespace WpfApp1.Views
+namespace WpfApp1.Views.Cliente
 {
 
-    public partial class IUPrincipalU : Window
+    public partial class IUTiendaMenuU : Window
     {
+        private List<Border> todosLosElementos = new List<Border>();
         private bool rotated = true; //Variable control menu desplegable
         private string nombreUsuario; // Agrega esta propiedad
         private readonly DatabaseManager dbManager;
@@ -38,8 +39,7 @@ namespace WpfApp1.Views
                 nombreUsuario = value;
                 // Aquí puedes llamar al método para cargar la imagen de perfil o realizar otras acciones basadas en el usuario.
                 MostrarFotoPerfil(value);
-                MostrarFavoritos(value);
-                MostrarNovedades();
+
                 languageManager.LoadLanguageResources();
                 languageManager.InitializeLanguageComboBox(LanguageComboBox);
                 // Restaurar el idioma seleccionado previamente
@@ -52,7 +52,7 @@ namespace WpfApp1.Views
             }
         }
 
-        public IUPrincipalU()
+        public IUTiendaMenuU()
         {
             
             InitializeComponent();
@@ -62,9 +62,7 @@ namespace WpfApp1.Views
             mainMethods = new MainMethods();
             iufavoritos = new IUFavoritos();
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
-            lblverMasNov.MouseUp += VerMasNovedades_Click;
-            lblverMasOft.MouseUp += VerMasOfertas_Click;
-            lblverMasFav.MouseUp += VerMasFavoritos_Click;
+            MostrarNovedades();
             this.Loaded += MainWindow_Loaded;
         }
 
@@ -90,16 +88,16 @@ namespace WpfApp1.Views
             
         private void Button_Perfil(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Button_Tienda(nombreUsuario, this);
         }
         private void Button_Tienda(object sender, RoutedEventArgs e)
         {
-            mainMethods.Button_Tienda(nombreUsuario, this);
+
         }
 
         private void Button_Home(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Button_Home(nombreUsuario, this);
         }
 
         private void Button_Carrito(object sender, RoutedEventArgs e)
@@ -135,13 +133,14 @@ namespace WpfApp1.Views
 
         private void ProfileMenuPopup_Closed(object sender, EventArgs e)
         {
+
             // Se llama cuando el Popup se cierra
            // imgPerfilBorder.Visibility = Visibility.Collapsed;
         }
 
         private void imgPerfil_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            rotated = mainMethods.ImgPerfil_MouseUp(popupMarco, rotated, desplegable, this);
+            rotated=mainMethods.ImgPerfil_MouseUp(popupMarco, rotated, desplegable, this);
         }
 
         private void Button_Traducir(object sender, RoutedEventArgs e)
@@ -159,11 +158,7 @@ namespace WpfApp1.Views
             mainMethods.MostrarFotoPerfil(usuario, dbManager, imgPerfil, this);
         }
       
-        private void MostrarFavoritos(string usuario)
-        {
 
-            iufavoritos.MostrarFavoritos(usuario, wrapPanelFavoritosP);
-        }
         
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -196,48 +191,159 @@ namespace WpfApp1.Views
             iufavoritos.toggleFavoritos(reader, horizontalWrapPanel, stackPanel);
         }
 
-        private void toggleNovedades(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel)
+        private void TxtBusqueda_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            // Cuando el usuario hace clic en el cuadro de texto, borra el texto por defecto
+            if (txtBusqueda.Text == "Buscar...")
+            {
+                txtBusqueda.Text = string.Empty;
+            }
+        }
+
+        private void TxtBusqueda_LostFocus(object sender, RoutedEventArgs e)
+        {
+            // Cuando el cuadro de texto pierde el foco y está vacío, restaura el texto por defecto
+            if (string.IsNullOrWhiteSpace(txtBusqueda.Text))
+            {
+                txtBusqueda.Text = "Buscar...";
+            }
+        }
+
+        private void PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Buscar_Click(sender, e);
+            }
+        }
+
+        private void TxtBusqueda_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            // Puedes realizar alguna acción adicional cuando el texto cambia, si es necesario
+        }
+
+        private void Buscar_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Obtener el texto de búsqueda
+                string textoBusqueda = txtBusqueda.Text.ToLower(); // Convertir a minúsculas para hacer la búsqueda sin distinción entre mayúsculas y minúsculas
+
+                // Verificar si el texto de búsqueda está vacío
+                if (string.IsNullOrWhiteSpace(textoBusqueda) || textoBusqueda.Equals ("buscar..."))
+                {
+
+                    // Mostrar todos los elementos nuevamente si el buscador está vacío
+                    foreach (Border border in todosLosElementos)
+                    {
+                        border.Visibility = Visibility.Visible;
+                    }
+
+                    
+                    return;
+                }
+
+
+                // Iterar a través de los elementos originales y ocultar/mostrar según la búsqueda
+                foreach (UIElement elemento in wrapPanelVinilosP.Children)
+                {
+                    if (elemento is Border border)
+                    {
+                        // Obtener el StackPanel dentro del Border (suponiendo que esté en la propiedad Child)
+                        if (border.Child is StackPanel stackPanel)
+                        {
+                            // Obtener el título del StackPanel
+                            string titulo = ObtenerTitulo(stackPanel);
+                            Console.WriteLine("TITULO: " + titulo + ", BUSQUEDA " + textoBusqueda);
+
+                            // Comprobar si el título contiene el texto de búsqueda
+                            if (!string.IsNullOrEmpty(titulo) && titulo.ToLower().Contains(textoBusqueda))
+                            {
+                                // Mostrar el Border estableciendo Visibility.Visible
+                                border.Visibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                // Ocultar el Border estableciendo Visibility.Collapsed
+                                border.Visibility = Visibility.Collapsed;
+                            }
+                        }
+                    }
+                }
+
+                // Contar los elementos visibles
+                int resultadosVisibles = wrapPanelVinilosP.Children.OfType<Border>().Count(b => b.Visibility == Visibility.Visible);
+
+                // Mostrar un mensaje si no se encontraron resultados
+                if (resultadosVisibles == 0)
+                {
+                    MessageBox.Show("No se encontraron resultados para la búsqueda.");
+                }
+                else
+                {
+                    MessageBox.Show("Se encontraron " + resultadosVisibles + " resultados para la búsqueda.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al realizar la búsqueda: " + ex.Message);
+            }
+        }
+
+
+
+        private string ObtenerTitulo(StackPanel stackPanel)
+        {
+            // Buscar el control dentro del StackPanel que contiene el título (supongamos que es un TextBlock)
+            TextBlock tituloTextBlock = stackPanel.Children.OfType<TextBlock>().FirstOrDefault();
+
+            // Extraer el valor del TextBlock si se encuentra
+            if (tituloTextBlock != null)
+            {
+                return tituloTextBlock.Text;
+            }
+
+            return string.Empty;
+        }
+
+
+
+        private void bordesNovedades(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel)
         {
             //Crear borde con color hexadecimal
             Border border = new Border();
             border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4E4E4"));
             border.CornerRadius = new CornerRadius(10);
-            border.Margin = new Thickness(left: 25, top: 30, right: 20, bottom: 50);
-
-            //Crear toggleButton para cada vinilo que encuentre en favoritos y sus eventos
-            ToggleButton toggleButton = new ToggleButton();
-            toggleButton.Content = "Eliminar";
-            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
-            toggleButton.Width = 45; // ajusta el tamaño según tus necesidades
-            toggleButton.Height = 45;
-
-            // Establecer propiedades para quitar el borde
-            toggleButton.BorderThickness = new Thickness(0);
-            toggleButton.Background = Brushes.Transparent;
-
-            toggleButton.FocusVisualStyle = null;
-            toggleButton.BorderBrush = Brushes.Transparent;
-            toggleButton.Background = Brushes.Transparent;
-
-            // Crear un Image con la imagen por defecto
-            Image buttonImage = new Image();
-            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../../Assets/Images/New.png", UriKind.Relative));
-            buttonImage.Source = buttonImageBitmapImage;
-            buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
-            buttonImage.Height = 40;
-
-            toggleButton.Content = buttonImage;
-
-
-            //TODO: Elegir mejor posicion: 95, -180, 0, 0 Esquina Sup Derecha
-            //                             80, -20, 0, 0  Esquina Inf Derecha
-            toggleButton.Margin = new Thickness(95, -180, 0, 0);
-            toggleButton.FocusVisualStyle = null;
-            stackPanel.Children.Add(toggleButton);
+            border.Margin = new Thickness(left: 25, top: 30, right: 25, bottom: 10);
+            border.Width = 140;
+            border.Tag = reader["Idvinilo"];
+            border.Style = border.Style = (Style)FindResource("ManoStyleBorder");
 
             border.Child = stackPanel;
+            // Asignar el evento clic al borde
+            border.PreviewMouseDown += Elemento_PreviewMouseDown;
             horizontalWrapPanel.Children.Add(border);
         }
+
+        private void Elemento_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Obtener el Border que generó el evento
+            if (sender is Border clickedBorder)
+            {
+                // Obtener el IdVinilo del Tag del Border
+                if (clickedBorder.Tag != null && int.TryParse(clickedBorder.Tag.ToString(), out int idVinilo))
+                {
+                    // Crear y mostrar la nueva ventana
+                    IUViniloU iuVinilo = new IUViniloU();
+                    iuVinilo.NombreUsuario = NombreUsuario;
+                    iuVinilo.IdVinilo = idVinilo; // Asignar el IdVinilo
+                    mainMethods.Window_Closing(this);
+                    iuVinilo.Show();
+                    this.Close();
+                }
+            }
+        }
+
         private void tituloFavoritos(String titulo, StackPanel stackPanel)
         {
             iufavoritos.tituloFavoritos(titulo, stackPanel);
@@ -254,7 +360,7 @@ namespace WpfApp1.Views
 
         }
 
-
+        
         private void MostrarNovedades()
         {
             try
@@ -284,27 +390,41 @@ namespace WpfApp1.Views
 
                             //Llamadas a cargar Titulo y Precio
                             portadaFavoritos(reader, stackPanel);
-                            toggleNovedades(reader, wrapPanelNovedadesP, stackPanel);
+
                             tituloFavoritos(titulo, stackPanel);
                             precioFavoritos(precio, stackPanel);
+                            bordesNovedades(reader, wrapPanelVinilosP, stackPanel);
+
+
 
                             // Agrega un salto de línea después de cada número de columnas especificado
-                            wrapPanelNovedadesP.Children.Add(horizontalWrapPanel);
+                            wrapPanelVinilosP.Children.Add(horizontalWrapPanel);
                             horizontalWrapPanel = new WrapPanel();
                             horizontalWrapPanel.Orientation = Orientation.Horizontal;
+
+                            foreach (UIElement elemento in wrapPanelVinilosP.Children)
+                            {
+                                if (elemento is Border border)
+                                {
+                                    todosLosElementos.Add(border);
+                                }
+                            }
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al mostrar novedades: " + ex.Message);
+                MessageBox.Show("Error al mostrar tienda: " + ex.Message);
             }
             finally
             {
                 dbManager.Connection.Close();
             }
         }
+
+
+
 
     }
 }

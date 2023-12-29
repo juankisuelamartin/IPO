@@ -22,7 +22,7 @@ using WpfApp1.resources.StringResources;
 namespace WpfApp1.Views
 {
 
-    public partial class IUPrincipalU : Window
+    public partial class IUViniloU : Window
     {
         private bool rotated = true; //Variable control menu desplegable
         private string nombreUsuario; // Agrega esta propiedad
@@ -52,7 +52,19 @@ namespace WpfApp1.Views
             }
         }
 
-        public IUPrincipalU()
+        private int idVinilo;
+        public int IdVinilo
+        {
+            get { return idVinilo; }
+            set
+            {
+                idVinilo = value;
+                CargarInfoVinilo();
+
+            }
+        }
+
+        public IUViniloU()
         {
             
             InitializeComponent();
@@ -62,9 +74,9 @@ namespace WpfApp1.Views
             mainMethods = new MainMethods();
             iufavoritos = new IUFavoritos();
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
-            lblverMasNov.MouseUp += VerMasNovedades_Click;
             lblverMasOft.MouseUp += VerMasOfertas_Click;
             lblverMasFav.MouseUp += VerMasFavoritos_Click;
+
             this.Loaded += MainWindow_Loaded;
         }
 
@@ -254,6 +266,11 @@ namespace WpfApp1.Views
 
         }
 
+        private void CargarInfoVinilo()
+        {
+            Console.WriteLine("ID VINILO: " + IdVinilo);
+            lblTiulo.Content = IdVinilo;
+        }
 
         private void MostrarNovedades()
         {

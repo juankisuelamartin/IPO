@@ -76,7 +76,7 @@ namespace WpfApp1.Views
         }
         private void Button_Favoritos(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Button_Favorites(nombreUsuario, this);
         }
 
         private void Button_Perfil(object sender, RoutedEventArgs e)
@@ -85,7 +85,7 @@ namespace WpfApp1.Views
         }
         private void Button_Tienda(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Button_Tienda(nombreUsuario, this);
         }
 
         private void Button_Home(object sender, RoutedEventArgs e)
@@ -116,7 +116,7 @@ namespace WpfApp1.Views
 
         private void imgPerfil_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            mainMethods.ImgPerfil_MouseUp(popupMarco, rotated, desplegable, this);
+            rotated=mainMethods.ImgPerfil_MouseUp(popupMarco, rotated, desplegable, this);
         }
 
         private void Button_Traducir(object sender, RoutedEventArgs e)

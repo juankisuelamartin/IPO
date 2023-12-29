@@ -116,4 +116,14 @@
     <system:String x:Key="btnFavoritos">FAVORITES</system:String>
     <system:String x:Key="btnBuscar">SEARCH</system:String>
 
+    <!--IUVinilosU-->
+    <system:String x:Key="lblFichaDatos">Data Sheet</system:String>
+
+    <!--IUMenuTiendaU-->
+    <system:String x:Key="Buscar">Search...</system:String>
+    <system:String x:Key="lblFiltros">Filters</system:String>
+    <system:String x:Key="lblGeneroF">Genre</system:String>
+    <system:String x:Key="lblFormatoF">Format</system:String>
+    <system:String x:Key="lblPrecioF">Price</system:String>
+
 </ResourceDictionary>

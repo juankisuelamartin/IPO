@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Views;
 using WpfApp1.Views.Admin;
+using WpfApp1.Views.Cliente;
 
 namespace WpfApp1.resources.StringResources
 {
@@ -43,6 +44,14 @@ namespace WpfApp1.resources.StringResources
             iuFavoritos.Show();
             currentWindow.Close();
         }
+        public void Button_Tienda(String NombreUsuario, Window currentWindow)
+        {
+            IUTiendaMenuU iuTienda = new IUTiendaMenuU();
+            iuTienda.NombreUsuario = NombreUsuario;
+            Window_Closing(currentWindow);
+            iuTienda.Show();
+            currentWindow.Close();
+        }
         public Window Window_Loaded(Window window)
         {
             window.Top = Properties.Settings.Default.WindowTop;
@@ -60,7 +69,7 @@ namespace WpfApp1.resources.StringResources
             Properties.Settings.Default.WindowWidth = window.Width;
             Properties.Settings.Default.Save();
         }
-        public void ImgPerfil_MouseUp(Border popupMarco, bool rotated, Image desplegable, Window currentWindow)
+        public bool ImgPerfil_MouseUp(Border popupMarco, bool rotated, Image desplegable, Window currentWindow)
         {
             // Si el Popup está abierto, ciérralo; de lo contrario, ábrelo
             if (popupMarco.Visibility == Visibility.Visible)
@@ -94,6 +103,7 @@ namespace WpfApp1.resources.StringResources
             }
             // Alternar el estado de rotación
             rotated = !rotated;
+            return rotated;
         }
         public void IUSUARIO_Loaded(DatabaseManager dbManager, String nombreUsuario, Label lblUltimaConex, DependencyProperty ContentProperty, Label lblSaludo, Window currentWindow)
         {
