@@ -117,7 +117,17 @@
     <system:String x:Key="btnBuscar">SEARCH</system:String>
 
     <!--IUVinilosU-->
-    <system:String x:Key="lblFichaDatos">Data Sheet</system:String>
+    <system:String x:Key="lblFichaDatos">Product Details</system:String>
+    <system:String x:Key="Actualmente">There are currently </system:String>
+    <system:String x:Key="Productos"> products of this type</system:String>
+
+    <system:String x:Key="MGT">I like it</system:String>
+    <system:String x:Key="FavT">Add to favorites</system:String>
+
+
+    <system:String x:Key="PaisFicha">Country</system:String>
+    <system:String x:Key="SelloFicha">Label</system:String>
+    <system:String x:Key="Canciones">Songs</system:String>
 
     <!--IUMenuTiendaU-->
     <system:String x:Key="Buscar">Search...</system:String>

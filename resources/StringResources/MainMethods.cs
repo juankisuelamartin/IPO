@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WpfApp1.resources.Dominio;
 using WpfApp1.Views;
 using WpfApp1.Views.Admin;
 using WpfApp1.Views.Cliente;
@@ -50,6 +51,15 @@ namespace WpfApp1.resources.StringResources
             iuTienda.NombreUsuario = NombreUsuario;
             Window_Closing(currentWindow);
             iuTienda.Show();
+            currentWindow.Close();
+        }
+        public void newiuVinilos(String NombreUsuario, int idVinilo, Window currentWindow)
+        {
+            IUViniloU iuVinilos = new IUViniloU();
+            iuVinilos.NombreUsuario = NombreUsuario;
+            iuVinilos.IdVinilo = idVinilo;
+            Window_Closing(currentWindow);
+            iuVinilos.Show();
             currentWindow.Close();
         }
         public Window Window_Loaded(Window window)

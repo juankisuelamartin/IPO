@@ -67,10 +67,11 @@
 
         <DockPanel x:Name="pnlVinilos" LastChildFill="True"  Grid.RowSpan="4" Grid.Row="4"  Grid.ColumnSpan="6">
 
-
-            <Grid>
+            <ScrollViewer Height="Auto" Margin="0,23,1.5,29">
+                <Grid>
                 <!--Filtros-->
-                <Grid x:Name="Filtros" Width="175" Height="900" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1" Grid.RowSpan="7" Margin="2,24,5,5" Background="White">
+                
+                    <Grid x:Name="Filtros" Width="175"  VerticalAlignment="Stretch" HorizontalAlignment="Left" Grid.Row="1" Grid.RowSpan="7" Margin="2,1,5,0" Background="White">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <!-- Para el Label -->
@@ -86,7 +87,7 @@
                         <Expander.Header>
                             <TextBlock Text="{DynamicResource lblGeneroF}" FontSize="14" FontWeight="Bold" Margin="-120,0,0,0"/>
                         </Expander.Header>
-                        <StackPanel Margin="-90,0,0,0">
+                        <StackPanel x:Name="stackPanelGeneros" Margin="-90,0,0,0">
                             <!-- Contenido del Expander -->
                             <CheckBox Content="Rock" Name="RockCheckBox"/>
                             <CheckBox Content="Pop" Name="PopCheckBox"/>
@@ -100,24 +101,11 @@
                             <CheckBox Content="Classical" Name="ClassicalCheckBox"/>
                             <CheckBox Content="Folk" Name="FolkCheckBox"/>
                             <CheckBox Content="World" Name="WorldCheckBox"/>
-                            <CheckBox Content="Indie" Name="IndieCheckBox"/>
-                            <CheckBox Content="Dance" Name="DanceCheckBox"/>
-                            <CheckBox Content="Gospel" Name="GospelCheckBox"/>
-                            <CheckBox Content="Punk" Name="PunkCheckBox"/>
-                            <CheckBox Content="Alternative" Name="AlternativeCheckBox"/>
-                            <CheckBox Content="K-Pop" Name="KPopCheckBox"/>
-                            <CheckBox Content="J-Pop" Name="JPopCheckBox"/>
-                            <CheckBox Content="Disco" Name="DiscoCheckBox"/>
-                            <CheckBox Content="Funk" Name="FunkCheckBox"/>
-                            <CheckBox Content="Ska" Name="SkaCheckBox"/>
-                            <CheckBox Content="New Wave" Name="NewWaveCheckBox"/>
-                            <CheckBox Content="Grunge" Name="GrungeCheckBox"/>
-                            <CheckBox Content="Psychedelic" Name="PsychedelicCheckBox"/>
+                            <CheckBox Content="Indie" Name="IndieCheckBox"/> 
                             <CheckBox Content="Experimental" Name="ExperimentalCheckBox"/>
                             <CheckBox Content="Acoustic" Name="AcousticCheckBox"/>
                             <CheckBox Content="Instrumental" Name="InstrumentalCheckBox"/>
                             <CheckBox Content="Chillout" Name="ChilloutCheckBox"/>
-                            <CheckBox Content="Ambient" Name="AmbientCheckBox"/>
                             <CheckBox Content="Latin" Name="LatinCheckBox"/>
                             <CheckBox Content="Salsa" Name="SalsaCheckBox"/>
                             <CheckBox Content="Merengue" Name="MerengueCheckBox"/>
@@ -125,24 +113,8 @@
                             <CheckBox Content="Tango" Name="TangoCheckBox"/>
                             <CheckBox Content="Flamenco" Name="FlamencoCheckBox"/>
                             <CheckBox Content="Samba" Name="SambaCheckBox"/>
-                            <CheckBox Content="Bossa Nova" Name="BossaNovaCheckBox"/>
-                            <CheckBox Content="Afrobeat" Name="AfrobeatCheckBox"/>
-                            <CheckBox Content="Caribbean" Name="CaribbeanCheckBox"/>
-                            <CheckBox Content="Bluegrass" Name="BluegrassCheckBox"/>
-                            <CheckBox Content="Swing" Name="SwingCheckBox"/>
-                            <CheckBox Content="Rockabilly" Name="RockabillyCheckBox"/>
-                            <CheckBox Content="Surf Rock" Name="SurfRockCheckBox"/>
-                            <CheckBox Content="Motown" Name="MotownCheckBox"/>
-                            <CheckBox Content="Funk Rock" Name="FunkRockCheckBox"/>
-                            <CheckBox Content="Gothic" Name="GothicCheckBox"/>
-                            <CheckBox Content="Industrial" Name="IndustrialCheckBox"/>
-                            <CheckBox Content="Trance" Name="TranceCheckBox"/>
-                            <CheckBox Content="Techno" Name="TechnoCheckBox"/>
-                            <CheckBox Content="Dubstep" Name="DubstepCheckBox"/>
-                            <CheckBox Content="House" Name="HouseCheckBox"/>
-                            <CheckBox Content="Breakbeat" Name="BreakbeatCheckBox"/>
-                            <CheckBox Content="Hardcore" Name="HardcoreCheckBox"/>
-                            <CheckBox Content="DnB (Drum and Bass)" Name="DnBCheckBox"/>
+                            <CheckBox Content="Other" Name="OtherCheckBox"/>
+
                             <!-- Agrega más opciones según sea necesario -->
                         </StackPanel>
                     </Expander>
@@ -151,7 +123,7 @@
                         <Expander.Header>
                             <TextBlock Text="{DynamicResource lblFormatoF}" FontSize="14" FontWeight="Bold"  Margin="-120,0,0,0"/>
                         </Expander.Header>
-                        <StackPanel Margin="-90,0,0,0">
+                        <StackPanel Margin="-90,0,0,0" x:Name="stackPanelFormatos">
                             <!-- Contenido del Expander -->
                             <CheckBox Content="LP" Name="LPCheckBox"/>
                             <CheckBox Content="EP" Name="EPCheckBox"/>
@@ -179,8 +151,8 @@
 
 
                 </Grid>
-                <ScrollViewer Height="Auto" Margin="175,23,1.5,29">
-                    <Grid>
+
+                    <Grid Margin="190,0,0,0">
                         <!-- TextBox con esquinas redondeadas -->
                         <StackPanel x:Name="Buscador" HorizontalAlignment="Left" Margin="25,15,0,0" Width="250">
                             <Border BorderBrush="Gray" BorderThickness="1" Background="White" CornerRadius="5" Height="30" Width="230">
@@ -210,10 +182,10 @@
 
                         </Grid>
                     </Grid>
-                </ScrollViewer>
+                
             </Grid>
 
-
+            </ScrollViewer>
 
         </DockPanel>
 

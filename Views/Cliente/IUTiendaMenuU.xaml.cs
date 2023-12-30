@@ -63,6 +63,8 @@ namespace WpfApp1.Views.Cliente
             iufavoritos = new IUFavoritos();
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
             MostrarNovedades();
+            MarcarTodosCheckBoxes();
+            AsociarManejadoresCheckBoxes();
             this.Loaded += MainWindow_Loaded;
         }
 
@@ -333,13 +335,7 @@ namespace WpfApp1.Views.Cliente
                 // Obtener el IdVinilo del Tag del Border
                 if (clickedBorder.Tag != null && int.TryParse(clickedBorder.Tag.ToString(), out int idVinilo))
                 {
-                    // Crear y mostrar la nueva ventana
-                    IUViniloU iuVinilo = new IUViniloU();
-                    iuVinilo.NombreUsuario = NombreUsuario;
-                    iuVinilo.IdVinilo = idVinilo; // Asignar el IdVinilo
-                    mainMethods.Window_Closing(this);
-                    iuVinilo.Show();
-                    this.Close();
+                    mainMethods.newiuVinilos(NombreUsuario, idVinilo, this);
                 }
             }
         }
@@ -365,7 +361,7 @@ namespace WpfApp1.Views.Cliente
         {
             try
             {
-                string query = "SELECT ivc.Precio, v.Titulo, v.Portada, v.Idvinilo " +
+                string query = "SELECT ivc.Precio, v.Titulo, v.Portada, v.Idvinilo, v.Genero, v.Formato " +
                                "FROM vinilos v " +
                                "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
                                "ORDER BY v.Idvinilo DESC"; // Ordenar por ID descendente
@@ -384,6 +380,8 @@ namespace WpfApp1.Views.Cliente
                         {
                             string titulo = reader["Titulo"].ToString();
                             string precio = reader["Precio"].ToString();
+                            string formato = reader["Formato"].ToString();
+                            string genero = reader["Genero"].ToString();
                             Console.WriteLine(titulo + " " + precio);
                             StackPanel stackPanel = new StackPanel();
                             stackPanel.Margin = new Thickness(left: 0, top: 15, right: 0, bottom: 10);
@@ -393,6 +391,8 @@ namespace WpfApp1.Views.Cliente
 
                             tituloFavoritos(titulo, stackPanel);
                             precioFavoritos(precio, stackPanel);
+                            generoVinilo(genero, stackPanel);
+                            formatoVinilo(formato, stackPanel);
                             bordesNovedades(reader, wrapPanelVinilosP, stackPanel);
 
 
@@ -424,7 +424,150 @@ namespace WpfApp1.Views.Cliente
         }
 
 
+        //ASIGNAR GENERO Y FORMATO EN OCULTO A LOS STACKPANEL PARA PODER RASTREARLOS CON LOS FILTROS AUNQUE NO SE VEA EL TEXTBOX
 
+        public void generoVinilo(String genero, StackPanel stackPanel)
+        {
+
+            TextBlock generoTextBlock = new TextBlock();
+            generoTextBlock.Text = genero; // Añadir etiqueta Título
+            generoTextBlock.Visibility = Visibility.Collapsed;
+
+            stackPanel.Children.Add(generoTextBlock);
+
+        }
+
+        public void formatoVinilo(String formato, StackPanel stackPanel)
+        {
+
+            TextBlock formatoTextBlock = new TextBlock();
+            formatoTextBlock.Text = formato; // Añadir etiqueta Título
+            formatoTextBlock.Visibility = Visibility.Collapsed;
+
+            stackPanel.Children.Add(formatoTextBlock);
+
+        }
+
+        private void MarcarTodosCheckBoxes()
+        {
+            foreach (CheckBox checkBox in ObtenerCheckBoxes(stackPanelGeneros))
+            {
+                checkBox.IsChecked = true;
+            }
+            foreach (CheckBox checkBox in ObtenerCheckBoxes(stackPanelFormatos))
+            {
+                checkBox.IsChecked = true;
+            }
+        }
+
+        private void AsociarManejadoresCheckBoxes()
+        {
+            foreach (CheckBox checkBox in ObtenerCheckBoxes(stackPanelGeneros))
+            {
+                checkBox.Checked += CheckBox_Checked;
+                checkBox.Unchecked += CheckBox_Unchecked;
+            }
+
+            foreach (CheckBox checkBox in ObtenerCheckBoxes(stackPanelFormatos))
+            {
+                checkBox.Checked += CheckBox_Checked;
+                checkBox.Unchecked += CheckBox_Unchecked;
+            }
+        }
+
+        private IEnumerable<CheckBox> ObtenerCheckBoxes(StackPanel stackPanel)
+        {
+            // Obtener todos los CheckBoxes del StackPanel
+            return stackPanel.Children.OfType<CheckBox>();
+
+        }
+
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            StackPanel stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
+            AplicarFiltros(stackPanel, checkBox);
+        }
+
+        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBox checkBox = (CheckBox)sender;
+            StackPanel stackPanel = VisualTreeHelper.GetParent(checkBox) as StackPanel;
+            AplicarFiltros(stackPanel, checkBox);
+        }
+
+        private void AplicarFiltros(StackPanel stackPanel, CheckBox checkBox)
+        {
+            try
+            {
+                // Obtener el filtro del CheckBox actual
+                string filtro = checkBox.Content.ToString();
+
+                // Determinar la posición del TextBlock dentro del StackPanel según el contexto
+                int posicionTextBlock = (stackPanel == stackPanelGeneros) ? 2 : 3;
+
+                // Iterar a través de los CheckBoxes desmarcados y ocultar los elementos correspondientes
+                foreach (CheckBox cb in ObtenerCheckBoxesDesmarcados(stackPanel))
+                {
+                    string filtroDesmarcado = cb.Content.ToString();
+
+                    // Ocultar los elementos que tienen el filtro del CheckBox desmarcado
+                    foreach (Border border in todosLosElementos)
+                    {
+                        // Obtener el StackPanel dentro del Border (suponiendo que esté en la propiedad Child)
+                        if (border.Child is StackPanel stackPanelElemento)
+                        {
+                            // Obtener el TextBlock dentro del StackPanel (suponiendo que esté en la posición especificada)
+                            TextBlock filtroTextBlock = stackPanelElemento.Children.OfType<TextBlock>().ElementAt(posicionTextBlock);
+
+                            Console.WriteLine("FILTRO: " + filtroTextBlock.Text + ", FILTRO " + filtroDesmarcado);
+
+                            // Verificar si el TextBlock no es nulo y si su texto coincide con el filtro desmarcado
+                            if (filtroTextBlock != null && filtroTextBlock.Text == filtroDesmarcado)
+                            {
+                                // Ocultar el Border estableciendo Visibility.Collapsed
+                                border.Visibility = Visibility.Collapsed;
+                            }
+                        }
+                    }
+                }
+
+                // Mostrar todos los elementos nuevamente si el CheckBox actual está marcado
+                if (checkBox.IsChecked.GetValueOrDefault())
+                {
+                    foreach (Border border in todosLosElementos)
+                    {
+                        border.Visibility = Visibility.Visible;
+                    }
+                }
+
+                // Contar los elementos visibles
+                int resultadosVisibles = todosLosElementos.Count(b => b.Visibility == Visibility.Visible);
+
+                // Mostrar un mensaje si no se encontraron resultados
+                if (resultadosVisibles == 0)
+                {
+                    MessageBox.Show("No se encontraron resultados para los filtros seleccionados.");
+                }
+                else
+                {
+                    MessageBox.Show("Se encontraron " + resultadosVisibles + " resultados para los filtros seleccionados.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al aplicar filtros: " + ex.Message);
+            }
+        }
+
+
+        private IEnumerable<CheckBox> ObtenerCheckBoxesDesmarcados(StackPanel stackPanel)
+        {
+            // Filtrar los elementos del StackPanel que son CheckBoxes y están desmarcados
+            return stackPanel.Children.OfType<CheckBox>().Where(checkBox => !checkBox.IsChecked.GetValueOrDefault());
+        }
+
+       
 
     }
 }

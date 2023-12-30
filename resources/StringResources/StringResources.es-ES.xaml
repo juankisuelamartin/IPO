@@ -119,8 +119,17 @@
     <system:String x:Key="btnBuscar">BUSCAR</system:String>
 
     <!--IUVinilosU-->
-    <system:String x:Key="lblFichaDatos">Ficha de Datos</system:String>
+    <system:String x:Key="lblFichaDatos">Detalles Del Producto</system:String>
+    <system:String x:Key="Actualmente">Actualmente hay </system:String>
+    <system:String x:Key="Productos"> productos de este tipo</system:String>
 
+    <system:String x:Key="MGT">Me gusta</system:String>
+    <system:String x:Key="FavT">Añadir a favoritos</system:String>
+
+
+    <system:String x:Key="PaisFicha">País</system:String>
+    <system:String x:Key="SelloFicha">Sello</system:String>
+    <system:String x:Key="Canciones">Canciones</system:String>
 
     <!--IUMenuTiendaU-->
     <system:String x:Key="Buscar">Buscar...</system:String>
@@ -128,6 +137,7 @@
     <system:String x:Key="lblGeneroF">Género</system:String>
     <system:String x:Key="lblFormatoF">Formato</system:String>
     <system:String x:Key="lblPrecioF">Precio</system:String>
+    
 
 
 </ResourceDictionary>
