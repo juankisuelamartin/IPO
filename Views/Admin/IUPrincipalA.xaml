@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="Menu Principal" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen">
+        Title="Menu Principal" Height="600" Width="910" MinHeight="600" MinWidth="910" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style x:Key="PopupStyle" TargetType="Popup">

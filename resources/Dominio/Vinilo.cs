@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 
 namespace WpfApp1.resources.Dominio
 {
-    internal class Vinilo
+    public class Vinilo
     {
         public int Idvinilo { get; set; }
         public string Titulo { get; set; }

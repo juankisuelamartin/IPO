@@ -23,6 +23,7 @@ namespace WpfApp1.resources.Dominio
         public string Facebook { get; set; }
         public string Youtube { get; set; }
         public byte[] Imagen { get; set; }
+        public int NumeroMGS { get; set; }
 
         private BitmapImage ConvertirBytesAImagen(byte[] bytesImagen)
         {

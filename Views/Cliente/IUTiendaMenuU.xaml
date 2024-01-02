@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="{DynamicResource PrincipalLbl}" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen" >
+        Title="{DynamicResource PrincipalLbl}" Height="600" Width="910" MinHeight="600" MinWidth="910" WindowStartupLocation="CenterScreen" >
 
     <Window.Resources>
         <ResourceDictionary>
@@ -151,7 +151,7 @@
 
 
                 </Grid>
-
+                    <StackPanel HorizontalAlignment="Center">
                     <Grid Margin="190,0,0,0">
                         <!-- TextBox con esquinas redondeadas -->
                         <StackPanel x:Name="Buscador" HorizontalAlignment="Left" Margin="25,15,0,0" Width="250">
@@ -182,6 +182,7 @@
 
                         </Grid>
                     </Grid>
+                    </StackPanel>
                 
             </Grid>
 

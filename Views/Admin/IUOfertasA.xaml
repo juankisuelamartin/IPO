@@ -4,9 +4,253 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views.Admin"
-        mc:Ignorable="d"
-        Title="IUOfertasA" Height="450" Width="800">
-    <Grid>
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         
+        mc:Ignorable="d"
+        Title="IUVinilosA" Height="600" Width="910" MinHeight="600" MinWidth="910">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../resources/Styles/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="39*"/>
+            <ColumnDefinition Width="122"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="9*"/>
+            <RowDefinition Height="33.003"/>
+            <RowDefinition Height="18.001"/>
+            <RowDefinition Height="20.002"/>
+            <RowDefinition Height="23.002"/>
+            <RowDefinition Height="141*"/>
+            <RowDefinition Height="142*"/>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="28.031"/>
+        </Grid.RowDefinitions>
+
+        <Image Source="../../Assets/Images/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="9" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
+
+        <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="4" Stroke="Black" Fill="#FFD6D6D6" Height="Auto" Margin="0,23,0,0"/>
+
+        <UniformGrid Grid.Row="3" Grid.ColumnSpan="6" Rows="1" Columns="5" Margin="0,20,0,0" Grid.RowSpan="2">
+            <Button x:Name="btnHome" Content="HOME" Click="Button_Home" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnGestión" Content="{DynamicResource btnGestión}" Click="BtnGestion" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnOfertas" Content="{DynamicResource btnOfertas}" Click="Button_Ofertas" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnHistorialPedidos" Content="{DynamicResource btnHistorialPedidos}" Click="Button_Historial" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+            <Button x:Name="btnIncidencias" Content="{DynamicResource btnIncidencias}" Click="Button_Incidencias" FontFamily="Bahnschrift" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontWeight="Bold"/>
+        </UniformGrid>
+
+        <Label x:Name="lblSaludo" Content="Bienvenido" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="23" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="51" Width="570" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="3"/>
+
+        <Label x:Name="lblUltimaConex" Content="Ultima Conexion" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="15" Margin="30,0,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="32" Width="570" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+
+        <Viewbox Grid.Column="4" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,3,0,0" Height="0" Width="0" Grid.Row="1"/>
+
+
+        <DockPanel x:Name="pnlVinilos" LastChildFill="True"  Grid.RowSpan="5" Grid.Row="3"  Grid.ColumnSpan="6"  >
+
+            <!--Lista Vinilos-->
+
+            <ListBox x:Name="lstVinilos"  Grid.Row="5" Grid.RowSpan="7"  Margin="5,48,5,5" AlternationCount="2" Width="200">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+
+                        <MenuItem x:Name="miEliminarArtistaB" Header="{DynamicResource borrarOferta}" Click="miEliminarOfertaB_Click">
+                            <MenuItem.Icon>
+                                <Image Source="../../Assets/Images/remove_c.png"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Height="30" Orientation="Horizontal">
+                            <Image Width="32" Height="32" Stretch="Fill"
+                                    Source="{Binding Caratula}"/>
+                            <TextBlock Padding="2" Margin="10,0,0,0"
+                                    Text="{Binding Titulo}" FontSize="10"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Foreground" Value="Blue"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="BorderBrush" Value="Blue"/>
+                                <Setter Property="BorderThickness" Value="3"/>
+                            </Trigger>
+
+                            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                                <Setter Property="Background" Value="#FFE4E4E4"/>
+                            </Trigger>
+                        </Style.Triggers>
+
+                    </Style>
+
+                </ListBox.ItemContainerStyle>
+
+            </ListBox>
+
+            <!--Atributos Vinilos-->
+            <StackPanel x:Name="spDetallesOferta" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Height="500" Margin="-5,14,0,0">
+                <Grid x:Name="grdDetallesOferta" Margin="5,65,5,10">
+
+                    <!-- Contenedor 1: Imagen -->
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="0,20,0,0">
+                        <Image x:Name="imgCaratula"
+                                Height="150" Width="150"
+                                Margin="-465,0,0,0"
+                                Stretch="Fill"/>
+                        
+                    </StackPanel>
+
+
+                    <!-- Contenedor 2: Título, Artista y Precio -->
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="120,15,0,-5">
+                        <StackPanel HorizontalAlignment="Center">
+                        <Label x:Name="lblGestionOfertas" Content="{DynamicResource lblOfertasDetalles}" Grid.RowSpan="5" Grid.Row="3"  Grid.ColumnSpan="6" VerticalAlignment="Center" FontSize="15" Margin="-100,-20,0,0" FontFamily="Bahnschrift"  FontWeight="Bold" Height="32" Width="Auto" />
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center">
+                            <Label x:Name="lblTituloDetalles"  FontWeight="Bold" Width="Auto" ToolTip="{DynamicResource lblTituloDetalles}" Margin="-100,0,0,0" FontSize="14" FontFamily="Bahnschrift"/>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center">
+                            <Label x:Name="InicioOferta" Content="{StaticResource InicioOf}" FontWeight="Bold" Margin="-170,0,0,0"></Label>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center">
+                            <Label x:Name="FinOferta" Content="{StaticResource FinOf}" FontWeight="Bold" Margin="-170,5,0,0"></Label>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center">
+                            <Label x:Name="lblPrecio" Content="{StaticResource Precio}" FontWeight="Bold" Margin="-170,5,0,0"></Label>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center">
+                            <Label x:Name="lblDescuento" Content="{StaticResource Descuento}" FontWeight="Bold" Margin="-170,5,0,0"></Label>
+                        </StackPanel>
+                        
+                        
+
+
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="205,55,0,0">
+
+                        <DatePicker x:Name="FechaInicioPicker" SelectedDate="{Binding FechaInicio, Mode=TwoWay}" />
+
+
+                        <DatePicker x:Name="FechaFinPicker" SelectedDate="{Binding FechaFin, Mode=TwoWay}" Margin="0,5,0,0"/>
+
+                        <Label x:Name="precioValor" Content="3" FontWeight="Bold" Margin="0,7,0,0"></Label>
+
+                        <TextBox x:Name="descuentoValor" Text="{Binding Descuento, Mode=TwoWay}" Margin="0,10,0,0" Width="50" Height="20" MaxLength="2" TextChanged="descuentoValor_TextChanged" Padding="12,0,0,0"/>
+                        
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,200,0,0">
+                        <Label x:Name="nuevoPrecio" Content="{StaticResource nuevoPrecio}" FontSize="13" FontWeight="Bold" Margin="0,7,0,0" Visibility="Collapsed"  FontFamily="Bahnschrift"></Label>
+                        <Label x:Name="precioNuevo" Content="3" FontWeight="Bold" Margin="0,7,0,0" Visibility="Collapsed" FontFamily="Bahnschrift" ></Label>
+                    </StackPanel>
+                    
+                    <Button x:Name="actualizarOferta" Style="{StaticResource ManoStyle}" Content="{DynamicResource actualizarVinilo}" ToolTip="{DynamicResource actualizarVinilo}" FontWeight="Bold" Margin="30,250,0,10" Height="30" Click="actualizarVinilo_Click"></Button>
+                </Grid>
+                <!--Contenedor: Detalles Vinilos-->
+
+            </StackPanel>
+        </DockPanel>
+
+
+        <Rectangle Grid.ColumnSpan="6" Grid.Row="8"  Stroke="Black" Fill="#FFB9B9B9" Margin="0,1,0,0"/>
+        <Grid Grid.ColumnSpan="6" Grid.Row="8" VerticalAlignment="Center" Height="18">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="1" Text="{DynamicResource ConctactUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="2" Text="{DynamicResource HelpLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="3" Text="{DynamicResource AboutUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+        </Grid>
+
+
+        <ComboBox x:Name="LanguageComboBox" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="62" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Height="22">
+            <ComboBox.ItemContainerStyle>
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                </Style>
+            </ComboBox.ItemContainerStyle>
+            <ComboBoxItem Content="English" Tag="en-US"/>
+            <ComboBoxItem Content="Español" Tag="es-ES"/>
+        </ComboBox>
+
+
+
+        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="110" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="134" >
+            <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="-10,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="Auto">
+
+
+
+                <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="../../Assets/Images/profile-icon.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Rectangle Height="15" Width="15" Margin="3,1" Stroke="Transparent">
+                    <Rectangle.Fill>
+                        <ImageBrush ImageSource="../../Assets/Images/cerrarsesion.png"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <Button x:Name="btnPerfil" Content="{DynamicResource ProfileLabel}" Click="Button_Perfil" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+                <Button x:Name="btnCerrarSesión" Content="{DynamicResource SignOutLabel}" Click="Button_cerrarsesion" FontFamily="Bahnschrift" FontWeight="Bold" BorderThickness="0" BorderBrush="#FFE4E4E4"/>
+
+            </WrapPanel>
+        </Border>
+
+        <StackPanel Grid.Row="1" Grid.RowSpan="3" Grid.Column="5" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,0,0,0" Height="71" Width="185">
+            <Ellipse x:Name="imgPerfil" Style="{StaticResource ManoStyleEllipse}" Margin="0,6,10,6" MouseUp="imgPerfil_MouseUp" VerticalAlignment="Center" Stretch="Uniform"  RenderTransformOrigin="0.5,0.5" Width="60" Height="60">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="../../Assets/Images/fotoperfildefault.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <Image x:Name="desplegable" MouseUp="imgPerfil_MouseUp" Style="{StaticResource ManoStyleImage}" Height="27" Width="55" VerticalAlignment="Center">
+                <Image.Source>
+                    <BitmapImage UriSource="../../Assets/Images/Desplegable.png"/>
+                </Image.Source>
+                <Image.RenderTransform>
+                    <RotateTransform Angle="90"/>
+                </Image.RenderTransform>
+            </Image>
+        </StackPanel>
+
+
+
+        <!-- Popup Gestiones: Vinilos, Artistas y Contacto -->
+        <Popup x:Name="popupGestiones" StaysOpen="False" PlacementTarget="{Binding ElementName=btnGestión}" Placement="Bottom" IsOpen="False" Width="{Binding ElementName=btnGestión, Path=ActualWidth}" HorizontalOffset="0" VerticalOffset="0">
+            <Border Background="#FFE4E4E4"  CornerRadius="2" BorderThickness="0" BorderBrush="Transparent">
+                <StackPanel Orientation="Vertical" Margin="5" Background="Transparent" >
+                    <!-- Contenido del Popup -->
+                    <Button x:Name="btnVinilos" Content="{DynamicResource btnVinilos}" Click="BtnGestionVinilos_Click" Margin="0,3,0,3"/>
+                    <Button x:Name="btnArtistas" Content="{DynamicResource btnArtistas}" Click="BtnGestionArtistas_Click" Margin="0,3,0,3"/>
+                    <Button x:Name="btnContacto" Content="{DynamicResource btnContacto}" Click="BtnGestionContacto_Click" Margin="0,3,0,3"/>
+                </StackPanel>
+            </Border>
+        </Popup>
+
+
+
+
     </Grid>
+
+
+
 </Window>

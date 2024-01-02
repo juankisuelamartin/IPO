@@ -62,6 +62,25 @@ namespace WpfApp1.resources.StringResources
             iuVinilos.Show();
             currentWindow.Close();
         }
+        public void visualizarArtista(String NombreUsuario, Vinilo vinilo, Window currentWindow)
+        {
+            IUArtistaU iuArtista = new IUArtistaU();
+            iuArtista.NombreUsuario = NombreUsuario;
+            iuArtista.ViniloPrincipal = vinilo;
+            Window_Closing(currentWindow);
+            iuArtista.Show();
+            currentWindow.Close();
+        }
+        public void volverTienda(String NombreUsuario, Vinilo vinilo, Window currentWindow)
+        {
+            IUViniloU iuVinilos = new IUViniloU();
+            iuVinilos.NombreUsuario = NombreUsuario;
+            iuVinilos.ViniloPrincipal = vinilo;
+            Window_Closing(currentWindow);
+            iuVinilos.Show();
+            currentWindow.Close();
+        }
+
         public Window Window_Loaded(Window window)
         {
             window.Top = Properties.Settings.Default.WindowTop;
@@ -204,7 +223,7 @@ namespace WpfApp1.resources.StringResources
         public void ButtonOfertas(String NombreUsuario, Window currentWindow)
         {
             IUOfertasA iuOfertasA = new IUOfertasA();
-            //iuOfertasA.NombreUsuario = NombreUsuario;
+            iuOfertasA.NombreUsuario = NombreUsuario;
             Window_Closing(currentWindow);
             iuOfertasA.Show();
             currentWindow.Close();

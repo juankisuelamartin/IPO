@@ -93,10 +93,20 @@
     <system:String x:Key="lblEnlaceRRSS">Social Media Links:*</system:String>
     <system:String x:Key="lblDescripcion">Description:</system:String>
     <system:String x:Key="actualizarArtista">Update Artist:</system:String>
+    
 
     <system:String x:Key="NartistaT">Artistic Name</system:String>
     <system:String x:Key="ComponentesT">Members of the Group</system:String>
     <system:String x:Key="fNacimientoT">Birthdate of the artist or group</system:String>
+
+    <!-- IUOfertasA -->
+    <system:String x:Key="lblOfertasDetalles">Offers</system:String>
+    <system:String x:Key="InicioOf">Offer Start*:</system:String>
+    <system:String x:Key="FinOf">Offer End*:</system:String>
+    <system:String x:Key="Precio">Old Price:</system:String>
+    <system:String x:Key="Descuento">Discount Percentage:</system:String>
+    <system:String x:Key="nuevoPrecio">The new price after the percentage will be:</system:String>
+    <system:String x:Key="borrarOferta">Remove Offer</system:String>
 
     <!--IUprincipal-->
     <system:String x:Key="lblNovedades">News</system:String>
@@ -123,11 +133,19 @@
 
     <system:String x:Key="MGT">I like it</system:String>
     <system:String x:Key="FavT">Add to favorites</system:String>
-
+    <system:String x:Key="ArtistasT">View the artist</system:String>
 
     <system:String x:Key="PaisFicha">Country</system:String>
     <system:String x:Key="SelloFicha">Label</system:String>
     <system:String x:Key="Canciones">Songs</system:String>
+
+    <!--IUArtistasU-->
+    <system:String x:Key="lblDescripcionU">Descripcion</system:String>
+    <system:String x:Key="FechaCreacion">Creation date</system:String>
+    <system:String x:Key="FechaNacimiento">Date of birth</system:String>
+    <system:String x:Key="NombreReal">Real Name</system:String>
+    <system:String x:Key="Componentes">Members</system:String>
+
 
     <!--IUMenuTiendaU-->
     <system:String x:Key="Buscar">Search...</system:String>

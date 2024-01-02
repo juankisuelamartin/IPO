@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="{DynamicResource PrincipalLbl}" Height="500" Width="800" MinHeight="500" MinWidth="800" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
+        Title="{DynamicResource PrincipalLbl}" Height="600" Width="910" MinHeight="600" MinWidth="910" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
 
 
     <Window.Resources>
@@ -86,7 +86,7 @@
                                 Margin="120,20,0,0"
                                 Stretch="Fill" Source="../../Assets/Images/ViniloX.jpg" HorizontalAlignment="Left"/>
                         <Label x:Name="lblTiulo" Content="Titulo" HorizontalAlignment="Left" FontSize="37" Margin="300,-225,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="579"/>
-                        <Label x:Name="lblArtista" Content="Artista" HorizontalAlignment="Left" FontSize="25" Margin="300,-125,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="355"/>
+                        <Label x:Name="lblArtista" Content="Artista" HorizontalAlignment="Left" FontSize="25" ToolTip="{StaticResource ArtistasT}" Style="{StaticResource ManoStyle}" MouseDown="visualizarArtista" Margin="300,-125,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="355"/>
                         <Label x:Name="lblPrecio" Content="999,99 €" HorizontalAlignment="Left" FontSize="25" Margin="575,-123,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="125"/>
 
                         <Label x:Name="Stock" Content="Actualmente hay 5 productos de este tipo" Margin="520,-50,0,20" Width="259"></Label>
@@ -125,6 +125,7 @@
 
 
                 <!--Detalles-->
+
                 <Grid x:Name="Detalles" Width="Auto" Height="Auto" Margin="0,0,0,0" HorizontalAlignment="Center">
                     <Label x:Name="lblFichaDatos" Content="{DynamicResource lblFichaDatos}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="25" Margin="0,0,0,130" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="297"/>
                     <StackPanel Margin="-65,0,0,0">
@@ -175,6 +176,7 @@
                         </StackPanel>
                     </Border>
                 </Grid>
+
 
                
             </StackPanel>

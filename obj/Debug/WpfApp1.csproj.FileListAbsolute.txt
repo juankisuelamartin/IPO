@@ -246,3 +246,5 @@ C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUViniloU.g.cs
 C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUViniloU.baml
 C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUTiendaMenuU.g.cs
 C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUTiendaMenuU.baml
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUArtistaU.g.cs
+C:\Users\sergi\Documents\GitHub\IPO\obj\Debug\Views\Cliente\IUArtistaU.baml

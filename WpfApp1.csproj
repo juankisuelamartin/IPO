@@ -147,6 +147,9 @@
     <Compile Include="Views\Cliente\IUTiendaMenuU.xaml.cs">
       <DependentUpon>IUTiendaMenuU.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Cliente\IUArtistaU.xaml.cs">
+      <DependentUpon>IUArtistaU.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Cliente\IUViniloU.xaml.cs">
       <DependentUpon>IUViniloU.xaml</DependentUpon>
     </Compile>
@@ -189,6 +192,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Cliente\IUTiendaMenuU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cliente\IUArtistaU.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -332,6 +339,15 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\flechagris.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\RRSSFB.png" />
+    <Resource Include="Assets\Images\RRSSIG.png" />
+    <Resource Include="Assets\Images\RRSSX.png" />
+    <Resource Include="Assets\Images\RRSSYT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\offer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />

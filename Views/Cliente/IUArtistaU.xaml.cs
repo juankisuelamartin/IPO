@@ -4,6 +4,7 @@ using Org.BouncyCastle.Asn1.Cmp;
 using Org.BouncyCastle.Ocsp;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,7 @@ using WpfApp1.resources.StringResources;
 namespace WpfApp1.Views
 {
 
-    public partial class IUViniloU : Window
+    public partial class IUArtistaU : Window
     {
 
         private bool rotated = true; //Variable control menu desplegable
@@ -35,6 +36,7 @@ namespace WpfApp1.Views
         private readonly MainMethods mainMethods;
         TimeSpan lastPosition = TimeSpan.Zero;
         private readonly IUFavoritos iufavoritos;
+        private Artista artistaPrincipal;
         public string NombreUsuario
         {
             get { return nombreUsuario; }
@@ -55,19 +57,6 @@ namespace WpfApp1.Views
             }
         }
 
-        private int idVinilo;
-        public int IdVinilo
-        {
-            get { return idVinilo; }
-            set
-            {
-                idVinilo = value;
-                if (viniloPrincipal == null) { CargarViniloDesdeBaseDeDatos(idVinilo); }
-
-                CargarInfoVinilo();
-
-            }
-        }
 
         private Vinilo viniloPrincipal;
 
@@ -77,13 +66,17 @@ namespace WpfApp1.Views
             set
             {
                 viniloPrincipal = value;
-                CargarInfoVinilo();
+                CargarArtistaDesdeBaseDeDatos(viniloPrincipal.Artista);
+                CargarInfoArtista();
             }
         }
 
 
 
-        public IUViniloU()
+
+
+
+        public IUArtistaU()
         {
             
             InitializeComponent();
@@ -96,14 +89,35 @@ namespace WpfApp1.Views
             this.Loaded += MainWindow_Loaded;
         }
 
+        private void MainWindow_LanguageChanged(object sender, EventArgs e)
+        {
+            lblSaludo.Content = (string)Application.Current.FindResource("Saludo");
+            lblUltimaConex.Content = (string)Application.Current.FindResource("UltimaConexion");
+            refreshGroupLanguage();
+
+        }
+
+        private void refreshGroupLanguage()
+        {
+            if (artistaPrincipal.IsGroup)
+            {
+                Fecha.Content = (string)Application.Current.FindResource("FechaCreacion");
+            }
+            else
+            {
+                Fecha.Content = (string)Application.Current.FindResource("FechaNacimiento");
+            }
+        }
+
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
-            if (viniloPrincipal != null)
+            if (artistaPrincipal != null)
             {
                 // Actualiza el contenido del control "Stock" con el nuevo idioma
-                RefreshLanguageStock();
+                refreshGroupLanguage();
             }
+            
 
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -192,6 +206,11 @@ namespace WpfApp1.Views
         {
             mainMethods.MostrarFotoPerfil(usuario, dbManager, imgPerfil, this);
         }
+
+        private void volverTienda_Click(object sender, RoutedEventArgs e)
+        {
+            mainMethods.volverTienda(NombreUsuario, ViniloPrincipal, this);
+        }
       
 
         
@@ -221,68 +240,69 @@ namespace WpfApp1.Views
 
         }
 
-        private void CargarViniloDesdeBaseDeDatos(int idVinilo)
+        private void CargarArtistaDesdeBaseDeDatos(String idartista)
         {
 
 
             try
             {
-                string query = "SELECT v.*, ivc.Precio, ivc.Cantidad, COUNT(vm.idVinilo) AS CantidadMeGustas, "+
-                                "GROUP_CONCAT(cv.Cancion SEPARATOR ', ') AS Canciones FROM vinilos v "+
-                                "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo "+
-                                "LEFT JOIN cancionesVinilo cv ON v.Idvinilo = cv.Idvinilo "+
-                                "LEFT JOIN vinilosMGs vm ON v.Idvinilo = vm.idVinilo "+
-                                "WHERE v.Idvinilo = @Idvinilo GROUP BY v.Idvinilo";
+                string query = "SELECT a.*, arrss.instagram, arrss.x, arrss.facebook, arrss.youtube, GROUP_CONCAT(IFNULL(gc.Componente, '') SEPARATOR ', ') AS Componentes, " +
+               "COUNT(amg.Artista) AS CantidadMeGustas FROM artistas a " +
+               "JOIN artistaRRSS arrss ON a.Artista = arrss.artista " +
+               "LEFT JOIN artistasMGs amg ON a.Artista = amg.Artista " +
+               "LEFT JOIN grupoComponentes gc ON a.Artista = gc.Grupo " +
+               "WHERE a.Artista = @Artista GROUP BY a.Artista";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
                 {
                     dbManager.Connection.Open();
-                    cmd.Parameters.AddWithValue("@Idvinilo", idVinilo);
+                    cmd.Parameters.AddWithValue("@Artista", idartista);
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            Vinilo vinilo = new Vinilo
+                            Artista artista = new Artista
                             {
-                                Idvinilo = Convert.ToInt32(reader["Idvinilo"]),
-                                Titulo = reader["Titulo"].ToString(),
-                                Genero = reader["Genero"].ToString(),
-                                Artista = reader["Artista"].ToString(),
-                                FechaSalida = reader["FechaSalida"].ToString(),
-                                Pais = reader["Pais"].ToString(),
-                                Sello = reader["Sello"].ToString(),
-                                Formato = reader["Formato"].ToString(),
-                                Fecha = Convert.ToInt32(reader["FechaSalida"]),
-                                // El campo de la portada es un byte[] (mediumblob)
-                                Precio = Convert.ToSingle(reader["Precio"]),
-                                Canciones = new List<string>(),
-                                Portada = (byte[])reader["Portada"],
-                                Cantidad = Convert.ToInt32(reader["Cantidad"]),
-                                NumeroMGS = Convert.ToInt32(reader["CantidadMeGustas"])
-                                
-                            };
 
-                            if (!reader.IsDBNull(reader.GetOrdinal("Preview")))
+                                NombreArtistico = reader["Artista"].ToString(),
+                                NombreReal = reader["NombreReal"].ToString(),
+                                IsGroup = Convert.ToBoolean(reader["isGroup"]),
+                                Fecha = (DateTime)reader["FechaNacimiento"],
+                                Genero = reader["Genero"].ToString(),
+                                Instagram = reader["instagram"].ToString(),
+                                X = reader["x"].ToString(),
+                                Facebook = reader["facebook"].ToString(),
+                                Youtube = reader["youtube"].ToString(),
+                                Descripcion = reader["Descripcion"].ToString(),
+                                NumeroMGS = Convert.ToInt32(reader["CantidadMeGustas"]),
+                                Componentes = new List<string>()
+
+
+                            };
+                            if (reader["Imagen"] != DBNull.Value && reader["Imagen"] != null)
                             {
-                                vinilo.Audio = (byte[])reader["Preview"];
+                                artista.Imagen = (byte[])reader["Imagen"];
                             }
-                            // Agregar canción al vinilo actual si hay una
-                            string cancion = reader["Canciones"].ToString();
-                            if (!string.IsNullOrEmpty(cancion))
+                            else
+                            {
+                                // Si no hay imagen en la base de datos, asigna la imagen por defecto
+                                artista.Imagen = ObtenerBytesDesdeImagenPorDefecto();
+                            }
+                            //Agregar canción al vinilo actual si hay una
+                            string componentes = reader["Componentes"].ToString();
+                            if (!string.IsNullOrEmpty(componentes))
                             {
                                 // Dividir la cadena en canciones usando la coma como separador
-                                string[] cancionesArray = cancion.Split(',');
+                                string[] componentesArray = componentes.Split(',');
 
                                 // Agregar cada canción a la lista del vinilo
-                                foreach (string cancionIndividual in cancionesArray)
+                                foreach (string componenteIndividual in componentesArray)
                                 {
-                                    vinilo.Canciones.Add(cancionIndividual.Trim());  // Trim para eliminar posibles espacios en blanco alrededor de cada canción
+                                    artista.Componentes.Add(componenteIndividual.Trim());  // Trim para eliminar posibles espacios en blanco alrededor de cada canción
                                 }
                             }
-
-                            viniloPrincipal = vinilo;
-
+                            artistaPrincipal = artista;
                         }
                     }
                 }
@@ -298,15 +318,36 @@ namespace WpfApp1.Views
 
             
         }
+        private byte[] ObtenerBytesDesdeImagenPorDefecto()
+        {
 
-        private void CargarInfoVinilo()
+            string rutaImagenPorDefecto = "../../Assets/Images/PerfilArtista.png";
+
+            if (File.Exists(rutaImagenPorDefecto))
+            {
+                return File.ReadAllBytes(rutaImagenPorDefecto);
+            }
+
+            // Si la imagen por defecto no está disponible, puedes devolver un array de bytes vacío o manejarlo de otra manera
+            return new byte[0];
+        }
+
+        private void CargarInfoArtista()
         {
             
-            lblTiulo.Content = viniloPrincipal.Titulo;
-            imgVinilo.Source = viniloPrincipal.Caratula;
-            lblArtista.Content = viniloPrincipal.Artista;
-            lblPrecio.Content = viniloPrincipal.Precio + "€";
-            nMegustas.Content = viniloPrincipal.NumeroMGS;
+            lblTiulo.Content = artistaPrincipal.NombreArtistico;
+            imgArtista.Source = artistaPrincipal.Caratula;
+            lblGenero.Content = artistaPrincipal.Genero;
+            textbDescripcion.Text = artistaPrincipal.Descripcion;
+            nMegustas.Content = artistaPrincipal.NumeroMGS;
+
+
+            //Mostrar solo las redes sociales que tenga el artista
+            if (artistaPrincipal.Instagram != null && artistaPrincipal.Instagram!="") { IG.Visibility = Visibility.Visible; }
+            if (artistaPrincipal.X != null && artistaPrincipal.X != "") { X.Visibility = Visibility.Visible; }
+            if (artistaPrincipal.Youtube != null && artistaPrincipal.Youtube != "") { YT.Visibility = Visibility.Visible; }
+            if (artistaPrincipal.Facebook != null && artistaPrincipal.Facebook != "") { FB.Visibility = Visibility.Visible; }
+
             if (comprobarMG())
             {
                 imgMG.Source = new BitmapImage(new Uri("../../Assets/Images/MG.png", UriKind.Relative));
@@ -316,118 +357,68 @@ namespace WpfApp1.Views
                 imgFav.Source = new BitmapImage(new Uri("../../Assets/Images/corazonColoreadoB.png", UriKind.Relative));
             }
 
-            GeneroValor.Content = viniloPrincipal.Genero;
-            FormatoValor.Content = viniloPrincipal.Formato;
-            SelloValor.Content = viniloPrincipal.Sello;
-            PaisValor.Content = viniloPrincipal.Pais;
-            
-            foreach (string cancion in viniloPrincipal.Canciones)
+            if(artistaPrincipal.IsGroup)
             {
-                lstCanciones.Items.Add(cancion);
-            }
-            MEPreview.Source = viniloPrincipal.Preview;
-
-            RefreshLanguageStock();
-
-
-
-        }
-
-        private void anadirCarrito_Click(object sender, RoutedEventArgs e)
-        {
-            int cantidad = Convert.ToInt32(cantidadInput.Text);
-
-            if (cantidad > 0)
-            {
-                if (cantidad > viniloPrincipal.Cantidad)
-                {
-                    MessageBox.Show("Lo sentimos, actualmente solo hay " + viniloPrincipal.Cantidad + " productos de este tipo en stock.");
-                    return;
-                }
-                // Verificar si el vinilo ya está en el carrito del usuario
-                string queryVerificar = "SELECT COUNT(*) FROM carritoUsuario WHERE idVinilo = @IdVinilo AND usuario = @Usuario";
-                dbManager.Connection.Open();
-                using (MySqlCommand cmdVerificar = new MySqlCommand(queryVerificar, dbManager.Connection))
-                {
-                    cmdVerificar.Parameters.AddWithValue("@IdVinilo", idVinilo);
-                    cmdVerificar.Parameters.AddWithValue("@Usuario", nombreUsuario);
-
-                    int count = Convert.ToInt32(cmdVerificar.ExecuteScalar());
-
-                    if (count > 0)
-                    {
-                        // Si el vinilo ya está en el carrito, actualizar la cantidad
-                        string queryActualizar = "UPDATE carritoUsuario SET cantidad = @Cantidad WHERE idVinilo = @IdVinilo AND usuario = @Usuario";
-                        using (MySqlCommand cmdActualizar = new MySqlCommand(queryActualizar, dbManager.Connection))
-                        {
-                            cmdActualizar.Parameters.AddWithValue("@IdVinilo", idVinilo);
-                            cmdActualizar.Parameters.AddWithValue("@Usuario", nombreUsuario);
-                            cmdActualizar.Parameters.AddWithValue("@Cantidad", cantidad);
-
-                            cmdActualizar.ExecuteNonQuery();
-                        }
-                    }
-                    else
-                    {
-                        // Si el vinilo no está en el carrito, insertar un nuevo registro
-                        string queryInsertar = "INSERT INTO carritoUsuario (idVinilo, usuario, cantidad) VALUES (@IdVinilo, @Usuario, @Cantidad)";
-                        using (MySqlCommand cmdInsertar = new MySqlCommand(queryInsertar, dbManager.Connection))
-                        {
-                            cmdInsertar.Parameters.AddWithValue("@IdVinilo", idVinilo);
-                            cmdInsertar.Parameters.AddWithValue("@Usuario", nombreUsuario);
-                            cmdInsertar.Parameters.AddWithValue("@Cantidad", cantidad);
-
-                            cmdInsertar.ExecuteNonQuery();
-                        }
-                    }
-                }
-
-                dbManager.Connection.Close();
-                MessageBox.Show("Añadido al carrito");
+                Componentes.Visibility = Visibility.Visible;
+                NombreReal.Visibility = Visibility.Collapsed;
+                FechaValor.Content = artistaPrincipal.Fecha.Year;
             }
             else
             {
-                MessageBox.Show("Introduce una cantidad válida");
+                Componentes.Visibility = Visibility.Collapsed;
+                NombreReal.Visibility = Visibility.Visible;
+                NombreRealValor.Content = artistaPrincipal.NombreReal;
+                FechaValor.Content = artistaPrincipal.Fecha;
             }
+            
+                   
+            foreach (string componente in artistaPrincipal.Componentes)
+            {
+                lstComponentes.Items.Add(componente);
+            }
+
+            refreshGroupLanguage();
+
         }
 
 
-        private void aumentarCantidad(object sender, RoutedEventArgs e)
+
+        private void linkRRSS(object sender, RoutedEventArgs e)
         {
-            cantidadInput.Text = (Convert.ToInt32(cantidadInput.Text) + 1).ToString();
-        }
-        private void disminuirCantidad(object sender, RoutedEventArgs e)
-        {
-            cantidadInput.Text = (Convert.ToInt32(cantidadInput.Text) - 1).ToString();
+            string url="";
+            if (sender == X)
+            {
+                url = artistaPrincipal.X;
+            }
+            else if (sender == FB)
+            {
+                url = artistaPrincipal.Facebook;
+            }
+            else if (sender == IG)
+            {
+                url = artistaPrincipal.Instagram;
+            }
+            else if (sender == YT)
+            {
+                url = artistaPrincipal.Youtube;
+            }
+            
+
+            // Abre el enlace en el navegador web predeterminado
+            Process.Start(new ProcessStartInfo(url));
         }
 
-        private void btnPlay_Click(object sender, RoutedEventArgs e)
-        {
-            MEPreview.Position = lastPosition;
-            MEPreview.Play();  // Iniciar la reproducción desde el principio
-        }
 
-        private void btnPause_Click(object sender, RoutedEventArgs e)
-        {
-            MEPreview.Pause();  // Detener la reproducción
-            lastPosition = MEPreview.Position;
-        }
-
-        private void btnReload_Click(object sender, RoutedEventArgs e)
-        {
-            MEPreview.Stop();  // Detener la reproducción
-            MEPreview.Position = TimeSpan.Zero;  // Reiniciar la posición a cero
-            MEPreview.Play();  // Iniciar la reproducción desde el principio
-        }
+       
 
         private bool comprobarMG()
         {
-            string query = "SELECT COUNT(*) FROM vinilosMGs WHERE idVinilo = @IdVinilo AND usuario = @Usuario";
+            string query = "SELECT COUNT(*) FROM artistasMGs WHERE artista = @Artista AND usuario = @Usuario";
             dbManager.Connection.Open();
 
             using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
             {
-                cmd.Parameters.AddWithValue("@IdVinilo", idVinilo);
+                cmd.Parameters.AddWithValue("@Artista", artistaPrincipal.NombreArtistico);
                 cmd.Parameters.AddWithValue("@Usuario", nombreUsuario);
 
                 // Ejecutar la consulta y obtener el resultado
@@ -442,12 +433,12 @@ namespace WpfApp1.Views
 
         private bool comprobarFav()
         {
-            string query = "SELECT COUNT(*) FROM vinilosFavoritos WHERE idvinilo = @IdVinilo AND usuario = @Usuario";
+            string query = "SELECT COUNT(*) FROM artistasFavoritos WHERE Artista = @Artista AND Usuario = @Usuario";
             dbManager.Connection.Open();
 
             using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
             {
-                cmd.Parameters.AddWithValue("@IdVinilo", idVinilo);
+                cmd.Parameters.AddWithValue("@Artista", artistaPrincipal.NombreArtistico);
                 cmd.Parameters.AddWithValue("@Usuario", nombreUsuario);
 
                 // Ejecutar la consulta y obtener el resultado
@@ -463,7 +454,7 @@ namespace WpfApp1.Views
         private void anadirMG(object sender, RoutedEventArgs e)
         {
 
-            string query = "INSERT INTO vinilosMGs (idVinilo, usuario) VALUES (@IdVinilo, @Usuario)";
+            string query = "INSERT INTO artistasMGs (Artista, Usuario) VALUES (@Artista, @Usuario)";
             Boolean ismg = comprobarMG();
             
             if (!ismg) //Si no le ha dado mg se guarda el mg
@@ -471,7 +462,7 @@ namespace WpfApp1.Views
                 dbManager.Connection.Open();
                 using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
                 {
-                    cmd.Parameters.AddWithValue("@IdVinilo", idVinilo);
+                    cmd.Parameters.AddWithValue("@Artista", artistaPrincipal.NombreArtistico);
                     cmd.Parameters.AddWithValue("@Usuario", nombreUsuario);
 
                     cmd.ExecuteNonQuery();
@@ -482,12 +473,12 @@ namespace WpfApp1.Views
             }
             else
             {
-                string deleteQuery = "DELETE FROM vinilosMGs WHERE idVinilo = @IdVinilo AND usuario = @Usuario";
+                string deleteQuery = "DELETE FROM artistasMGs WHERE Artista = @Artista AND Usuario = @Usuario";
 
                 dbManager.Connection.Open();
                 using (MySqlCommand cmdDelete = new MySqlCommand(deleteQuery, dbManager.Connection))
                 {
-                    cmdDelete.Parameters.AddWithValue("@IdVinilo", idVinilo);
+                    cmdDelete.Parameters.AddWithValue("@Artista", artistaPrincipal.NombreArtistico);
                     cmdDelete.Parameters.AddWithValue("@Usuario", nombreUsuario);
 
                     cmdDelete.ExecuteNonQuery();
@@ -505,7 +496,7 @@ namespace WpfApp1.Views
         private void anadirFav(object sender, RoutedEventArgs e)
         {
 
-            string query = "INSERT INTO vinilosFavoritos (idvinilo, usuario) VALUES (@IdVinilo, @Usuario)";
+            string query = "INSERT INTO artistasFavoritos (Artista, Usuario) VALUES (@Artista, @Usuario)";
             Boolean isfav = comprobarFav();
 
             if (!isfav) //Si no le ha dado mg se guarda el mg
@@ -513,7 +504,7 @@ namespace WpfApp1.Views
                 dbManager.Connection.Open();
                 using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
                 {
-                    cmd.Parameters.AddWithValue("@IdVinilo", idVinilo);
+                    cmd.Parameters.AddWithValue("@Artista", artistaPrincipal.NombreArtistico);
                     cmd.Parameters.AddWithValue("@Usuario", nombreUsuario);
 
                     cmd.ExecuteNonQuery();
@@ -524,12 +515,12 @@ namespace WpfApp1.Views
             }
             else
             {
-                string deleteQuery = "DELETE FROM vinilosFavoritos WHERE idvinilo = @IdVinilo AND usuario = @Usuario";
+                string deleteQuery = "DELETE FROM artistasFavoritos WHERE Artista = @Artista AND Usuario = @Usuario";
 
                 dbManager.Connection.Open();
                 using (MySqlCommand cmdDelete = new MySqlCommand(deleteQuery, dbManager.Connection))
                 {
-                    cmdDelete.Parameters.AddWithValue("@IdVinilo", idVinilo);
+                    cmdDelete.Parameters.AddWithValue("@Artista", artistaPrincipal.NombreArtistico);
                     cmdDelete.Parameters.AddWithValue("@Usuario", nombreUsuario);
 
                     cmdDelete.ExecuteNonQuery();
@@ -543,15 +534,6 @@ namespace WpfApp1.Views
 
         }
 
-        private void MainWindow_LanguageChanged(object sender, EventArgs e)
-        {
-            lblSaludo.Content = (string)Application.Current.FindResource("Saludo");
-            lblUltimaConex.Content = (string)Application.Current.FindResource("UltimaConexion");
-            // Actualizar el contenido cuando cambie el idioma
-            
-
-            RefreshLanguageStock();
-        }
 
         private void RefreshLanguageStock()
         {
@@ -566,17 +548,12 @@ namespace WpfApp1.Views
             string mensaje = $"{actualmenteString} {cantidad} {productosString}";
 
             // Establecer el contenido del control "Stock" con el mensaje combinado
-            Stock.Content = mensaje;
+            
         }
 
         private void volverButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             mainMethods.Button_Tienda(nombreUsuario, this);
-        }
-
-        private void visualizarArtista(object sender, MouseButtonEventArgs e)
-        {
-            mainMethods.visualizarArtista(nombreUsuario, viniloPrincipal, this);
         }
     }
 }
