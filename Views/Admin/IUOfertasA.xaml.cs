@@ -599,12 +599,6 @@ namespace WpfApp1.Views.Admin
                         // Obtén el vinilo seleccionado de la lista
                         Vinilo viniloSeleccionado = (Vinilo)lstVinilos.Items[indiceSeleccionado];
 
-                        // Actualiza los datos del vinilo
-
-
-
-
-
                         //ActualizarListaVinilos();
                         ActualizarOfertaBBDD(viniloSeleccionado, viniloId);
 

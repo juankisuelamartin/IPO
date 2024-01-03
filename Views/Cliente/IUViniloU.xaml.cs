@@ -27,7 +27,7 @@ namespace WpfApp1.Views
 
     public partial class IUViniloU : Window
     {
-
+        
         private bool rotated = true; //Variable control menu desplegable
         private string nombreUsuario; // Agrega esta propiedad
         private readonly DatabaseManager dbManager;
@@ -66,6 +66,18 @@ namespace WpfApp1.Views
 
                 CargarInfoVinilo();
 
+            }
+        }
+
+        //Control para saber a que ventana volver (iuArtista VERDADERO o iuTienda FALSO)
+        private int volver = 0;
+        public int Volver
+        {
+            get { return volver; }
+            set
+            {
+                // Verifica si el valor es true (bool) y asigna 1 si es true, 0 si es false
+                volver = value;
             }
         }
 
@@ -138,7 +150,7 @@ namespace WpfApp1.Views
 
         private void Button_Carrito(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Button_Carrito(nombreUsuario, this);
         }
 
         private void Button_Buscar(object sender, RoutedEventArgs e)
@@ -305,7 +317,7 @@ namespace WpfApp1.Views
             lblTiulo.Content = viniloPrincipal.Titulo;
             imgVinilo.Source = viniloPrincipal.Caratula;
             lblArtista.Content = viniloPrincipal.Artista;
-            lblPrecio.Content = viniloPrincipal.Precio + "€";
+            lblPrecioContent.Text = viniloPrincipal.Precio + "€";
             nMegustas.Content = viniloPrincipal.NumeroMGS;
             if (comprobarMG())
             {
@@ -326,11 +338,59 @@ namespace WpfApp1.Views
                 lstCanciones.Items.Add(cancion);
             }
             MEPreview.Source = viniloPrincipal.Preview;
+            verOferta(viniloPrincipal.Idvinilo);
 
             RefreshLanguageStock();
 
 
 
+        }
+
+        private void verOferta(int idVinilo)
+        {
+            string query = "SELECT * FROM ofertas WHERE idVinilo = @IdVinilo";
+
+            using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+            {
+                dbManager.Connection.Open();
+
+                
+                cmd.Parameters.AddWithValue("@IdVinilo", idVinilo);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        // Se encontró una fila
+
+                        
+                        lblPrecioContent.Style = (Style)FindResource("TachadoStyle");
+
+                        double descuento = Convert.ToDouble(reader["Descuento"]);
+                        Console.WriteLine(lblPrecioContent.Text.ToString());
+                        double precio = Convert.ToDouble(Regex.Replace(lblPrecioContent.Text.ToString(), "€", ""));
+                        lblnuevoPrecio.Visibility = Visibility.Visible;
+                            Console.WriteLine("Descuento:: " + precio * (descuento / 100));
+                        lblnuevoPrecio.Content = precio - (precio * (descuento/100)) + " €";
+                        imgOffer.Visibility = Visibility.Visible;
+                        lbldescuento.Visibility = Visibility.Visible;
+                        lbldescuento.Content = descuento + "%";
+                    }
+                    else
+                    {
+                        lblPrecioContent.Style = null;
+                        lblnuevoPrecio.Visibility=Visibility.Collapsed;
+                        imgOffer.Visibility = Visibility.Collapsed;
+                        lbldescuento.Visibility = Visibility.Collapsed;
+                    }
+
+                    reader.Close(); // Cierra el DataReader antes de ejecutar otra consulta
+                    
+
+                }
+            }
+
+            dbManager.Connection.Close();
         }
 
         private void anadirCarrito_Click(object sender, RoutedEventArgs e)
@@ -571,7 +631,19 @@ namespace WpfApp1.Views
 
         private void volverButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            mainMethods.Button_Tienda(nombreUsuario, this);
+            Console.WriteLine("Volver: " + volver);
+            if (volver ==0)
+            {
+
+                
+                mainMethods.Button_Tienda(nombreUsuario, this);
+                
+            }
+            else
+            {
+                mainMethods.visualizarArtista(nombreUsuario, viniloPrincipal, this);
+            }
+
         }
 
         private void visualizarArtista(object sender, MouseButtonEventArgs e)

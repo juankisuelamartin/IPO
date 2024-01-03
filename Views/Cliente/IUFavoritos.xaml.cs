@@ -95,7 +95,7 @@ namespace WpfApp1.Views
 
         private void Button_Carrito(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Button_Carrito(nombreUsuario, this);
         }
 
         private void Button_Buscar(object sender, RoutedEventArgs e)

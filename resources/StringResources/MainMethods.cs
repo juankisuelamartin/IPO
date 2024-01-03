@@ -53,6 +53,16 @@ namespace WpfApp1.resources.StringResources
             iuTienda.Show();
             currentWindow.Close();
         }
+
+        public void Button_Carrito(String NombreUsuario, Window currentWindow)
+        {
+            IUCarritoU iuCarrito = new IUCarritoU();
+            iuCarrito.NombreUsuario = NombreUsuario;
+            Window_Closing(currentWindow);
+            iuCarrito.Show();
+            currentWindow.Close();
+        }
+
         public void newiuVinilos(String NombreUsuario, int idVinilo, Window currentWindow)
         {
             IUViniloU iuVinilos = new IUViniloU();
@@ -60,6 +70,17 @@ namespace WpfApp1.resources.StringResources
             iuVinilos.IdVinilo = idVinilo;
             Window_Closing(currentWindow);
             iuVinilos.Show();
+            Console.WriteLine(currentWindow.GetType().ToString());
+
+            if (currentWindow is IUArtistaU)
+            {
+                iuVinilos.Volver = 1;
+
+            }
+            else
+            {
+                iuVinilos.Volver = 0;
+            }
             currentWindow.Close();
         }
         public void visualizarArtista(String NombreUsuario, Vinilo vinilo, Window currentWindow)
@@ -79,6 +100,7 @@ namespace WpfApp1.resources.StringResources
             Window_Closing(currentWindow);
             iuVinilos.Show();
             currentWindow.Close();
+
         }
 
         public Window Window_Loaded(Window window)

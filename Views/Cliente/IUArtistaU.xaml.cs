@@ -152,7 +152,7 @@ namespace WpfApp1.Views
 
         private void Button_Carrito(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Button_Carrito(nombreUsuario, this);
         }
 
         private void Button_Buscar(object sender, RoutedEventArgs e)
@@ -376,14 +376,63 @@ namespace WpfApp1.Views
             {
                 lstComponentes.Items.Add(componente);
             }
-
+            cargarDiscografia();
             refreshGroupLanguage();
 
         }
 
+        private void cargarDiscografia()
+        {
+            List<Vinilo> vinilos = new List<Vinilo>();
+            string query = "SELECT * FROM vinilos WHERE artista = @Artista";
+            dbManager.Connection.Open();
+
+            using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+            {
+                cmd.Parameters.AddWithValue("@Artista", artistaPrincipal.NombreArtistico);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        Vinilo vinilo = new Vinilo
+                        {
+                            Idvinilo = Convert.ToInt32(reader["Idvinilo"]),
+                            Titulo = reader["Titulo"].ToString(),
+                            Genero = reader["Genero"].ToString(),
+                            
+                            Portada = (byte[])reader["Portada"],
 
 
-        private void linkRRSS(object sender, RoutedEventArgs e)
+                        };
+                        vinilos.Add(vinilo);
+                    } 
+                }
+            }
+            dbManager.Connection.Close();
+            foreach (Vinilo vinilo in vinilos)
+            {
+                lstDiscos.Items.Add(vinilo);
+            }
+            
+            lstDiscos.SelectionChanged += LstVinilos_SelectionChanged;
+
+        }
+
+        private void LstVinilos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            // Obtener el vinilo seleccionado
+            Vinilo vinilo = (Vinilo)lstDiscos.SelectedItem;
+
+            // Verificar si se seleccionó un elemento
+            if (vinilo != null)
+            {
+                // Llamar al método volverTienda con los parámetros necesarios
+                mainMethods.newiuVinilos(nombreUsuario, vinilo.Idvinilo , this);
+            }
+        }
+
+            private void linkRRSS(object sender, RoutedEventArgs e)
         {
             string url="";
             if (sender == X)

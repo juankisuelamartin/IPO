@@ -145,6 +145,7 @@
     <system:String x:Key="FechaNacimiento">Date of birth</system:String>
     <system:String x:Key="NombreReal">Real Name</system:String>
     <system:String x:Key="Componentes">Members</system:String>
+    <system:String x:Key="Discografia">Discography</system:String>
 
 
     <!--IUMenuTiendaU-->
@@ -153,5 +154,8 @@
     <system:String x:Key="lblGeneroF">Genre</system:String>
     <system:String x:Key="lblFormatoF">Format</system:String>
     <system:String x:Key="lblPrecioF">Price</system:String>
+
+    <!--IUMenuCarritoU-->
+    <system:String x:Key="Carrito">Cart</system:String>
 
 </ResourceDictionary>

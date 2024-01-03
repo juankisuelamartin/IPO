@@ -1,11 +1,11 @@
-﻿<Window x:Class="WpfApp1.Views.IUArtistaU"
+﻿<Window x:Class="WpfApp1.Views.IUCarritoU"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1.Views"
         mc:Ignorable="d"
-        Title="{DynamicResource PrincipalLbl}" WindowStyle="SingleBorderWindow" Height="600" Width="910" MinHeight="600" MinWidth="910" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
+        Title="{DynamicResource PrincipalLbl}" Height="600" Width="910" MinHeight="600" MinWidth="910" WindowStartupLocation="CenterScreen" SizeChanged="Window_SizeChanged">
 
 
     <Window.Resources>
@@ -30,19 +30,20 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="13*"/>
             <RowDefinition Height="33.003"/>
             <RowDefinition Height="18.001"/>
             <RowDefinition Height="20.002"/>
             <RowDefinition Height="23.002"/>
-            <RowDefinition Height="90*"/>
-            <RowDefinition Height="86*"/>
+            <RowDefinition Height="230*"/>
+            <RowDefinition Height="192*"/>
+            <RowDefinition Height="27.096"/>
             <RowDefinition Height="28.031"/>
         </Grid.RowDefinitions>
 
         <Image Source="../../Assets/Images/Background.jpg"  Opacity="0.195" Margin="-8,-90,0,0" Grid.RowSpan="7" Grid.ColumnSpan="3" HorizontalAlignment="Left"  VerticalAlignment="Top" MaxWidth="500" MinWidth="500" MaxHeight="500" MinHeight="500" Height="500" Width="500"/>
 
-        <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="3" Grid.Row="4" Stroke="Black" Fill="#FFD6D6D6" Height="Auto" Margin="0,23,0,0"/>
+        <Rectangle Grid.ColumnSpan="6" Grid.RowSpan="4" Grid.Row="4" Stroke="Black" Fill="#FFD6D6D6" Height="Auto" Margin="0,23,0,0"/>
 
 
 
@@ -67,8 +68,8 @@
 
 
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="5" Grid.RowSpan="5" Grid.ColumnSpan="6" Margin="0,0,0,30">
-            <StackPanel>
+        <ScrollViewer Grid.Row="5" Grid.RowSpan="2" Grid.ColumnSpan="6">
+            <StackPanel Grid.Row="5" Grid.RowSpan="2" Grid.ColumnSpan="6">
 
                 <StackPanel x:Name="panelPrincipal">
                     <!-- Fondo Gradiente -->
@@ -78,108 +79,44 @@
                             <GradientStop Color="White" Offset="0"/>
                         </LinearGradientBrush>
                     </StackPanel.Background>
-                    <Image x:Name="volverButton" Source="../../Assets/Images/flechagris.png" Width="45" Opacity="1" MouseDown="volverTienda_Click"  HorizontalAlignment="Left" Margin="10,0,0,-70" Style="{DynamicResource ManoStyleImage}"/>
-                    <StackPanel x:Name="contenidoPrincipal" HorizontalAlignment="Center">
 
-                        <Image x:Name="imgArtista"
-                                Height="170" Width="170"
-                                Margin="120,20,0,0"
-                                Stretch="Fill" Source="../../Assets/Images/ViniloX.jpg" HorizontalAlignment="Left"/>
-                        <Label x:Name="lblTiulo" Content="Titulo" HorizontalAlignment="Left" FontSize="37" Margin="300,-225,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="579"/>
-                        <Label x:Name="lblGenero" Content="Genero" HorizontalAlignment="Left" FontSize="25" Margin="300,-125,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="355"/>
-                      
-
-
-
-                        <StackPanel x:Name="RRSS" Orientation="Horizontal" HorizontalAlignment="Center" Width="Auto" Margin="400,-30,0,-5">
-                            <Image x:Name="IG" HorizontalAlignment="Center" Visibility="Collapsed" Source="../../Assets/Images/RRSSIG.png" MouseDown="linkRRSS" Style="{StaticResource ManoStyleImage}" Width="30" Margin="7,0,7,0"/>
-                            <Image x:Name="FB" HorizontalAlignment="Center" Visibility="Collapsed" Source="../../Assets/Images/RRSSFB.png" MouseDown="linkRRSS" Style="{StaticResource ManoStyleImage}" Width="30" Margin="7,0,7,0"/>
-                            <Image x:Name="X" HorizontalAlignment="Center" Visibility="Collapsed" Source="../../Assets/Images/RRSSX.png" MouseDown="linkRRSS" Style="{StaticResource ManoStyleImage}" Width="30" Margin="7,0,7,0"/>
-                            <Image x:Name="YT" HorizontalAlignment="Center" Visibility="Collapsed" Source="../../Assets/Images/RRSSYT.png" MouseDown="linkRRSS" Style="{StaticResource ManoStyleImage}" Width="30" Margin="7,0,7,0"/>
-                        </StackPanel>
-                        
-                        <StackPanel x:Name="MGyFav" Orientation="Horizontal" HorizontalAlignment="Left" Width="233" Margin="295,-30,0,0">
-                            <StackPanel  x:Name="MGs" Width="80" Margin="20,0,0,0">
-                                <Label x:Name="nMegustas" Content="123K" VerticalAlignment="Center" FontSize="15" Margin="35,5,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="34" Width="44"/>
-                                <Image x:Name="imgMG" Source="../../Assets/Images/MGDesactiv.png" MouseDown="anadirMG" Style="{StaticResource ManoStyleImage}" Width="30" Height="30" Margin="-50,-43,0,0" ToolTip="{StaticResource MGT}" />
-                            </StackPanel>
-                            <StackPanel  x:Name="Favoritos" Width="61" Margin="0,0,0,0">
-
-                                <Image x:Name="imgFav" Source="../../Assets/Images/Corazon.png" MouseDown="anadirFav" Style="{StaticResource ManoStyleImage}" Width="30" Height="30" Margin="0,4,0,0" ToolTip="{StaticResource FavT}" />
-                            </StackPanel>
-
-
-                        </StackPanel>
+                    <Label Content="{StaticResource Carrito}"  FontSize="20" FontWeight="Bold" FontFamily="Bahnschrift" />
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,-25,0,0">
+                        <Label Content="Nombre" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" Margin="160,0,0,0" HorizontalAlignment="Left"></Label>
+                        <Label Content="Precio" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" Margin="470,0,0,0" HorizontalAlignment="Left"></Label>
+                        <Label Content="Cantidad" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="40,0,0,0" ></Label>
                     </StackPanel>
+
+                    <ListBox x:Name="lstCarrito"   BorderThickness="0" Width="890" VerticalAlignment="Stretch" Margin="0,0,0,00">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="{Binding Imagen}" Height="50" Width="50" Margin="3,0,0,30"/>
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="{Binding NombreyTitulo}"  Margin="20,20,0,0" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" />
+                                        <Label Content="{Binding Cantidad}" FontFamily="Bahnschrift" Margin="750,-27,0,0" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" />
+                                        <Label Content="{Binding PrecioFormateado}"  Width="70"  FontFamily="Bahnschrift" Margin="670,-27,40,0" FontSize="14" FontWeight="Bold" HorizontalAlignment="Right" />
+
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
                 </StackPanel>
-
-
-
-
-                <!--Descripcion-->
-                <Grid x:Name="Descripcion" Width="Auto" Height="Auto" Margin="0,0,0,0">
-                    <StackPanel HorizontalAlignment="Left" >
-                        <Label x:Name="lblDescripcion" Content="{DynamicResource lblDescripcionU}" FontFamily="Bahnschrift" Margin="30,30,30,0" FontSize="20" FontWeight="Bold"/>
-                        <TextBlock x:Name="textbDescripcion" Padding="50,0,50,0" TextWrapping="Wrap" FontFamily="Bahnschrift" Height="Auto" FontSize="14"/>
-                    </StackPanel>
-                </Grid>
-
-                <!--Detalles-->
-                <Grid x:Name="Detalles" Margin="0,-40,0,20">
-                    <StackPanel Margin="-65,80,0,0" HorizontalAlignment="Center">
-
-                        <StackPanel x:Name="NombreReal" HorizontalAlignment="Left" Visibility="Collapsed" VerticalAlignment="Center" Orientation="Horizontal" Width="600" Margin="85,0,0,0">
-                            <Label  Content="{DynamicResource NombreReal}" FontSize="17" Width="200" Margin="25,0,0,0"/>
-                            <Label x:Name="NombreRealValor" FontSize="17" Margin="60,0,0,0" />
-                        </StackPanel>
-
-                        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal" Width="600" Margin="85,0,0,0" Background="#FFE0E0E0">
-                            <Label x:Name="Fecha" Content="{DynamicResource lblFormatoF}" FontSize="17" Width="200" Margin="25,0,0,0"/>
-                            <Label x:Name="FechaValor" FontSize="17" Margin="60,0,0,0" HorizontalAlignment="Right"/>
-                        </StackPanel>
-
-
-                    </StackPanel>
-                </Grid>
-                
-
-                <!--Componentes-->
-                <Grid x:Name="Componentes" Width="Auto" Height="240" Margin="0,10,0,10">
-                    <Border BorderBrush="Black" BorderThickness="1" Width="Auto" Height="Auto" Grid.Column="2" Margin="2,0,2,0">
-                        <StackPanel HorizontalAlignment="Center" Margin="130,0,0,0">
-                            <Label Content="{StaticResource Componentes}" FontSize="25" FontWeight="Bold" FontFamily="Bahnschrift" Margin="-200,15,0,0"/>
-                            <ListBox x:Name="lstComponentes" Width="280" FontSize="15" Height="Auto" Padding="20,0,0,0" Margin=" -160,20,0,0"/>
-                        </StackPanel>
-                    </Border>
-                </Grid>
-
-                <Grid x:Name="Discografia" Width="Auto" Height="240" Margin="0,10,0,10">
-                    <Border BorderBrush="Black" BorderThickness="1" Width="Auto" Height="Auto" Grid.Column="2" Margin="2,0,2,0">
-                        <StackPanel HorizontalAlignment="Center" Margin="130,0,0,0">
-                            <Label Content="{StaticResource Discografia}" FontSize="25" FontWeight="Bold" FontFamily="Bahnschrift" Margin="-200,15,0,0"/>
-                            <ListBox x:Name="lstDiscos" Width="280" FontSize="15" Height="Auto" Padding="20,0,0,0" Margin=" -160,20,0,0">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Height="30" Orientation="Horizontal">
-                                            <Image Width="32" Height="32" Stretch="Fill"
-                                                Source="{Binding Caratula}"/>
-                                            <TextBlock Padding="2" Margin="10,0,0,0"
-                                                Text="{Binding Titulo}" FontSize="10"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </StackPanel>
-                    </Border>
-                </Grid>
 
 
 
             </StackPanel>
         </ScrollViewer>
 
-        <Rectangle Grid.ColumnSpan="6" Grid.Row="7"  Stroke="Black" Fill="#FFB9B9B9" Margin="0,1,0,0"/>
-        <Grid Grid.ColumnSpan="6" Grid.Row="7" VerticalAlignment="Center" Height="18">
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="6">
+            <Button x:Name="comprarbtn" Content="Comprar" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Height="25" Width="70" Grid.Row="7"/>
+        </StackPanel>
+
+
+        <Rectangle Grid.ColumnSpan="6" Grid.Row="8"  Stroke="Black" Fill="#FFB9B9B9" Margin="0,1,0,0"/>
+        <Grid Grid.ColumnSpan="6" Grid.Row="8" VerticalAlignment="Center" Height="18">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -193,7 +130,7 @@
         </Grid>
 
 
-        <ComboBox x:Name="LanguageComboBox" Grid.Row="7" HorizontalAlignment="Center" VerticalAlignment="Center" Width="62" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Height="22">
+        <ComboBox x:Name="LanguageComboBox" Grid.Row="8" HorizontalAlignment="Center" VerticalAlignment="Center" Width="62" Background="White" Foreground="Black" SelectionChanged="LanguageComboBox_SelectionChanged" Height="22">
             <ComboBox.ItemContainerStyle>
                 <Style TargetType="ComboBoxItem">
                     <Setter Property="VerticalAlignment" Value="Bottom"/>
@@ -205,7 +142,7 @@
 
 
 
-        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="160" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="144" >
+        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="160" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="61,0,0,0" Width="144" >
             <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
 
 

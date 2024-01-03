@@ -120,6 +120,7 @@
     </ApplicationDefinition>
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="resources\Dominio\Artista.cs" />
+    <Compile Include="resources\Dominio\ItemCarrito.cs" />
     <Compile Include="resources\Dominio\Vinilo.cs" />
     <Compile Include="resources\StringResources\LanguageManager.cs" />
     <Compile Include="resources\StringResources\MainMethods.cs" />
@@ -149,6 +150,9 @@
     </Compile>
     <Compile Include="Views\Cliente\IUArtistaU.xaml.cs">
       <DependentUpon>IUArtistaU.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cliente\IUCarritoU.xaml.cs">
+      <DependentUpon>IUCarritoU.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Cliente\IUViniloU.xaml.cs">
       <DependentUpon>IUViniloU.xaml</DependentUpon>
@@ -196,6 +200,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Cliente\IUArtistaU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cliente\IUCarritoU.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

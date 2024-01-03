@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using MaterialDesignThemes.Wpf;
+using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Asn1.Cmp;
 using Org.BouncyCastle.Ocsp;
 using System;
@@ -6,6 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,18 +19,21 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WpfApp1.Helpers;
+using WpfApp1.resources.Dominio;
 using WpfApp1.resources.StringResources;
 
 namespace WpfApp1.Views
 {
 
-    public partial class IUPrincipalU : Window
+    public partial class IUCarritoU : Window
     {
+        
         private bool rotated = true; //Variable control menu desplegable
         private string nombreUsuario; // Agrega esta propiedad
         private readonly DatabaseManager dbManager;
         private readonly LanguageManager languageManager; // Agrega esta propiedad
         private readonly MainMethods mainMethods;
+        TimeSpan lastPosition = TimeSpan.Zero;
         private readonly IUFavoritos iufavoritos;
         public string NombreUsuario
         {
@@ -38,8 +43,6 @@ namespace WpfApp1.Views
                 nombreUsuario = value;
                 // Aquí puedes llamar al método para cargar la imagen de perfil o realizar otras acciones basadas en el usuario.
                 MostrarFotoPerfil(value);
-                MostrarFavoritos(value);
-                MostrarNovedades();
                 languageManager.LoadLanguageResources();
                 languageManager.InitializeLanguageComboBox(LanguageComboBox);
                 // Restaurar el idioma seleccionado previamente
@@ -49,10 +52,42 @@ namespace WpfApp1.Views
                     Translator.SwitchLanguage(selectedLanguage);
                     languageManager.SetLanguageComboBox(selectedLanguage, LanguageComboBox);
                 }
+                CargarCarritoDesdeBaseDeDatos();
+                foreach (ItemCarrito item in carrito)
+                {
+                    
+                    item.Vinilo.Precio = comprobarOferta(item.Vinilo.Idvinilo, item.Vinilo.Precio);
+                }
             }
         }
 
-        public IUPrincipalU()
+        private List<ItemCarrito> carrito = new List<ItemCarrito>(); 
+        public List<ItemCarrito> Carrito
+        {
+            get { return carrito; }
+            set
+            {
+                carrito = value;
+            }
+        }
+
+
+        //Control para saber a que ventana volver (iuArtista VERDADERO o iuTienda FALSO)
+        private int volver = 0;
+        public int Volver
+        {
+            get { return volver; }
+            set
+            {
+                // Verifica si el valor es true (bool) y asigna 1 si es true, 0 si es false
+                volver = value;
+            }
+        }
+
+
+
+
+        public IUCarritoU()
         {
             
             InitializeComponent();
@@ -62,15 +97,16 @@ namespace WpfApp1.Views
             mainMethods = new MainMethods();
             iufavoritos = new IUFavoritos();
             // Suscribir a los eventos "Click" de los enlaces "Ver más..."
-            lblverMasNov.MouseUp += VerMasNovedades_Click;
-            lblverMasOft.MouseUp += VerMasOfertas_Click;
-            lblverMasFav.MouseUp += VerMasFavoritos_Click;
             this.Loaded += MainWindow_Loaded;
+            
+            //CargarInfoCarrito();
         }
 
         private void LanguageComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             languageManager.LanguageComboBox_SelectionChanged(sender, e, LanguageComboBox);
+           
+
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -99,7 +135,7 @@ namespace WpfApp1.Views
 
         private void Button_Home(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.Button_Home(nombreUsuario, this);
         }
 
         private void Button_Carrito(object sender, RoutedEventArgs e)
@@ -159,11 +195,7 @@ namespace WpfApp1.Views
             mainMethods.MostrarFotoPerfil(usuario, dbManager, imgPerfil, this);
         }
       
-        private void MostrarFavoritos(string usuario)
-        {
 
-            iufavoritos.MostrarFavoritos(usuario, wrapPanelFavoritosP);
-        }
         
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -186,125 +218,113 @@ namespace WpfApp1.Views
             iufavoritos.CambiarEstadoToggleButton(toggleButton, isChecked);
         }
 
-        private void portadaFavoritos(MySqlDataReader reader, StackPanel stackPanel)
-        {
-            iufavoritos.portadaFavoritos(reader, stackPanel);
-        }
-
-        private void toggleFavoritos(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel) {
-            
-            iufavoritos.toggleFavoritos(reader, horizontalWrapPanel, stackPanel);
-        }
-
-        private void toggleNovedades(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel)
-        {
-            //Crear borde con color hexadecimal
-            Border border = new Border();
-            border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4E4E4"));
-            border.CornerRadius = new CornerRadius(10);
-            border.Margin = new Thickness(left: 25, top: 30, right: 20, bottom: 50);
-
-            //Crear toggleButton para cada vinilo que encuentre en favoritos y sus eventos
-            ToggleButton toggleButton = new ToggleButton();
-            toggleButton.Content = "Eliminar";
-            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
-            toggleButton.Width = 45; // ajusta el tamaño según tus necesidades
-            toggleButton.Height = 45;
-
-            // Establecer propiedades para quitar el borde
-            toggleButton.BorderThickness = new Thickness(0);
-            toggleButton.Background = Brushes.Transparent;
-
-            toggleButton.FocusVisualStyle = null;
-            toggleButton.BorderBrush = Brushes.Transparent;
-            toggleButton.Background = Brushes.Transparent;
-
-            // Crear un Image con la imagen por defecto
-            Image buttonImage = new Image();
-            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../../Assets/Images/New.png", UriKind.Relative));
-            buttonImage.Source = buttonImageBitmapImage;
-            buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
-            buttonImage.Height = 40;
-
-            toggleButton.Content = buttonImage;
-
-
-            //TODO: Elegir mejor posicion: 95, -180, 0, 0 Esquina Sup Derecha
-            //                             80, -20, 0, 0  Esquina Inf Derecha
-            toggleButton.Margin = new Thickness(95, -180, 0, 0);
-            toggleButton.FocusVisualStyle = null;
-            stackPanel.Children.Add(toggleButton);
-
-            border.Child = stackPanel;
-            horizontalWrapPanel.Children.Add(border);
-        }
-        private void tituloFavoritos(String titulo, StackPanel stackPanel)
-        {
-            iufavoritos.tituloFavoritos(titulo, stackPanel);
-
-        }
-
-        private void precioFavoritos(String precio, StackPanel stackPanel)
-        {
-            iufavoritos.precioFavoritos(precio, stackPanel);
-        }
-
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
 
         }
 
-
-        private void MostrarNovedades()
+        private void CargarCarritoDesdeBaseDeDatos()
         {
+
+
             try
             {
-                string query = "SELECT ivc.Precio, v.Titulo, v.Portada, v.Idvinilo " +
-                               "FROM vinilos v " +
-                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
-                               "ORDER BY v.Idvinilo DESC"; // Ordenar por ID descendente
+                string query = "SELECT v.Titulo, v.Artista, v.Portada, ivc.Precio, cu.* FROM vinilos v " +
+                    "JOIN carritoUsuario cu ON v.Idvinilo = cu.idVinilo LEFT JOIN infoVinilosCompra ivc ON ivc.Idvinilo = v.Idvinilo WHERE cu.usuario = @Usuario " +
+                    "GROUP BY v.Idvinilo, cu.idVinilo, cu.cantidad, cu.usuario";
 
                 using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
                 {
                     dbManager.Connection.Open();
-
-                    // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
-                    WrapPanel horizontalWrapPanel = new WrapPanel();
-                    horizontalWrapPanel.Orientation = Orientation.Horizontal;
+                    cmd.Parameters.AddWithValue("@Usuario", nombreUsuario);
+                    Console.WriteLine("usuario: " + nombreUsuario);
 
                     using (MySqlDataReader reader = cmd.ExecuteReader())
                     {
+                        
                         while (reader.Read())
                         {
-                            string titulo = reader["Titulo"].ToString();
-                            string precio = reader["Precio"].ToString();
-                            Console.WriteLine(titulo + " " + precio);
-                            StackPanel stackPanel = new StackPanel();
-                            stackPanel.Margin = new Thickness(left: 0, top: 15, right: 0, bottom: 10);
+                            
 
-                            //Llamadas a cargar Titulo y Precio
-                            portadaFavoritos(reader, stackPanel);
-                            toggleNovedades(reader, wrapPanelNovedadesP, stackPanel);
-                            tituloFavoritos(titulo, stackPanel);
-                            precioFavoritos(precio, stackPanel);
+                            
+                            //float precio = comprobarOferta(Convert.ToInt32(reader["idVinilo"]), precioOriginal);
 
-                            // Agrega un salto de línea después de cada número de columnas especificado
-                            wrapPanelNovedadesP.Children.Add(horizontalWrapPanel);
-                            horizontalWrapPanel = new WrapPanel();
-                            horizontalWrapPanel.Orientation = Orientation.Horizontal;
+                            Console.WriteLine("Cargando vinilossssssssssss");
+                            Vinilo vinilo = new Vinilo
+                            {
+                                Idvinilo = Convert.ToInt32(reader["Idvinilo"]),
+                                Titulo = reader["Titulo"].ToString(),
+                                Artista = reader["Artista"].ToString(),
+                                // El campo de la portada es un byte[] (mediumblob)
+                                Precio = Convert.ToSingle(reader["Precio"]),
+                                Portada = (byte[])reader["Portada"],
+                                Cantidad = Convert.ToInt32(reader["Cantidad"]),
+
+                                
+                            };
+                            int cantidad = Convert.ToInt32(reader["Cantidad"]);
+
+                            // Crear una instancia de ItemCarrito con el vinilo y la cantidad
+                            ItemCarrito item = new ItemCarrito
+                            {
+                                Vinilo = vinilo,  // Supongamos que 'vinilo' es una instancia de la clase Vinilo
+                                Cantidad = cantidad // Supongamos que 'cantidad' es la cantidad que deseas agregar
+                            };
+
+
+                            // Agregar la instancia al ListBox
+                            lstCarrito.Items.Add(item);
+                            Console.WriteLine("TITULO: " + item.Vinilo.Titulo);
+                            carrito.Add(item);
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al mostrar novedades: " + ex.Message);
+                MessageBox.Show("Error al cargar vinilos: " + ex.Message);
             }
             finally
             {
                 dbManager.Connection.Close();
             }
+
+            
         }
+
+        private float comprobarOferta(int id, float precioOriginal)
+        {
+            string query = "SELECT descuento FROM ofertas WHERE idVinilo = @IdVinilo";
+            dbManager.Connection.Open();
+            using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+            {
+
+
+
+                cmd.Parameters.AddWithValue("@IdVinilo", id);
+
+                using (MySqlDataReader reader2 = cmd.ExecuteReader())
+                {
+                    if (reader2.Read())
+                    {
+                        float descuento = Convert.ToSingle(reader2["Descuento"]);
+                       
+                        float precio = precioOriginal;
+                        reader2.Close();
+                        dbManager.Connection.Close();
+                        return precio - (precio * (descuento / 100));
+
+                    }
+                    else
+                    {
+                        reader2.Close();
+                        dbManager.Connection.Close();
+                        return precioOriginal;
+                    }
+                }
+            }
+        }
+
 
     }
 }

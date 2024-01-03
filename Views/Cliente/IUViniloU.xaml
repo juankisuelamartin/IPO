@@ -87,8 +87,15 @@
                                 Stretch="Fill" Source="../../Assets/Images/ViniloX.jpg" HorizontalAlignment="Left"/>
                         <Label x:Name="lblTiulo" Content="Titulo" HorizontalAlignment="Left" FontSize="37" Margin="300,-225,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="579"/>
                         <Label x:Name="lblArtista" Content="Artista" HorizontalAlignment="Left" FontSize="25" ToolTip="{StaticResource ArtistasT}" Style="{StaticResource ManoStyle}" MouseDown="visualizarArtista" Margin="300,-125,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="355"/>
-                        <Label x:Name="lblPrecio" Content="999,99 €" HorizontalAlignment="Left" FontSize="25" Margin="575,-123,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="125"/>
+                        <Label x:Name="lblPrecio" HorizontalAlignment="Left" FontSize="25" Margin="575,-123,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="125">
+                            <TextBlock x:Name="lblPrecioContent" Text="999,99 €">
 
+                            </TextBlock>
+                        </Label>
+                        <Label x:Name="lblnuevoPrecio" Content="999,99 €" HorizontalAlignment="Left" FontSize="25" Margin="695,-123,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="50" Width="125"/>
+                        <Image x:Name="imgOffer" Source="../../Assets/Images/offer.png" Width="85" Height="85" Margin="775,-135,0,0"/>
+                        <Label x:Name="lbldescuento" Content="25% " HorizontalAlignment="Left" Width="45" FontSize="19" Margin="805,-125,0,0" FontFamily="Bahnschrift" FontWeight="Bold" Height="45"  Foreground="White"/>
+                        
                         <Label x:Name="Stock" Content="Actualmente hay 5 productos de este tipo" Margin="520,-50,0,20" Width="259"></Label>
                         <Button x:Name="anadirCarrito" Width="120" Click="anadirCarrito_Click" Height="30" Background="Black" Margin="580,-20,0,0">
                             <StackPanel Orientation="Horizontal">
