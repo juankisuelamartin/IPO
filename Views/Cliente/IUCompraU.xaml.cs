@@ -351,7 +351,6 @@ namespace WpfApp1.Views
         private void pagarBtn_Click(object sender, RoutedEventArgs e)
         {
 
-            //@TODO: COMPROBAR QUE TODO ESTE RELLENO
             MessageBoxResult result = MessageBox.Show(
                     "¿Seguro que quieres comprar los elementos del carrito?\n",
                     "Confirmación",
@@ -512,6 +511,7 @@ namespace WpfApp1.Views
                 }
                 finally
                 {
+                    mainMethods.Button_Home(NombreUsuario, this);
                     dbManager.Connection.Close();
                 }
 

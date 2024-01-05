@@ -221,7 +221,7 @@ namespace WpfApp1.Views
 
         private void Button_Enviar(object sender, RoutedEventArgs e)
         {
-            if (txtConsulta.Text != null)
+            if (txtConsulta.Text != "" || txtAsunto.Text != "")
             {
                 MessageBoxResult result = MessageBox.Show(
                        "¿Seguro que quieres enviar esta consulta?\n",
@@ -279,7 +279,12 @@ namespace WpfApp1.Views
                             cmd.Parameters.AddWithValue("@Asunto", txtAsunto.Text);
                             cmd.ExecuteNonQuery();
                             transaction.Commit();
+                            MessageBox.Show("Consulta realizada con exito");
 
+                        }
+                        else
+                        {
+                            return;
                         }
                     }
                 }
@@ -289,7 +294,6 @@ namespace WpfApp1.Views
                 }
                 finally
                 {
-                    MessageBox.Show("Consulta realizada con exito");
                     dbManager.Connection.Close();
                 }
             }
