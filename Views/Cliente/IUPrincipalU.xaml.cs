@@ -40,6 +40,7 @@ namespace WpfApp1.Views
                 MostrarFotoPerfil(value);
                 MostrarFavoritos(value);
                 MostrarNovedades();
+                MostrarOfertas();
                 languageManager.LoadLanguageResources();
                 languageManager.InitializeLanguageComboBox(LanguageComboBox);
                 // Restaurar el idioma seleccionado previamente
@@ -77,7 +78,10 @@ namespace WpfApp1.Views
             mainMethods.Window_Loaded(this);
         }
 
-
+        private void sobrenosotros_Click(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.sobreNosotros_Click(NombreUsuario, this);
+        }
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
         {
@@ -101,7 +105,10 @@ namespace WpfApp1.Views
         {
 
         }
-
+        private void Contacto_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.ContactoU(NombreUsuario, this);
+        }
         private void Button_Carrito(object sender, RoutedEventArgs e)
         {
             mainMethods.Button_Carrito(nombreUsuario, this);
@@ -130,7 +137,7 @@ namespace WpfApp1.Views
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.HistorialU(NombreUsuario, this);
         }
 
         private void ProfileMenuPopup_Closed(object sender, EventArgs e)
@@ -162,7 +169,61 @@ namespace WpfApp1.Views
         private void MostrarFavoritos(string usuario)
         {
 
-            iufavoritos.MostrarFavoritos(usuario, wrapPanelFavoritosP);
+            try
+            {
+                string query = "SELECT ivc.Precio, v.Titulo, v.Portada, v.Idvinilo " +
+                               "FROM vinilosFavoritos vf " +
+                               "JOIN vinilos v ON vf.idvinilo = v.Idvinilo " +
+                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo " +
+                               "WHERE vf.usuario = @usuario";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    cmd.Parameters.AddWithValue("@usuario", usuario);
+                    dbManager.Connection.Open();
+
+
+                    // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
+                    WrapPanel horizontalWrapPanel = new WrapPanel();
+                    horizontalWrapPanel.Orientation = Orientation.Horizontal;
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+
+                        while (reader.Read())
+                        {
+
+                            string titulo = reader["Titulo"].ToString();
+                            string precio = reader["Precio"].ToString();
+
+                            StackPanel stackPanel = new StackPanel();
+                            stackPanel.Margin = new Thickness(left: 0, top: 15, right: 0, bottom: 10);
+
+
+                            //Lamadas cargar Tiulo y Precio
+                            iufavoritos.portadaFavoritos(reader, stackPanel);
+                            toggleFavoritos(reader, wrapPanelFavoritosP, stackPanel);
+                            iufavoritos.tituloFavoritos(titulo, stackPanel);
+                            iufavoritos.precioFavoritos(precio, stackPanel);
+
+                            // Agrega un salto de línea después de cada número de columnas especificado
+                            wrapPanelFavoritosP.Children.Add(horizontalWrapPanel);
+                            horizontalWrapPanel = new WrapPanel();
+                            horizontalWrapPanel.Orientation = Orientation.Horizontal;
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar favoritos: " + ex.Message);
+            }
+            finally
+            {
+
+                dbManager.Connection.Close();
+            }
         }
         
         private void ToggleButton_Checked(object sender, RoutedEventArgs e)
@@ -192,8 +253,47 @@ namespace WpfApp1.Views
         }
 
         private void toggleFavoritos(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel) {
-            
-            iufavoritos.toggleFavoritos(reader, horizontalWrapPanel, stackPanel);
+
+            Border border = new Border();
+            border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4E4E4"));
+            border.CornerRadius = new CornerRadius(10);
+            border.Margin = new Thickness(left: 25, top: 30, right: 20, bottom: 50);
+
+            //Crear toggleButton para cada vinilo que encuentre en favoritos y sus eventos
+            ToggleButton toggleButton = new ToggleButton();
+            toggleButton.Content = "Eliminar";
+            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
+            toggleButton.Width = 45; // ajusta el tamaño según tus necesidades
+            toggleButton.Height = 45;
+
+            // Establecer propiedades para quitar el borde
+            toggleButton.BorderThickness = new Thickness(0);
+            toggleButton.Background = Brushes.Transparent;
+
+            toggleButton.FocusVisualStyle = null;
+            toggleButton.BorderBrush = Brushes.Transparent;
+            toggleButton.Background = Brushes.Transparent;
+
+            // Crear un Image con la imagen por defecto
+            Image buttonImage = new Image();
+            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../../Assets/Images/CorazonColoreadoB.png", UriKind.Relative));
+            buttonImage.Source = buttonImageBitmapImage;
+            buttonImage.Width = 40; // ajusta el tamaño según tus necesidades
+            buttonImage.Height = 40;
+
+            toggleButton.Content = buttonImage;
+
+
+            //TODO: Elegir mejor posicion: 95, -180, 0, 0 Esquina Sup Derecha
+            //                             80, -20, 0, 0  Esquina Inf Derecha
+            toggleButton.Margin = new Thickness(95, -180, 0, 0);
+            toggleButton.FocusVisualStyle = null;
+            stackPanel.Children.Add(toggleButton);
+
+            border.Child = stackPanel;
+            horizontalWrapPanel.Children.Add(border);
+
+
         }
 
         private void toggleNovedades(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel)
@@ -304,6 +404,113 @@ namespace WpfApp1.Views
             {
                 dbManager.Connection.Close();
             }
+        }
+
+
+
+
+        private void MostrarOfertas()
+        {
+            try
+            {
+                string query = "SELECT ivc.Precio, v.Titulo, v.Portada, v.Idvinilo, o.descuento " +
+                               "FROM vinilos v " +
+                               "JOIN infoVinilosCompra ivc ON v.Idvinilo = ivc.Idvinilo JOIN ofertas o ON o.idVinilo = v.Idvinilo " +
+                               "ORDER BY v.Idvinilo DESC"; // Ordenar por ID descendente
+
+                using (MySqlCommand cmd = new MySqlCommand(query, dbManager.Connection))
+                {
+                    dbManager.Connection.Open();
+
+                    // Agrega un WrapPanel horizontal para organizar los StackPanels en columnas
+                    WrapPanel horizontalWrapPanel = new WrapPanel();
+                    horizontalWrapPanel.Orientation = Orientation.Horizontal;
+
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            string titulo = reader["Titulo"].ToString();
+                            string precio = reader["Precio"].ToString();
+                            int descuento = Convert.ToInt32(reader["descuento"]);
+                            Console.WriteLine(titulo + " " + precio);
+                            StackPanel stackPanel = new StackPanel();
+                            stackPanel.Margin = new Thickness(left: 0, top: 15, right: 0, bottom: 10);
+
+                            //Llamadas a cargar Titulo y Precio
+                            portadaFavoritos(reader, stackPanel);
+                            
+                            tituloFavoritos(titulo, stackPanel);
+                            precioFavoritos(precio, stackPanel);
+                            toggleOfertas(reader, wrapPanelOfertasP, stackPanel, descuento);
+
+                            // Agrega un salto de línea después de cada número de columnas especificado
+                            wrapPanelOfertasP.Children.Add(horizontalWrapPanel);
+                            horizontalWrapPanel = new WrapPanel();
+                            horizontalWrapPanel.Orientation = Orientation.Horizontal;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al mostrar ofertas: " + ex.Message);
+            }
+            finally
+            {
+                dbManager.Connection.Close();
+            }
+        }
+
+        private void toggleOfertas(MySqlDataReader reader, WrapPanel horizontalWrapPanel, StackPanel stackPanel, int descuento)
+        {
+            //Crear borde con color hexadecimal
+            Border border = new Border();
+            border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFE4E4E4"));
+            border.CornerRadius = new CornerRadius(10);
+            border.Margin = new Thickness(left: 25, top: 30, right: 20, bottom: 50);
+
+            //Crear toggleButton para cada vinilo que encuentre en favoritos y sus eventos
+            ToggleButton toggleButton = new ToggleButton();
+            toggleButton.Content = "Eliminar";
+            toggleButton.Tag = reader["Idvinilo"]; // Almacena el ID del vinilo en el Tag del botón
+            toggleButton.Width = 50; // ajusta el tamaño según tus necesidades
+            toggleButton.Height = 50;
+
+            // Establecer propiedades para quitar el borde
+            toggleButton.BorderThickness = new Thickness(0);
+            toggleButton.Background = Brushes.Transparent;
+
+            toggleButton.FocusVisualStyle = null;
+            toggleButton.BorderBrush = Brushes.Transparent;
+            toggleButton.Background = Brushes.Transparent;
+
+            // Crear un Image con la imagen por defecto
+            Image buttonImage = new Image();
+            BitmapImage buttonImageBitmapImage = new BitmapImage(new Uri("../../Assets/Images/offer.png", UriKind.Relative));
+            buttonImage.Source = buttonImageBitmapImage;
+            buttonImage.Width = 60; // ajusta el tamaño según tus necesidades
+            buttonImage.Height = 60;
+
+            toggleButton.Content = buttonImage;
+
+
+            //TODO: Elegir mejor posicion: 95, -180, 0, 0 Esquina Sup Derecha
+            //                             80, -20, 0, 0  Esquina Inf Derecha
+            toggleButton.Margin = new Thickness(80, -270, 10, 0);
+            toggleButton.FocusVisualStyle = null;
+            stackPanel.Children.Add(toggleButton);
+
+            Label label = new Label();
+            label.Content = descuento + "%";
+            label.FontSize = 14;
+            label.Margin = new Thickness(93, -145, -25, 0);
+            label.Foreground = Brushes.White;
+
+            stackPanel.Children.Add(label);
+
+            border.Child = stackPanel;
+            horizontalWrapPanel.Children.Add(border);
         }
 
     }

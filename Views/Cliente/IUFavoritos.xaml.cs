@@ -92,7 +92,10 @@ namespace WpfApp1.Views
         {
             mainMethods.Button_Home(NombreUsuario, this);
         }
-
+        private void sobrenosotros_Click(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.sobreNosotros_Click(NombreUsuario, this);
+        }
         private void Button_Carrito(object sender, RoutedEventArgs e)
         {
             mainMethods.Button_Carrito(nombreUsuario, this);
@@ -105,7 +108,7 @@ namespace WpfApp1.Views
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.HistorialU(NombreUsuario, this);
         }
 
         private void ProfileMenuPopup_Closed(object sender, EventArgs e)
@@ -134,7 +137,10 @@ namespace WpfApp1.Views
             mainMethods.MostrarFotoPerfil(usuario, dbManager, imgPerfil, this);
 
         }
-
+        private void Contacto_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.ContactoU(NombreUsuario, this);
+        }
         public void MostrarFavoritos(string usuario, WrapPanel wrapPanelFavoritos)
         {
             try

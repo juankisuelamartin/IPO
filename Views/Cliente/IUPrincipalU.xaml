@@ -88,9 +88,9 @@
 
 
                 </Grid>
-                <Grid  Width="Auto" Height="120" Margin="0,0,0,10">
+                <Grid  Width="Auto" Height="240" Margin="0,0,0,10">
                     <Border BorderBrush="Black" BorderThickness="1" Width="Auto" Height="Auto" Grid.Column="2">
-                        <WrapPanel x:Name="wrapPanelOfertasP" Orientation="Horizontal" HorizontalAlignment="Left" Width="Auto" Height="40" />
+                        <WrapPanel x:Name="wrapPanelOfertasP" Orientation="Horizontal" HorizontalAlignment="Left" Width="Auto" Height="260" />
                     </Border>
                 </Grid>
 
@@ -123,9 +123,9 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="1" Text="{DynamicResource ConctactUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="1" Text="{DynamicResource ConctactUsLabel}" MouseUp="Contacto_MouseUp" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
             <TextBlock Grid.Column="2" Text="{DynamicResource HelpLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <TextBlock Grid.Column="3" Text="{DynamicResource AboutUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="3" Text="{DynamicResource AboutUsLabel}" MouseUp="sobrenosotros_Click" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
         </Grid>
 
 

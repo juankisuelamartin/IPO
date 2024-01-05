@@ -159,5 +159,52 @@
 
     <!--IUMenuCarritoU-->
     <system:String x:Key="Carrito">Carrito</system:String>
+    <system:String x:Key="Nombre">Nombre</system:String>
+    <system:String x:Key="Cantidad">Cantidad</system:String>
+    <system:String x:Key="eliminarProducto">Eliminar Produto</system:String>
+    <system:String x:Key="Comprar">Comprar</system:String>
 
+    <!--IUMenuCompraU-->
+    <system:String x:Key="NombreUsuario">Nombre de Usuario</system:String>
+    <system:String x:Key="DireccionEnvio">Dirección de Envío</system:String>
+    <system:String x:Key="FormaEnvio">Forma de Envío</system:String>
+    <system:String x:Key="DatosPersonales">Datos Personales</system:String>
+    <system:String x:Key="EnvioStandard">Envío Estándard</system:String>
+    <system:String x:Key="EnvioExpress">Envío Express (+4€)</system:String>
+    <system:String x:Key="Garantia">Garantía de envío(+2€)</system:String>
+    <system:String x:Key="MetodoPago">Metodo de pago</system:String>
+    <system:String x:Key="PagoTarjeta">Pago con Tarjeta de crédito</system:String>
+    <system:String x:Key="PagoPaypal">Pago con Paypal</system:String>
+    <system:String x:Key="NumTarjeta">Número de tarjeta</system:String>
+    <system:String x:Key="FechaVencimiento">Fecha de Vencimiento</system:String>
+    <system:String x:Key="Pagar">Pagar</system:String>
+
+    <!--IUAboutUsU-->
+    <system:String x:Key="AboutUS">¿Quienes somos?</system:String>
+    <system:String x:Key="AboutUS2">Somos una empresa dedicada a la venta de vinilos, tanto de artistas nacionales como internacionales. Nuestro objetivo es que puedas encontrar el vinilo que buscas, y si no lo encuentras, que puedas pedirlo y nosotros nos encargaremos de buscarlo para ti.</system:String>
+
+    <!--IUHistorialU-->
+    <system:String x:Key="Historial">Historial de Pedidos</system:String>
+    <system:String x:Key="Fecha">Fecha del pedido</system:String>
+    <system:String x:Key="Estado">Estado del pedido</system:String>
+    <system:String x:Key="TotalPrecio">Precio Total</system:String>
+    <system:String x:Key="lblGarantia">Garantía</system:String>
+    <system:String x:Key="TipoEnvio">Tipo de Envío</system:String>
+    <system:String x:Key="Detalles">Detalles</system:String>
+    <system:String x:Key="Usuario">Usuario</system:String>
+
+    <!--IUContactoU-->
+    <system:String x:Key="Contactanos">Contactanos</system:String>
+    <system:String x:Key="NuestroSoporte">Nuestro equipo de soporte está listo para ayudarte en lo que necesites. Queremos asegurarnos de que tengas la mejor experiencia posible con nuestros productos/servicios.</system:String>
+    <system:String x:Key="ProblemaTecnico">Si tienes algún problema técnico, una pregunta frecuente o simplemente deseas dejar comentarios, estamos aquí para escucharte. ¡No dudes en explorar lo que tenemos para ofrecer y disfrutar de tu experiencia con nosotros!</system:String>
+    <system:String x:Key="Consulta">¡Dejanos aquí tu consulta!</system:String>
+    <system:String x:Key="Captura">Añadir Captura</system:String>
+    <system:String x:Key="EnviarConsulta">Envía tu consulta</system:String>
+    <system:String x:Key="lblConsulta">Consulta</system:String>
+    <system:String x:Key="Asunto">Asunto</system:String>
+    <system:String x:Key="Mensaje">Mensaje</system:String>
+    <system:String x:Key="lblCaptura">Captura</system:String>
+    <system:String x:Key="FechaConsulta">Fecha de la Consulta</system:String>
+
+   
 </ResourceDictionary>

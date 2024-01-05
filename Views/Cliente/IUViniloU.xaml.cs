@@ -123,7 +123,10 @@ namespace WpfApp1.Views
             mainMethods.Window_Loaded(this);
         }
 
-
+        private void Contacto_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.ContactoU(NombreUsuario, this);
+        }
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
         {
@@ -152,7 +155,10 @@ namespace WpfApp1.Views
         {
             mainMethods.Button_Carrito(nombreUsuario, this);
         }
-
+        private void sobrenosotros_Click(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.sobreNosotros_Click(NombreUsuario, this);
+        }
         private void Button_Buscar(object sender, RoutedEventArgs e)
         {
 
@@ -176,7 +182,7 @@ namespace WpfApp1.Views
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.HistorialU(NombreUsuario, this);
         }
 
         private void ProfileMenuPopup_Closed(object sender, EventArgs e)

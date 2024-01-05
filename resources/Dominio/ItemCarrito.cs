@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace WpfApp1.resources.Dominio
 {
@@ -21,10 +23,12 @@ namespace WpfApp1.resources.Dominio
                                 set { Precio = value; }
         }
         public ImageSource Imagen { get { return Vinilo.Caratula; } }
-
+        public int Id { get { return Vinilo.Idvinilo; } }
         public string PrecioFormateado
         {
             get { return Vinilo.Precio.ToString("0.00") + " €"; }
         }
+
+        
     }
 }

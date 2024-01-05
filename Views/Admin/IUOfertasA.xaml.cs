@@ -115,7 +115,10 @@ namespace WpfApp1.Views.Admin
         {
             mainMethods.Window_Closing(this);
         }
-
+        private void Contacto_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.ButtonGestionContacto(NombreUsuario, this);
+        }
         private void Button_Perfil(object sender, RoutedEventArgs e)
         {
             mainMethods.Window_Closing(this);

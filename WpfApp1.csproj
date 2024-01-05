@@ -120,15 +120,24 @@
     </ApplicationDefinition>
     <Compile Include="DatabaseManager.cs" />
     <Compile Include="resources\Dominio\Artista.cs" />
+    <Compile Include="resources\Dominio\Consulta.cs" />
+    <Compile Include="resources\Dominio\Pedido.cs" />
     <Compile Include="resources\Dominio\ItemCarrito.cs" />
+    <Compile Include="resources\Dominio\Usuario.cs" />
     <Compile Include="resources\Dominio\Vinilo.cs" />
     <Compile Include="resources\StringResources\LanguageManager.cs" />
     <Compile Include="resources\StringResources\MainMethods.cs" />
     <Compile Include="Views\Admin\IUArtistasA.xaml.cs">
       <DependentUpon>IUArtistasA.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Admin\IUContactoA.xaml.cs">
-      <DependentUpon>IUContactoA.xaml</DependentUpon>
+    <Compile Include="Views\Admin\IUDetallesContacto.xaml.cs">
+      <DependentUpon>IUDetallesContacto.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\IUContactoAdmin.xaml.cs">
+      <DependentUpon>IUContactoAdmin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Admin\IUDetallesPedidosA.xaml.cs">
+      <DependentUpon>IUDetallesPedidosA.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Admin\IUHistorialPedidosA.xaml.cs">
       <DependentUpon>IUHistorialPedidosA.xaml</DependentUpon>
@@ -144,6 +153,21 @@
     </Compile>
     <Compile Include="Views\Admin\IUVinilosA.xaml.cs">
       <DependentUpon>IUVinilosA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cliente\IUContactoU.xaml.cs">
+      <DependentUpon>IUContactoU.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cliente\IUHistorialDetallesU.xaml.cs">
+      <DependentUpon>IUHistorialDetallesU.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cliente\IUHistorialU.xaml.cs">
+      <DependentUpon>IUHistorialU.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cliente\IUCompraU.xaml.cs">
+      <DependentUpon>IUCompraU.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cliente\IUAboutUsU.xaml.cs">
+      <DependentUpon>IUAboutUsU.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Cliente\IUTiendaMenuU.xaml.cs">
       <DependentUpon>IUTiendaMenuU.xaml</DependentUpon>
@@ -171,9 +195,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Admin\IUContactoA.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Views\Admin\IUDetallesContacto.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Admin\IUContactoAdmin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Admin\IUDetallesPedidosA.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Admin\IUHistorialPedidosA.xaml">
       <SubType>Designer</SubType>
@@ -194,6 +226,26 @@
     <Page Include="Views\Admin\IUVinilosA.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cliente\IUContactoU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cliente\IUHistorialDetallesU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cliente\IUHistorialU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cliente\IUCompraU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cliente\IUAboutUsU.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Cliente\IUTiendaMenuU.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -356,6 +408,19 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\Images\offer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\credit.png" />
+    <Resource Include="Assets\Images\paypalLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\file.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\marcador.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Images\mapa.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />

@@ -80,14 +80,23 @@
                         </LinearGradientBrush>
                     </StackPanel.Background>
 
-                    <Label Content="{StaticResource Carrito}"  FontSize="20" FontWeight="Bold" FontFamily="Bahnschrift" />
+                    <Label Content="{DynamicResource Carrito}"  FontSize="20" FontWeight="Bold" FontFamily="Bahnschrift" />
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,-25,0,0">
-                        <Label Content="Nombre" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" Margin="160,0,0,0" HorizontalAlignment="Left"></Label>
-                        <Label Content="Precio" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" Margin="470,0,0,0" HorizontalAlignment="Left"></Label>
-                        <Label Content="Cantidad" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="40,0,0,0" ></Label>
+                        <Label Content="{DynamicResource Nombre}" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" Margin="160,0,0,0" HorizontalAlignment="Left"></Label>
+                        <Label Content="{DynamicResource lblPrecioF}" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" Margin="470,0,0,0" HorizontalAlignment="Left"></Label>
+                        <Label Content="{DynamicResource Cantidad}" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" HorizontalAlignment="Left" Margin="40,0,0,0" ></Label>
                     </StackPanel>
 
                     <ListBox x:Name="lstCarrito"   BorderThickness="0" Width="890" VerticalAlignment="Stretch" Margin="0,0,0,00">
+                        <ListBox.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem x:Name="miEliminarArtistaB" Header="{DynamicResource eliminarProducto}" Click="miEliminarItemB_Click">
+                                    <MenuItem.Icon>
+                                        <Image Source="../../Assets/Images/remove_c.png"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </ListBox.ContextMenu>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -110,8 +119,10 @@
             </StackPanel>
         </ScrollViewer>
 
-        <StackPanel Grid.Row="7" Grid.ColumnSpan="6">
-            <Button x:Name="comprarbtn" Content="Comprar" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Height="25" Width="70" Grid.Row="7"/>
+        <StackPanel Grid.Row="7" Grid.ColumnSpan="6" Orientation="Horizontal" HorizontalAlignment="Center" >
+            <Label Content="Total" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" Margin="-50,0,0,0"/>
+            <Label x:Name="costeTotal" Content="2000,99 €" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" Margin="-10,0,40,0" />
+            <Button x:Name="comprarbtn" Content="{DynamicResource Comprar}" Style="{StaticResource ManoStyleButton}" Click="comprarbtn_Click" FontFamily="Bahnschrift" FontSize="14" FontWeight="Bold" HorizontalAlignment="Center" Height="25" Width="70" Grid.Row="7"/>
         </StackPanel>
 
 
@@ -124,9 +135,9 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Grid.Column="1" Text="{DynamicResource ConctactUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="1" Text="{DynamicResource ConctactUsLabel}" MouseUp="Contacto_MouseUp" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
             <TextBlock Grid.Column="2" Text="{DynamicResource HelpLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
-            <TextBlock Grid.Column="3" Text="{DynamicResource AboutUsLabel}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
+            <TextBlock Grid.Column="3" Text="{DynamicResource AboutUsLabel}" MouseUp="sobrenosotros_Click" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="Bahnschrift" FontSize="12" FontWeight="Bold" Foreground="Black"/>
         </Grid>
 
 
@@ -142,7 +153,7 @@
 
 
 
-        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="160" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="61,0,0,0" Width="144" >
+        <Border x:Name="popupMarco" Background="#FFE4E4E4" Height="160" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" CornerRadius="10" Grid.Column="5" Grid.ColumnSpan="2" Grid.RowSpan="5" Grid.Row="1"  HorizontalAlignment="Left" Visibility = "Collapsed" Margin="-30,0,0,0" Width="144" >
             <WrapPanel x:Name="wrapPanelContent" Orientation="Vertical" Margin="2,70,2,0" Grid.RowSpan="5" Grid.ColumnSpan="2" Width="Auto">
 
 

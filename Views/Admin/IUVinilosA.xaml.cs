@@ -97,6 +97,11 @@ namespace WpfApp1.Views.Admin
             mainMethods.Button_HomeAdmin(NombreUsuario, this);
         }
 
+        private void Contacto_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.ButtonGestionContacto(NombreUsuario, this);
+        }
+
         private void VerMasNovedades_Click(object sender, MouseButtonEventArgs e)
         {
             mainMethods.Window_Closing(this);

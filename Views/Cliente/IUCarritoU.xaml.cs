@@ -30,10 +30,10 @@ namespace WpfApp1.Views
         
         private bool rotated = true; //Variable control menu desplegable
         private string nombreUsuario; // Agrega esta propiedad
+
         private readonly DatabaseManager dbManager;
         private readonly LanguageManager languageManager; // Agrega esta propiedad
         private readonly MainMethods mainMethods;
-        TimeSpan lastPosition = TimeSpan.Zero;
         private readonly IUFavoritos iufavoritos;
         public string NombreUsuario
         {
@@ -53,11 +53,15 @@ namespace WpfApp1.Views
                     languageManager.SetLanguageComboBox(selectedLanguage, LanguageComboBox);
                 }
                 CargarCarritoDesdeBaseDeDatos();
+
+                //Comprobar si hay ofertas
                 foreach (ItemCarrito item in carrito)
                 {
                     
                     item.Vinilo.Precio = comprobarOferta(item.Vinilo.Idvinilo, item.Vinilo.Precio);
+                    preciototal += item.Vinilo.Precio * item.Cantidad;
                 }
+                costeTotal.Content = preciototal.ToString("0.00") + " €";
             }
         }
 
@@ -68,6 +72,16 @@ namespace WpfApp1.Views
             set
             {
                 carrito = value;
+            }
+        }
+
+        private float preciototal;
+        public float Preciototal
+        {
+            get { return preciototal; }
+            set
+            {
+                preciototal = value;
             }
         }
 
@@ -112,7 +126,10 @@ namespace WpfApp1.Views
         {
             mainMethods.Window_Loaded(this);
         }
-
+        private void Contacto_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.ContactoU(NombreUsuario, this);
+        }
 
 
         private void Button_cerrarsesion(object sender, RoutedEventArgs e)
@@ -147,16 +164,11 @@ namespace WpfApp1.Views
         {
 
         }
-
-        private void VerMasNovedades_Click(object sender, MouseButtonEventArgs e)
+        private void sobrenosotros_Click(object sender, MouseButtonEventArgs e)
         {
-
+            mainMethods.sobreNosotros_Click(NombreUsuario, this);
         }
 
-        private void VerMasOfertas_Click(object sender, MouseButtonEventArgs e)
-        {
-
-        }
 
         private void VerMasFavoritos_Click(object sender, MouseButtonEventArgs e)
         {
@@ -166,7 +178,7 @@ namespace WpfApp1.Views
 
         private void Button_historialCompras(object sender, RoutedEventArgs e)
         {
-
+            mainMethods.HistorialU(NombreUsuario, this);
         }
 
         private void ProfileMenuPopup_Closed(object sender, EventArgs e)
@@ -325,6 +337,74 @@ namespace WpfApp1.Views
             }
         }
 
+        private void miEliminarItemB_Click(object sender, RoutedEventArgs e)
+        {
+            ItemCarrito itemSeleccionado = (ItemCarrito)lstCarrito.SelectedItem;
 
+            if (itemSeleccionado != null)
+            {
+                // Mostrar un MessageBox para confirmar la eliminación
+                MessageBoxResult result = MessageBox.Show(
+                    "¿Seguro que quieres eliminar este producto del carrito?\nEsta acción no se puede revertir.",
+                    "Confirmación",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Warning);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        // Eliminar el vinilo de la tabla 'vinilos'
+                        string deleteViniloQuery = "DELETE FROM carritoUsuario WHERE usuario = @Usuario AND idVinilo = @Id";
+
+                        using (MySqlCommand deleteCmd = new MySqlCommand(deleteViniloQuery, dbManager.Connection))
+                        {
+                            deleteCmd.Parameters.AddWithValue("@Usuario", nombreUsuario);
+                            deleteCmd.Parameters.AddWithValue("@Id", itemSeleccionado.Id);
+                            dbManager.Connection.Open();
+                            deleteCmd.ExecuteNonQuery();
+                        }
+
+                        // Remover el vinilo de la lista local
+                        lstCarrito.Items.Remove(itemSeleccionado);
+
+                        MessageBox.Show("Producto eliminado correctamente del carrito.");
+                       
+
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al eliminar el item: " + ex.Message);
+                    }
+                    finally
+                    {
+                        dbManager.Connection.Close();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Selecciona un produco para eliminar.");
+            }
+        }
+
+        private void comprarbtn_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            if (lstCarrito != null)
+            {
+                MessageBoxResult result = MessageBox.Show(
+                       "¿Seguro que quieres comprar los elementos del carrito?\n",
+                       "Confirmación",
+                       MessageBoxButton.YesNo
+                       );
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    mainMethods.comprarbtn_Click(nombreUsuario, carrito, preciototal, this);
+                }
+            }
+        }
     }
 }

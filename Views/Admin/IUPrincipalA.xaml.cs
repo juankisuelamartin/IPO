@@ -112,7 +112,10 @@ namespace WpfApp1.Views
             mainMethods.ButtonGestionArtistas(NombreUsuario, this);
 
         }
-
+        private void Contacto_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mainMethods.ButtonGestionContacto(NombreUsuario, this);
+        }
         private void BtnGestionContacto_Click(object sender, RoutedEventArgs e)
         {
             mainMethods.ButtonGestionContacto(NombreUsuario, this);

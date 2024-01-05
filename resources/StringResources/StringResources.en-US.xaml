@@ -154,8 +154,58 @@
     <system:String x:Key="lblGeneroF">Genre</system:String>
     <system:String x:Key="lblFormatoF">Format</system:String>
     <system:String x:Key="lblPrecioF">Price</system:String>
+    
 
     <!--IUMenuCarritoU-->
     <system:String x:Key="Carrito">Cart</system:String>
+    <system:String x:Key="Nombre">Name</system:String>
+    <system:String x:Key="Cantidad">Quantity</system:String>
+    <system:String x:Key="eliminarProducto">Remove Product</system:String>
+    <system:String x:Key="Comprar">Buy</system:String>
 
+    <!--IUMenuCompraU-->
+
+    <system:String x:Key="NombreUsuario">User Name</system:String>
+    <system:String x:Key="DireccionEnvio">Shipping Address</system:String>
+    <system:String x:Key="FormaEnvio">Shipping Method</system:String>
+    <system:String x:Key="DatosPersonales">Personal Information</system:String>
+    <system:String x:Key="EnvioStandard">Standard Shipping</system:String>
+    <system:String x:Key="EnvioExpress">Express Shipping(+4€)</system:String>
+    <system:String x:Key="Garantia">Shipping Guarantee(+2€)</system:String>
+    <system:String x:Key="MetodoPago">Payment Method</system:String>
+    <system:String x:Key="PagoTarjeta">Credit Card Payment</system:String>
+    <system:String x:Key="PagoPaypal">Paypal Payment</system:String>
+    <system:String x:Key="NumTarjeta">Card Number</system:String>
+    <system:String x:Key="FechaVencimiento">Expiration Date</system:String>
+    <system:String x:Key="Pagar">Pay</system:String>
+
+    <!--IUAboutUsU-->
+    <system:String x:Key="AboutUS">Who are we?</system:String>
+    <system:String x:Key="AboutUS2">We are a company dedicated to the sale of vinyl records, featuring both national and international artists. Our goal is for you to find the vinyl you're looking for, and if you don't find it, you can place an order, and we'll take care of searching it for you.</system:String>
+
+    <!--IUHistorialU-->
+    <system:String x:Key="Historial">Order History</system:String>
+    <system:String x:Key="Fecha">Order Date</system:String>
+    <system:String x:Key="Estado">Order Status</system:String>
+    <system:String x:Key="TotalPrecio">Total Price</system:String>
+    <system:String x:Key="lblGarantia">Warranty</system:String>
+    <system:String x:Key="TipoEnvio">Shipping Type</system:String>
+    <system:String x:Key="Detalles">Details</system:String>
+    <system:String x:Key="Usuario">User</system:String>
+
+    <!--IUContactoU-->
+    <!-- IUContactUsU -->
+    <system:String x:Key="Contactanos">Contact Us</system:String>
+    <system:String x:Key="NuestroSoporte">Our support team is ready to assist you with anything you need. We want to ensure you have the best possible experience with our products/services.</system:String>
+    <system:String x:Key="ProblemaTecnico">If you have any technical issues, a frequently asked question, or just want to provide feedback, we are here to listen. Feel free to explore what we have to offer and enjoy your experience with us!</system:String>
+    <system:String x:Key="Consulta">Leave your inquiry here!</system:String>
+    <system:String x:Key="Captura">Add Screenshot</system:String>
+    <system:String x:Key="EnviarConsulta">Send your inquiry</system:String>
+    <system:String x:Key="lblConsulta">Inquiry</system:String>
+    <system:String x:Key="Asunto">Subject</system:String>
+    <system:String x:Key="Mensaje">Message</system:String>
+    <system:String x:Key="lblCaptura">Screenshot</system:String>
+    <system:String x:Key="FechaConsulta">Inquirys Date</system:String>
+
+    
 </ResourceDictionary>

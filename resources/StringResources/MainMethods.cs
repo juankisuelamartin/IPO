@@ -62,6 +62,24 @@ namespace WpfApp1.resources.StringResources
             iuCarrito.Show();
             currentWindow.Close();
         }
+        public void sobreNosotros_Click(String NombreUsuario, Window currentWindow)
+        {
+            IUAboutUsU iuAbout = new IUAboutUsU();
+            iuAbout.NombreUsuario = NombreUsuario;
+            Window_Closing(currentWindow);
+            iuAbout.Show();
+            currentWindow.Close();
+        }
+        public void comprarbtn_Click(String NombreUsuario, List<ItemCarrito> carrito, float precioCarrito,  Window currentWindow)
+        {
+            IUCompraU iuCompra = new IUCompraU();
+            iuCompra.NombreUsuario = NombreUsuario;
+            iuCompra.Carrito = carrito;
+            iuCompra.PrecioCarrito = precioCarrito;
+            Window_Closing(currentWindow);
+            iuCompra.Show();
+            currentWindow.Close();
+        }
 
         public void newiuVinilos(String NombreUsuario, int idVinilo, Window currentWindow)
         {
@@ -101,6 +119,33 @@ namespace WpfApp1.resources.StringResources
             iuVinilos.Show();
             currentWindow.Close();
 
+        }
+        public void HistorialU(String NombreUsuario, Window currentWindow)
+        {
+            IUHistorialU iuHistorial = new IUHistorialU();
+            iuHistorial.NombreUsuario = NombreUsuario;
+            Window_Closing(currentWindow);
+            iuHistorial.Show();
+            currentWindow.Close();
+
+        }
+        public void HistorialDetallesU(String NombreUsuario, int idPedido, Window currentWindow)
+        {
+            IUHistorialDetallesU iuHistorialD = new IUHistorialDetallesU();
+            iuHistorialD.NombreUsuario = NombreUsuario;
+            iuHistorialD.IdPedido = idPedido;
+            Window_Closing(currentWindow);
+            iuHistorialD.Show();
+            currentWindow.Close();
+
+        }
+        public void ContactoU(String NombreUsuario, Window currentWindow)
+        {
+            IUContactoU iuContacto = new IUContactoU();
+            iuContacto.NombreUsuario = NombreUsuario;           
+            Window_Closing(currentWindow);
+            iuContacto.Show();
+            currentWindow.Close();
         }
 
         public Window Window_Loaded(Window window)
@@ -161,6 +206,7 @@ namespace WpfApp1.resources.StringResources
             TimeZoneInfo localTimeZone = TimeZoneInfo.Local;
 
             string queryUltimaConexion = "SELECT ultima_conexion FROM usuarios WHERE usuario=@usuario";
+
             MySqlCommand cmdUltimaConexion = new MySqlCommand(queryUltimaConexion, dbManager.Connection);
             cmdUltimaConexion.Parameters.AddWithValue("@usuario", nombreUsuario);
 
@@ -170,6 +216,7 @@ namespace WpfApp1.resources.StringResources
 
             if (ultimaConexion != DBNull.Value)
             {
+                Console.WriteLine("USUARIO: " + nombreUsuario + "ULTIMA CONEX: " + ultimaConexion);
                 DateTime ultimaConexionLocal = TimeZoneInfo.ConvertTimeFromUtc((DateTime)ultimaConexion, localTimeZone);
                 lblUltimaConex.SetResourceReference(ContentProperty, "lblUltimaConex");
                 lblUltimaConex.Content += ": " + ultimaConexionLocal.ToString("yyyy-MM-dd HH:mm:ss");
@@ -253,16 +300,25 @@ namespace WpfApp1.resources.StringResources
         public void ButtonHistorial(String NombreUsuario, Window currentWindow)
         {
             IUHistorialPedidosA iuHistorialPedidosA = new IUHistorialPedidosA();
-            //iuHistorialPedidosA.NombreUsuario = NombreUsuario;
+            iuHistorialPedidosA.NombreUsuario = NombreUsuario;
             Window_Closing(currentWindow);
             iuHistorialPedidosA.Show();
             currentWindow.Close();
         }
+        public void HistorialDetallesA(String NombreUsuario, int idPedido, Window currentWindow)
+        {
+            IUDetallesPedidosA iuHistorialD = new IUDetallesPedidosA();
+            iuHistorialD.NombreUsuario = NombreUsuario;
+            iuHistorialD.IdPedido = idPedido;
+            Window_Closing(currentWindow);
+            iuHistorialD.Show();
+            currentWindow.Close();
 
+        }
         public void ButtonIncidencias(String NombreUsuario, Window currentWindow)
         {
             IUIncidenciasA iuIncidenciasA = new IUIncidenciasA();
-            //iuIncidenciasA.NombreUsuario = NombreUsuario;
+            iuIncidenciasA.NombreUsuario = NombreUsuario;
             Window_Closing(currentWindow);
             iuIncidenciasA.Show();
             currentWindow.Close();
@@ -277,6 +333,7 @@ namespace WpfApp1.resources.StringResources
             currentWindow.Close();
         }
 
+
         public void ButtonGestionArtistas(String NombreUsuario, Window currentWindow)
         {
             IUArtistasA iUArtistasA = new IUArtistasA();
@@ -287,12 +344,23 @@ namespace WpfApp1.resources.StringResources
         }
         public void ButtonGestionContacto(String NombreUsuario, Window currentWindow)
         {
-            IUContactoA iUContactoA = new IUContactoA();
+            IUContactoAdminA iUContactoA = new IUContactoAdminA();
             Window_Closing(currentWindow);
-            //iUContactoA.NombreUsuario = NombreUsuario;
+            iUContactoA.NombreUsuario = NombreUsuario;
             iUContactoA.Show();
             currentWindow.Close();
         }
+        public void DetallesContactoA(String NombreUsuario, Consulta consulta, Window currentWindow)
+        {
+            IUDetallesContactoA iuContacto = new IUDetallesContactoA();
+            iuContacto.NombreUsuario = NombreUsuario;
+            iuContacto.Consulta=consulta;
+            Window_Closing(currentWindow);
+            iuContacto.Show();
+            currentWindow.Close();
+
+        }
+
 
     }
 
